@@ -5,6 +5,7 @@
 #include "Definitions.h"
 #include <OneWire.h>
 #include "DisplayManager.h"
+#include "Communicator.h"
 
 /*
  * This is a stripped down version of the fermentation controller
@@ -36,6 +37,7 @@ Relay* g_Heating;
 TempInRange g_LastReading = JUST_RIGHT;
 int g_DebounceCounter = 0;
 DisplayManager* m_LCDDisplay = NULL;
+Communicator* m_Communicator = NULL;
 
 //Setup values
 float g_PrimaryTemperatureBand = 1.3;
@@ -64,6 +66,9 @@ void setup(){
    //Setup our display if we have one
    //Wire.begin();
    //m_LCDDisplay = new DisplayManager(0x2E, DisplayManager::LCD2041);
+
+   //Setup our controller (if applicable)
+   m_Communicator = new Communicator();
 
    //Signal that we're powered on and ready
    Utility::Cycle(g_Cooling->GetDisplayPin(), 1000, 1000);
@@ -94,6 +99,48 @@ void setup(){
   */
  void ReceiveOperatingInstructions()
  {
+     String* command = m_Communicator->Read();
+     if(NULL == command || 0 == command->length())
+     {
+         //Nothing to parse
+         goto cleanup;
+     }
+
+     //We have a command
+     ParseCommand(command);
+
+cleanup:
+     return;
+ }
+
+ /** 
+  * Parse out the command and perform the requested actions
+  * @param Command The command to act on from the controller
+  */
+ void ParseCommand(String* Command)
+ {
+     String value;
+
+     //Commands are in the format ACTION_GROUP:VALUE
+     //ACTION_GROUP can be any of the following
+     //Update temperature target (UTT), followed by a XXX length integer
+     //Update temperature band (UTB), followed by a x.xx length float
+     //Report current temperature (RCT), followed by a XX length integer indicating the sensor to read
+     //Report relay status (RRS)
+     String action = Command->substring(0, Command->indexOf(':'));
+     if(0 == action.length())
+     {
+         //Invalid command
+         goto cleanup;
+     }
+
+      value = Command->substring(Command->indexOf(':'));
+     //Value may not have anything in it.  That's fine for report relay status
+
+     
+
+cleanup:
+     return;
 
  }
 

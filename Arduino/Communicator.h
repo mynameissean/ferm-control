@@ -9,15 +9,11 @@
 
 class Communicator
 {
-private:
-   char* m_CharBuffer;
-   int m_Pos;
-
-
+private:   
    void ClearReceiveBuffer();
 
 public:
     Communicator();
-    char* Read();
+    String* Read();
 };
 #endif
