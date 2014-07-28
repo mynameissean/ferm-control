@@ -72,19 +72,29 @@ void setup(){
  
  void loop()
  {  
-     
-  //Step 1: Gather our temperature readings     
+  //Step 1: See if we have any commands from our overlord
+  ReceiveOperatingInstructions();
+
+  //Step 2: Gather our temperature readings     
   GatherTemperatureData();
 
-  //Step 2: Compare them to our values and adjust
+  //Step 3: Compare them to our values and adjust
   AdjustPrimaryTemperature();
 
-  //Step 3: See if we need to store our current temperature data
+  //Step 4: See if we need to store our current temperature data
   //SaveTemperatureData();
   
   //Signal that we're done with this cycle
   Utility::Cycle(StatusLED, 1000, 1000);
   delay(CYCLE_TIME);
+ }
+
+ /**
+  * Open up communication with our controller and see if there are any new commands to receive
+  */
+ void ReceiveOperatingInstructions()
+ {
+
  }
 
  /**

@@ -6,3 +6,10 @@ Arduino/Visual Micro/Compile.vmps.xml
 Arduino/Visual Micro/Configuration.Debug.vmps.xml
 Arduino/Visual Micro/Configuration.NoDebugStatements.vmps.xml
 Arduino/Visual Micro/Upload.vmps.xml
+*.ipch
+Arduino/Visual Micro/.Arduino.vsarduino.h
+Arduino/Simple_Ferm_Chamber.vcxproj.user
+Arduino/Simple_Ferm_Chamber.suo
+Arduino/Simple_Ferm_Chamber.sdf
+Arduino/Simple_Ferm_Chamber.opensdf
+Arduino/Simple_Ferm_Chamber.sdf
