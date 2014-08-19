@@ -81,7 +81,35 @@ void setup(){
   ReceiveOperatingInstructions();
 
   //Step 2: Gather our temperature readings     
-  GatherTemperatureData();
+  bool gathered = GatherTemperatureData();
+  if(false == gathered)
+  {
+      //Can't perform any actions without valid temperature settings.  Turn everything off once we've hit the debounce limit
+      if(NO_READING == g_LastReading && g_DebounceCounter < DEBOUNCE_VALUE)
+      {
+          g_DebounceCounter++;
+      }
+      else if(NO_READING == g_LastReading)
+      {
+          g_LastReading = NO_READING;
+          g_DebounceCounter = 0;
+      }
+      if(g_DebounceCounter >= DEBOUNCE_VALUE)
+      {
+          //Shut it all down
+          if(true == g_Heating->CanTurnOff())
+          {
+            g_Heating->TurnOff();
+          }
+          if(true == g_Cooling->CanTurnOff())
+          {
+            g_Cooling->TurnOff();
+          }
+          Utility::Cycle(g_Heating->GetDisplayPin(), 1000, 1000);
+          Utility::Cycle(g_Cooling->GetDisplayPin(), 1000, 1000);
+      }
+      goto cleanup;
+  }
 
   //Step 3: Compare them to our values and adjust
   AdjustPrimaryTemperature();
@@ -89,6 +117,7 @@ void setup(){
   //Step 4: See if we need to store our current temperature data
   //SaveTemperatureData();
   
+cleanup:
   //Signal that we're done with this cycle
   Utility::Cycle(StatusLED, 1000, 1000);
   delay(CYCLE_TIME);
@@ -147,8 +176,9 @@ cleanup:
  /**
   * Gather the temperature data from the thermistors in the system
   */
- void GatherTemperatureData()
+ bool GatherTemperatureData()
  {
+   bool retVal = false;
    //Go through our sensors     
    if(false == g_PrimarySensor->DoesSensorExist(g_TempSensors))
    {
@@ -163,6 +193,8 @@ cleanup:
      goto cleanup;
    }
 
+   //Got the one we need.  The rest are secondary
+   retVal = true;
    if(true == g_AmbientExternalSensor->DoesSensorExist(g_TempSensors))
    {
      //Get the temperature
@@ -186,7 +218,7 @@ cleanup:
 #endif
    
 cleanup:
-   return;
+   return retVal;
  }
 
  
