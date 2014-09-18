@@ -45,9 +45,27 @@ Relay::Relay(int TriggerPin, int DisplayPin, unsigned long MinRunTime, unsigned 
 }
 
 ///<summary>Turn on the relay if it's possible to.</summary>
-///<return>True if successful, false otherwise. Currently cannot fail.</return>
+///<return>True if successful, false otherwise. </return>
 bool Relay::TurnOn()
 {
+    bool retVal = false;
+    //We need to see if we can activate the cooling
+       if(true == IsOn())
+       {
+           //Nothing to turn on
+           retVal = true;
+           goto cleanup;
+       }
+       if(false == CanTurnOff())
+       {
+           //Can't turn on yet
+#ifdef _DEBUG 
+           Serial.println("Can't turn off");
+#endif
+          Utility::Cycle(GetDisplayPin(), 250, 250);
+          goto cleanup;
+       }
+         
 #ifdef _DEBUG
     Serial.print("Turning on relay");
     Serial.println(m_TriggerPin);
@@ -58,16 +76,38 @@ bool Relay::TurnOn()
         digitalWrite(m_DisplayPin, HIGH);
     }
     m_IsOn = true;
+    retVal = true;
 
     //Set the time we turned on
     m_OnTimeStart = millis();
-    return true;
+cleanup:
+    return retVal;
 }
 
 ///<summary>Turn off the relay if it's possible to.</summary>
-///<return>True if successful, false otherwise.  Currently cannot fail.</return>
+///<return>True if successful, false otherwise. .</return>
 bool Relay::TurnOff()
 {
+    bool retVal = false;
+    if(false == IsOn())
+    {
+        //Nothing to turn off.  Success
+         #ifdef _DEBUG 
+            Serial.println("Nothing to turn off");
+        #endif
+        retVal = true;
+        goto cleanup;
+    }
+    if(false == CanTurnOff())
+    {
+        //Unable to turn the heater off 
+        #ifdef _DEBUG 
+            Serial.println("Can't turn off");
+        #endif
+        Utility::Cycle(GetDisplayPin(), 250, 250);
+        goto cleanup;
+    }
+           
 #ifdef _DEBUG
     Serial.print("Turning off relay");
     Serial.println(m_TriggerPin);
@@ -82,6 +122,8 @@ bool Relay::TurnOff()
 
     //Set the time we turned off
     m_OffTimeStart = millis();
+    retVal = true;
+cleanup:
     return false;
 }
 

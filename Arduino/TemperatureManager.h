@@ -6,13 +6,19 @@
 #else
 	#include "WProgram.h"
 #endif
-
-
+#include "Relay.h"
+#include "TemperatureSensor.h"
 
 class TemperatureManager
-{
+{    
     public:
-        TemperatureManager();
+        TemperatureManager(Relay*, Relay*, TemperatureSensor*);
+    private:
+        Relay* m_Heating;
+        Relay* m_Cooling;
+        TemperatureSensor* m_PrimaryTemp;
+
+
 };
 
 #endif

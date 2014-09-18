@@ -156,6 +156,7 @@ cleanup:
      //Update temperature band (UTB), followed by a x.xx length float
      //Report current temperature (RCT), followed by a XX length integer indicating the sensor to read
      //Report relay status (RRS)
+     //Update Relay Status (URS), followed by a XX length integer.  The first   0 indicates off, 1 indicates on
      String action = Command->substring(0, Command->indexOf(':'));
      if(0 == action.length())
      {
@@ -165,8 +166,6 @@ cleanup:
 
       value = Command->substring(Command->indexOf(':'));
      //Value may not have anything in it.  That's fine for report relay status
-
-     
 
 cleanup:
      return;
@@ -239,45 +238,21 @@ cleanup:
        {
            goto cleanup;
        }
-       //See if we can turn off the heating if it's already on
-       if(true == g_Heating->IsOn())
-        {
-           if(false == g_Heating->CanTurnOff())
-           {
-               //Unable to turn the heater off while it's already running
-               #ifdef _DEBUG 
-                    Serial.println("Can't turn the heater off");
-                #endif
-               goto cleanup;
-           }
-           else {
-               //Turn the heating off
-               #ifdef _DEBUG 
-                    Serial.println("Heating");
-                #endif
-               g_Heating->TurnOff();
-           }
+       //Turn the heater off if it's on
+       if(false == g_Heating->TurnOff())
+       {
+          #ifdef _DEBUG
+           Serial.println("Unable to turn the heater off");
+          #endif
        }
        //We need to see if we can activate the cooling
-       if(false == g_Cooling->IsOn())
-       {
-           if(false == g_Cooling->CanTurnOn())
-           {
+       if(false == g_Cooling->TurnOn())
+       {          
                //Can't turn the compressor on yet
-               #ifdef _DEBUG 
-                    Serial.println("Can't turn the compressor on");
-                #endif
-                Utility::Cycle(g_Cooling->GetDisplayPin(), 250, 250);
-               goto cleanup;
-           }
-           else {
-               //Turn on the cooling
-               #ifdef _DEBUG 
-                   Serial.println("Cooling");
-               #endif
-               g_Cooling->TurnOn();
-           }
-       }
+#ifdef _DEBUG 
+        Serial.println("Can't turn the compressor on");
+#endif
+        }
    }
    else if(TOO_COLD == adjustment)
    {
@@ -289,38 +264,20 @@ cleanup:
             goto cleanup;
         }
        //See if we can turn of the cooling
-        if(true == g_Cooling->IsOn())
-        {
-           if(false == g_Cooling->CanTurnOff())
-           {
-               //Can't turn it off yet
-               goto cleanup;
-           }
-           else
-           {
-               #ifdef _DEBUG 
-                  Serial.println("Cooling");
-               #endif
-               g_Cooling->TurnOff();
-           }
+        if(false == g_Cooling->TurnOff())
+       {          
+               //Can't turn the compressor on yet
+#ifdef _DEBUG 
+        Serial.println("Can't turn the compressor off");
+#endif
         }
-       //We need to see if we can activate the heating
-        if(false == g_Heating->IsOn())
-        {
-           if(false == g_Heating->CanTurnOn())
-           {
-               //Can't turn the heater on yet
-               Utility::Cycle(g_Heating->GetDisplayPin(), 250, 250);
-               goto cleanup;
-           }
-           else {
-               //Turn on the heating
-               #ifdef _DEBUG 
-                  Serial.println("Heating");
-               #endif
-               g_Heating->TurnOn();
-           }       
-        }
+       //Turn the heater off if it's on
+       if(false == g_Heating->TurnOn())
+       {
+          #ifdef _DEBUG
+           Serial.println("Unable to turn the heater on");
+          #endif
+       }
    }
    else if(JUST_RIGHT == adjustment)
    {
@@ -338,12 +295,11 @@ cleanup:
            if(true == g_PrimarySensor->HaveHitTemperatureTarget(false))
            {
                //We've hit our goal.  See if we can turn it off
-               if(true == g_Heating->CanTurnOff())
+               if(false == g_Heating->TurnOff())
                {
                    #ifdef _DEBUG 
-                      Serial.println("Heating");
-                   #endif
-                   g_Heating->TurnOff();
+                      Serial.println("Can't turn the heater off");
+                   #endif                   
                }
            }
        }
@@ -352,13 +308,13 @@ cleanup:
            //Cooling, see if we're at the target
            if(true == g_PrimarySensor->HaveHitTemperatureTarget(true))
            {
-               //We've hit our goal.  See if we can turn it off
-               if(true == g_Cooling->CanTurnOff())
-               {
-                   #ifdef _DEBUG 
-                      Serial.println("Cooling");
-                   #endif
-                   g_Cooling->TurnOff();
+               //See if we can turn of the cooling
+               if(false == g_Cooling->TurnOff())
+               {          
+                       //Can't turn the compressor on yet
+            #ifdef _DEBUG 
+                    Serial.println("Can't turn the compressor off");
+            #endif
                }
            }
        }
