@@ -9,7 +9,9 @@
 	#include "WProgram.h"
 #endif
 
-class Relay
+#include "Triggerable.h";
+
+class Relay : public Triggerable
 {
  private:
      int m_TriggerPin;
@@ -19,14 +21,14 @@ class Relay
      unsigned long m_OffTimeStart;
      unsigned long m_OnTimeStart;
      bool m_IsOn;
+     bool CanTurnOn();
+     bool CanTurnOff();
 
  public:
 	Relay(int TriggerPin, int DisplayPin);
     Relay(int TriggerPin, int DisplayPin, unsigned long MinRunTime, unsigned long CompressorDelay);
     bool TurnOn();
     bool TurnOff();
-    bool CanTurnOn();
-    bool CanTurnOff();
     bool IsOn(){return m_IsOn;}
     int GetDisplayPin(){return m_DisplayPin;};
 };

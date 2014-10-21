@@ -73,7 +73,9 @@ TemperatureSensor::TemperatureSensor(byte* SensorAddress, float TempBand, float 
      return retVal;
  }
 
- 
+ ///<summary> Retrieve the temperature from the OneWire sensor</summary>
+ ///<param name="Sensors">Location of the bus for the OneWire sensors</param>
+ ///<return>True if successful, false otherwise</return>
  bool TemperatureSensor::RetrieveTemperatureFromSensor(OneWire Sensors)
  {
      float retVal = INVALID_DATA;
@@ -125,17 +127,21 @@ cleanup:
  {
    bool retVal = false;
    byte foundSensorAddress[8];
+
+#ifdef _DEBUG
    Serial.print("Searching for ");
    DebugPrintSensor(m_SensorAddress);
+#endif 
+
    while(true == Sensors.search(foundSensorAddress))
    {
      bool found = true;   
      
-//#ifdef _DEBUG
+#ifdef _DEBUG
      //Print out the data
      Serial.println("Found Sensor: ");
       DebugPrintSensor(foundSensorAddress);     
-//#endif 
+#endif 
 
      //See if this is a valid address
      if ( OneWire::crc8( foundSensorAddress, 7) != foundSensorAddress[7]) {
@@ -162,9 +168,9 @@ cleanup:
      if(true == found)
      {
        //This is the sensor we're looking for
-//#ifdef _DEBUG
+#ifdef _DEBUG
        Serial.println("Found sensor");
-//#endif
+#endif
        retVal = true;
        break;      
      }     

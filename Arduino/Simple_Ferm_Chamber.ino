@@ -13,14 +13,14 @@
  * external software program.  It only sends output out to the 
  * wire for monitoring purposes.
  */
-#define _DEBUG 5
+#define _DEBUG 0
 int TempReadPin = 3;
 int CoolingRelayPin = 4;
 int CoolingDisplayPin = 5;
 int HeatingDisplayPin = 6;
 int HeatingRelayPin = 7;
 int StatusLED = 13;
-#define DEBOUNCE_VALUE 5 //TODO: make 5
+#define DEBOUNCE_VALUE 1 //TODO: make 5
 #define CYCLE_TIME 5000
 
 
@@ -41,7 +41,7 @@ Communicator* m_Communicator = NULL;
 
 //Setup values
 float g_PrimaryTemperatureBand = 1.3;
-float g_PrimaryTargetTemperature = 70;
+float g_PrimaryTargetTemperature = 67;
 unsigned long g_CompressorRunTime = 30000; //30 Seconds
 unsigned long g_CompressorOffTime = 240000; //4 Minutes
 unsigned long g_HeatingOffTime = 300000;    //5 Minutes
@@ -84,27 +84,12 @@ void setup(){
   bool gathered = GatherTemperatureData();
   if(false == gathered)
   {
-      //Can't perform any actions without valid temperature settings.  Turn everything off once we've hit the debounce limit
-      if(NO_READING == g_LastReading && g_DebounceCounter < DEBOUNCE_VALUE)
+      //Can't perform any actions without valid temperature settings.  Turn everything off once we've hit the debounce limit      
+      if(true == DebounceTemperatureReading(NO_READING))
       {
-          g_DebounceCounter++;
-      }
-      else if(NO_READING == g_LastReading)
-      {
-          g_LastReading = NO_READING;
-          g_DebounceCounter = 0;
-      }
-      if(g_DebounceCounter >= DEBOUNCE_VALUE)
-      {
-          //Shut it all down
-          if(true == g_Heating->CanTurnOff())
-          {
-            g_Heating->TurnOff();
-          }
-          if(true == g_Cooling->CanTurnOff())
-          {
-            g_Cooling->TurnOff();
-          }
+          //Shut it all down         
+          g_Heating->TurnOff();
+          g_Cooling->TurnOff();          
           Utility::Cycle(g_Heating->GetDisplayPin(), 1000, 1000);
           Utility::Cycle(g_Cooling->GetDisplayPin(), 1000, 1000);
       }
@@ -325,10 +310,11 @@ cleanup:
  }
 
 
- /**
-  * Run through a debounce method to ensure that we're not acting on noise
-  * from the various temperature inputs
-  */
+ 
+  ///<summary>Run through a debounce method to ensure that we're not acting on noise
+  ///from the various temperature inputs</summary>
+  ///<param name="Temperature">The current temperature band reading</param>
+  ///<return>True if we've hit the debounce limit, otherwise false</return>
  bool DebounceTemperatureReading(TempInRange Temperature)
  {
      bool retVal = false;

@@ -4,21 +4,23 @@
 #include "Relay.h"
 #include "Definitions.h"
 #include "Utility.h"
-#define _DEBUG 5
+
 ///<summary>Create a relay that is able to activate the given pin output</summary>
-///<param name="Pin">The wire on the arduino board to activate</param>
+///<param name="TriggerPin">The wire on the arduino board to activate</param>
 ///<param name="DIsplayPin">The wire on the arudiono board to activate for displaying the relay is active</param>
-Relay::Relay(int Pin, int DisplayPin)
+Relay::Relay(int TriggerPin, int DisplayPin) : Triggerable(TriggerPin, DisplayPin)
 {
-    m_TriggerPin = Pin;
+    m_TriggerPin = TriggerPin;
     m_DisplayPin = DisplayPin;
     m_MinRunTime = INVALID_TIME;
     m_CompressorDelay = INVALID_TIME;
     m_OffTimeStart = INVALID_TIME;
     m_OnTimeStart = INVALID_TIME;
+    m_IsOn = false;
 
     //Make sure the relay's off
-    TurnOff();
+    TriggerLow();
+    m_IsOn = false;
 
 }
 
@@ -26,11 +28,11 @@ Relay::Relay(int Pin, int DisplayPin)
 ///This relay will activate for a given minimum amount of time, and will not
 ///reactivate after being turned off for a given amount of time.  This is used
 ///to prevent excessive compressor cycling and inhibit damage to the system.</summary>
-///<param name="Pin">The wire on the arduino board to activate</param>
+///<param name="TriggerPin">The wire on the arduino board to activate</param>
 ///<param name="DIsplayPin">The wire on the arudiono board to activate for displaying the relay is active</param>
 ///<param name="MinRunTime">The minimum amount of time to run the relay, measured in ms</param>
 ///<param name="CompressorDelay">How long to wait before activating the relay after turning it off, measured in ms</param>
-Relay::Relay(int TriggerPin, int DisplayPin, unsigned long MinRunTime, unsigned long CompressorDelay)
+Relay::Relay(int TriggerPin, int DisplayPin, unsigned long MinRunTime, unsigned long CompressorDelay) : Triggerable(TriggerPin, DisplayPin)
 {
     m_TriggerPin = TriggerPin;
     m_DisplayPin = DisplayPin;
@@ -39,42 +41,38 @@ Relay::Relay(int TriggerPin, int DisplayPin, unsigned long MinRunTime, unsigned 
     m_OffTimeStart = INVALID_TIME;
     m_OnTimeStart = INVALID_TIME;
     
-
     //Make sure the relay's off
-    TurnOff();
+    TriggerLow();
+    m_IsOn = false;
 }
 
 ///<summary>Turn on the relay if it's possible to.</summary>
 ///<return>True if successful, false otherwise. </return>
 bool Relay::TurnOn()
 {
+    Serial.println("trying to turn on the relay");
     bool retVal = false;
     //We need to see if we can activate the cooling
        if(true == IsOn())
        {
+#ifdef _DEBUG
+           Serial.println("Already on");
+#endif
            //Nothing to turn on
            retVal = true;
            goto cleanup;
        }
-       if(false == CanTurnOff())
+       if(false == CanTurnOn())
        {
            //Can't turn on yet
 #ifdef _DEBUG 
-           Serial.println("Can't turn off");
+           Serial.println("Can't turn on");
 #endif
           Utility::Cycle(GetDisplayPin(), 250, 250);
           goto cleanup;
        }
          
-#ifdef _DEBUG
-    Serial.print("Turning on relay");
-    Serial.println(m_TriggerPin);
-#endif
-    digitalWrite(m_TriggerPin, HIGH);
-    if(INVALID_PIN != m_DisplayPin)
-    {
-        digitalWrite(m_DisplayPin, HIGH);
-    }
+    TriggerHigh();
     m_IsOn = true;
     retVal = true;
 
@@ -108,16 +106,7 @@ bool Relay::TurnOff()
         goto cleanup;
     }
            
-#ifdef _DEBUG
-    Serial.print("Turning off relay");
-    Serial.println(m_TriggerPin);
-#endif
-    digitalWrite(m_TriggerPin, LOW);
-    //See if we have a display pin to work with
-    if(INVALID_PIN != m_DisplayPin)
-    {
-        digitalWrite(m_DisplayPin, LOW);
-    }
+    TriggerLow();
     m_IsOn = false;
 
     //Set the time we turned off
@@ -126,8 +115,6 @@ bool Relay::TurnOff()
 cleanup:
     return false;
 }
-
-
 
 ///<summary>Determine if it's possible to turn on the relay.</summary>
 ///<return>True if the relay can be turned on, false otherwise</return>
@@ -151,6 +138,10 @@ bool Relay::CanTurnOn()
     }
 
     //Get the current time difference
+#ifdef _DEBUG
+    Serial.print("Off start time is ");
+    Serial.println(m_OffTimeStart);
+#endif
     difference = Utility::TimeDifference(m_OffTimeStart);
 
     //See if we've exceeded the necessary wait limit
