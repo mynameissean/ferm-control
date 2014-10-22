@@ -109,6 +109,7 @@
     <ClInclude Include="Relay.h" />
     <ClInclude Include="TemperatureManager.h" />
     <ClInclude Include="TemperatureSensor.h" />
+    <ClInclude Include="Triggerable.h" />
     <ClInclude Include="Utility.h" />
     <ClInclude Include="Visual Micro\.Arduino.vsarduino.h" />
     <ClInclude Include="Visual Micro\.Simple Fermentation Chamber.vsarduino.h" />
@@ -124,6 +125,7 @@
     <ClCompile Include="TemperatureSensor.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
     </ClCompile>
+    <ClCompile Include="Triggerable.cpp" />
     <ClCompile Include="Utility.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

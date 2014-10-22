@@ -20,7 +20,7 @@ int CoolingDisplayPin = 5;
 int HeatingDisplayPin = 6;
 int HeatingRelayPin = 7;
 int StatusLED = 13;
-#define DEBOUNCE_VALUE 1 //TODO: make 5
+#define DEBOUNCE_VALUE 5
 #define CYCLE_TIME 5000
 
 
@@ -113,6 +113,9 @@ cleanup:
   */
  void ReceiveOperatingInstructions()
  {
+     int ivalue = 0;
+     float fvalue = 0.0;
+     OperatingCommand systemCommand = INVALID;
      String* command = m_Communicator->Read();
      if(NULL == command || 0 == command->length())
      {
@@ -121,40 +124,10 @@ cleanup:
      }
 
      //We have a command
-     ParseCommand(command);
+     systemCommand = m_Communicator->ParseCommand(command, &ivalue, &fvalue);
 
 cleanup:
      return;
- }
-
- /** 
-  * Parse out the command and perform the requested actions
-  * @param Command The command to act on from the controller
-  */
- void ParseCommand(String* Command)
- {
-     String value;
-
-     //Commands are in the format ACTION_GROUP:VALUE
-     //ACTION_GROUP can be any of the following
-     //Update temperature target (UTT), followed by a XXX length integer
-     //Update temperature band (UTB), followed by a x.xx length float
-     //Report current temperature (RCT), followed by a XX length integer indicating the sensor to read
-     //Report relay status (RRS)
-     //Update Relay Status (URS), followed by a XX length integer.  The first   0 indicates off, 1 indicates on
-     String action = Command->substring(0, Command->indexOf(':'));
-     if(0 == action.length())
-     {
-         //Invalid command
-         goto cleanup;
-     }
-
-      value = Command->substring(Command->indexOf(':'));
-     //Value may not have anything in it.  That's fine for report relay status
-
-cleanup:
-     return;
-
  }
 
  /**

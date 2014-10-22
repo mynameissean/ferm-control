@@ -11,9 +11,11 @@ class Communicator
 {
 private:   
    void ClearReceiveBuffer();
-
+   bool ValidateCommand(String*);
+   bool HasValue(String*);
 public:
     Communicator();
     String* Read();
+    OperatingCommand ParseCommand(String*, int*, float*);
 };
 #endif
