@@ -17,12 +17,8 @@ TemperatureSensor::TemperatureSensor(byte* SensorAddress, float TempBand, float 
     m_FriendlyNameLength = FriendlyNameLength;
 }
 
- /**
-  *Determine whether our temperature is in our range of control. 
-  *@param CurrentTemperature The temperature we're trying to control
-  *@param TargetTemperature The temperature we're shooting for
-  *@param TemperatureBand The maximum allowable difference we can have from the target temperature
-  */
+///<summary>Determine whether our temperature is in our range of control. </summary>
+///<return>The enumeration value representing what state we're in</return>
  TempInRange TemperatureSensor::ShouldBeginTemperatureAdjustment()
  {
     TempInRange retVal;    
@@ -117,12 +113,11 @@ cleanup:
      return retVal;
  }
 
- /** 
-  * Go through the collection of sensors and validate that we have the
-  * requested sensor on the system.
-  * @param Sensors The OneWire bus that contains the temperature sensors
-  * @return True if found, false otherwise
-  */
+
+///<summary>Go through the collection of sensors and validate that we have the
+///requested sensor on the system.</summary>
+///<param name="Sensors"> The OneWire bus that contains the temperature sensors</param>
+///<return> True if found, false otherwise</return>
  bool TemperatureSensor::DoesSensorExist(OneWire Sensors)
  {
    bool retVal = false;

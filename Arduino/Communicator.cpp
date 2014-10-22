@@ -2,19 +2,16 @@
 #include "Utility.h"
 #include "Communicator.h"
 
-/**
- * Create a new communicator socket for receiving and sending commands
- */
+
+///<summary>Create a new communicator socket for receiving and sending commands</summary>
 Communicator::Communicator()
 {
     Serial.setTimeout(DEFAULT_COMM_TIMEOUT);
 }
 
-/**
- * Read the serial buffer and see if we have a command from the controller
- * Commands must be terminated with /0 (null terminator)
- * @returns String that was read from the serial buffer, or null if there was an error
- */
+///<summary>Read the serial buffer and see if we have a command from the controller
+///Commands must be terminated with /0 (null terminator</summary>
+///<return>returns String that was read from the serial buffer, or null if there was an error</return>
 String* Communicator::Read()
 {
     String* retVal = NULL;
@@ -36,7 +33,8 @@ cleanup:
 }
 
 ///<summary>Parse the command from the communication string</summary>
-///<param name="Value">Return value for storing the value of the command (if applicable)</param>
+///<param name="IValue">Return value for storing the intger value of the command (if applicable)</param>
+///<param name="FValue">Return value for storing the float value of the command (if applicable)</param>
 ///<return>Operating command that was parsed out</return>
 OperatingCommand Communicator::ParseCommand(String* Command, int* IValue, float* FValue)
 {
@@ -158,7 +156,7 @@ bool Communicator::ValidateCommand(String* Command)
 
     //Validate the ACTION_GROUP
     if(-1 == Command->indexOf(':'))
-    {
+    {        
 #ifdef _DEBUG
         Serial.print("Invalid string.  No ':' in the command: ");
         Serial.println(*Command);
