@@ -99,13 +99,7 @@
   <ItemGroup>
     <ClInclude Include="Communicator.h" />
     <ClInclude Include="Definitions.h" />
-    <ClInclude Include="DisplayManager.h">
-      <FileType>CppCode</FileType>
-    </ClInclude>
-    <ClInclude Include="I2CDisplay.h" />
-    <ClInclude Include="LCD2041.h">
-      <FileType>CppCode</FileType>
-    </ClInclude>
+    <ClInclude Include="ID.h" />
     <ClInclude Include="Relay.h" />
     <ClInclude Include="TemperatureManager.h" />
     <ClInclude Include="TemperatureSensor.h" />
@@ -117,9 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Communicator.cpp" />
-    <ClCompile Include="DisplayManager.cpp" />
-    <ClCompile Include="I2CDisplay.cpp" />
-    <ClCompile Include="LCD2041.cpp" />
+    <ClCompile Include="ID.cpp" />
     <ClCompile Include="Relay.cpp" />
     <ClCompile Include="TemperatureManager.cpp" />
     <ClCompile Include="TemperatureSensor.cpp">
