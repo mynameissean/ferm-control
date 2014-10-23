@@ -11,6 +11,8 @@
 #endif
 
 #include "Definitions.h"
+#include "ID.h"
+
 class TemperatureSensor
 {
 private:
@@ -18,23 +20,23 @@ private:
     float m_TemperatureTarget;
     float m_TemperatureBand;
     byte* m_SensorAddress;
-    char* m_FriendlyName;
-    int m_FriendlyNameLength;
+    ID *m_ID;
 
     void DebugPrintSensor(byte*);
     TemperatureSensor();
 
 public:
     
-    TemperatureSensor(byte *SensorAddress, float, float, char*, int);
+    TemperatureSensor(byte *SensorAddress, float, float, ID*);
     TempInRange ShouldBeginTemperatureAdjustment();
     bool RetrieveTemperatureFromSensor(OneWire);
     bool DoesSensorExist(OneWire Sensors);
     float GetTemperature(){return m_Temperature;};
     bool HaveHitTemperatureTarget(bool);
-    char* GetFriendlyName(){return m_FriendlyName;};
-    int GetFriendlyNameLength(){return m_FriendlyNameLength;};
+    ID* GetID(){return m_ID;};
     void TrimNameToLength(int);
+    void SetTargetTemperature(float);
+    void SetTemperatureBand(float);
     
 
     

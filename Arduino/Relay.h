@@ -10,6 +10,7 @@
 #endif
 
 #include "Triggerable.h";
+#include "ID.h"
 
 class Relay : public Triggerable
 {
@@ -20,17 +21,20 @@ class Relay : public Triggerable
      unsigned long m_MinRunTime;
      unsigned long m_OffTimeStart;
      unsigned long m_OnTimeStart;
+     ID *m_ID;
+
      bool m_IsOn;
      bool CanTurnOn();
      bool CanTurnOff();
 
  public:
-	Relay(int TriggerPin, int DisplayPin);
-    Relay(int TriggerPin, int DisplayPin, unsigned long MinRunTime, unsigned long CompressorDelay);
+	Relay(int TriggerPin, int DisplayPin, ID*);
+    Relay(int TriggerPin, int DisplayPin, ID*, unsigned long MinRunTime, unsigned long CompressorDelay);
     bool TurnOn();
     bool TurnOff();
-    bool IsOn(){return m_IsOn;}
+    bool IsOn(){return m_IsOn;};
     int GetDisplayPin(){return m_DisplayPin;};
+    ID* GetID(){return m_ID;};
 };
 #endif
 

@@ -1,0 +1,36 @@
+Communication with the arduino takes place over a serial connection.  The communication protocol enables two separate workflows:
+*Headless control (HC)
+*Directed control (DC)
+
+Headless command requires no input from any upper level command and control interface.  It is able to operate with very set parameters for as long as the system is running.  This is the fail over state of the hardware as it will attempt to maintain control without direct intervention.
+
+Directed control allows for another piece of hardware to directly control the state of the hardware connected to the Arduino.  With this, the arduino will operate in a slaved environment and respond to commands as appropriate.  If the Arduino loses contact with the upper level control program though, it will fail over into headless mode.  It will retain the latest operating instructions it received and ensure that this is maintained until control is re-established.
+
+The communication method is a simple set of commands that will allow for command and reporting from the arduino.
+
+Commands are in the format ACTION_GROUP:VALUE.  Commands are used for either HC or DC workflows.
+ACTION_GROUP can be any of the following
+
+Command - UTT: Update temperature target (HC)
+VALUE: XXX.X length float
+	Indicates the primary temperature controller's desired set point for temperature
+	
+Command - UTB: Update temperature band (HC)
+VALUE: xx.xx length float
+	Indicates the primary temperature controller's allowable temperature range for keeping the liquid temperature
+	
+Command - RSI: Report sensor index (DC)
+VALUE: xx length integer indicating the sensor hex code to retrieve
+	Returns the indexed temperature sensor's hex ID code
+	
+Command - RCT: Report current temperature (DC)
+VALUE: XX length integer indicating the sensor to read
+	Retrieves the current temperature reading from the indexed temperature sensor
+
+Command - RRI: Report relay index (DC)
+VALUE: xx length integer indicating the index'ed relay's friendly name
+	Retrieves the friendly name of the relay
+	
+Command - RRS: Report relay status  (DC)
+VALUE: XX length integer indicating the relay index to read
+Update Relay Status (URS), followed by a XX length integer.  The first   1 indicates off, 2 indicates on

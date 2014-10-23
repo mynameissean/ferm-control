@@ -8,10 +8,11 @@
 ///<summary>Create a relay that is able to activate the given pin output</summary>
 ///<param name="TriggerPin">The wire on the arduino board to activate</param>
 ///<param name="DIsplayPin">The wire on the arudiono board to activate for displaying the relay is active</param>
-Relay::Relay(int TriggerPin, int DisplayPin) : Triggerable(TriggerPin, DisplayPin)
+Relay::Relay(int TriggerPin, int DisplayPin, ID* InID) : Triggerable(TriggerPin, DisplayPin)
 {
     m_TriggerPin = TriggerPin;
     m_DisplayPin = DisplayPin;
+    m_ID = InID;
     m_MinRunTime = INVALID_TIME;
     m_CompressorDelay = INVALID_TIME;
     m_OffTimeStart = INVALID_TIME;
@@ -32,10 +33,11 @@ Relay::Relay(int TriggerPin, int DisplayPin) : Triggerable(TriggerPin, DisplayPi
 ///<param name="DIsplayPin">The wire on the arudiono board to activate for displaying the relay is active</param>
 ///<param name="MinRunTime">The minimum amount of time to run the relay, measured in ms</param>
 ///<param name="CompressorDelay">How long to wait before activating the relay after turning it off, measured in ms</param>
-Relay::Relay(int TriggerPin, int DisplayPin, unsigned long MinRunTime, unsigned long CompressorDelay) : Triggerable(TriggerPin, DisplayPin)
+Relay::Relay(int TriggerPin, int DisplayPin, ID* InID,  unsigned long MinRunTime, unsigned long CompressorDelay) : Triggerable(TriggerPin, DisplayPin)
 {
     m_TriggerPin = TriggerPin;
     m_DisplayPin = DisplayPin;
+    m_ID = InID;
     m_MinRunTime = MinRunTime;
     m_CompressorDelay = CompressorDelay;
     m_OffTimeStart = INVALID_TIME;

@@ -54,8 +54,8 @@ OperatingCommand Communicator::ParseCommand(String* Command, int* IValue, float*
 
      //Commands are in the format ACTION_GROUP:VALUE
      //ACTION_GROUP can be any of the following
-     //Update temperature target (UTT), followed by a XXX length integer
-     //Update temperature band (UTB), followed by a x.xx length float
+     //Update temperature target (UTT), followed by a XXX.X length float
+     //Update temperature band (UTB), followed by a xx.xx length float
      //Report current temperature (RCT), followed by a XX length integer indicating the sensor to read
      //Report relay status (RRS), followed by a XX length integer indicating the relay to read
      //Update Relay Status (URS), followed by a XX length integer.  The first   1 indicates off, 2 indicates on
@@ -73,7 +73,7 @@ OperatingCommand Communicator::ParseCommand(String* Command, int* IValue, float*
       {
           //Update temperature target (UTT), followed by a XXX length integer
           retVal = UTT;
-          *IValue = iValue;
+          *FValue = fValue;
       }
       else if(action.equalsIgnoreCase("UTB"))
       {
@@ -133,7 +133,7 @@ bool Communicator::HasValue(String* Command)
 
 ///<summary>Validate that the given command is the proper format and structure.
 ///Commands are of the format ACTION_GROUP:VALUE, where ACTION_GROUP is 3 characters 
-///and VALUE is up to 4 characters that must parse into either an integer or a float</summary>
+///and VALUE is up to 6 characters that must parse into either an integer or a float</summary>
 ///<param name="Command">The command string to validate</param>
 ///<return> True if valid, false otherwise</return>
 bool Communicator::ValidateCommand(String* Command)
@@ -144,7 +144,7 @@ bool Communicator::ValidateCommand(String* Command)
     int iValue = -1;
     float fValue = -1;
 
-    if(NULL == Command || Command->length() < 4 || Command->length() > 8)
+    if(NULL == Command || Command->length() < 4 || Command->length() > 11)
     {
         //Invalid
 #ifdef _DEBUG
@@ -184,7 +184,7 @@ bool Communicator::ValidateCommand(String* Command)
 
     //We have a value to parse.  Let's see if it's a valid int or float
     value = Command->substring(Command->indexOf(':'), Command->length());
-    if(NULL == value || 0 == value.length() || value.length() > 4)
+    if(NULL == value || 0 == value.length() || value.length() > 6)
     {
 #ifdef _DEBUG
         Serial.print("Invalid value.  Length does not match requirements: ");

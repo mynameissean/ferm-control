@@ -4,7 +4,6 @@
 #include "TemperatureSensor.h"
 #include "Definitions.h"
 #include <OneWire.h>
-#include "DisplayManager.h"
 #include "Communicator.h"
 
 /*
@@ -36,7 +35,6 @@ Relay* g_Cooling;
 Relay* g_Heating;
 TempInRange g_LastReading = JUST_RIGHT;
 int g_DebounceCounter = 0;
-DisplayManager* m_LCDDisplay = NULL;
 Communicator* m_Communicator = NULL;
 
 //Setup values
@@ -54,14 +52,14 @@ void setup(){
    pinMode(CoolingRelayPin, OUTPUT);
    pinMode(HeatingRelayPin, OUTPUT);
 
-   //Setup our temperature sensors
-   g_PrimarySensor = new TemperatureSensor(g_PrimarySensorAddress, g_PrimaryTemperatureBand, g_PrimaryTargetTemperature, "Primary", strlen("Primary"));
-   g_AmbientExternalSensor = new TemperatureSensor(g_ambientExternalSensorAddress, g_PrimaryTemperatureBand, g_PrimaryTargetTemperature, "Secondary", strlen("Secondary"));
-   g_AmbientInternalSensor = new TemperatureSensor(g_ambientInternalSensorAddress, g_PrimaryTemperatureBand, g_PrimaryTargetTemperature, "Ambient", strlen("Ambient"));
+   //Setup our temperature sensors   
+   g_PrimarySensor = new TemperatureSensor(g_PrimarySensorAddress, g_PrimaryTemperatureBand, g_PrimaryTargetTemperature, new ID("Primary", strlen("Primary"), 0));
+   g_AmbientExternalSensor = new TemperatureSensor(g_ambientExternalSensorAddress, g_PrimaryTemperatureBand, g_PrimaryTargetTemperature, new ID("Secondary", strlen("Secondary"), 1));
+   g_AmbientInternalSensor = new TemperatureSensor(g_ambientInternalSensorAddress, g_PrimaryTemperatureBand, g_PrimaryTargetTemperature, new ID("Ambient", strlen("Ambient"), 2));
 
    //Setup our relays
-   g_Cooling = new Relay(CoolingRelayPin, CoolingDisplayPin, g_CompressorRunTime, g_CompressorOffTime); //4 minutes
-   g_Heating = new Relay(HeatingRelayPin, HeatingDisplayPin, 0, g_HeatingOffTime);
+   g_Cooling = new Relay(CoolingRelayPin, CoolingDisplayPin, new ID("Cooling", strlen("Cooling"), 0), g_CompressorRunTime, g_CompressorOffTime); //4 minutes
+   g_Heating = new Relay(HeatingRelayPin, HeatingDisplayPin, new ID("Heating", strlen("Heating"), 1), 0, g_HeatingOffTime);
 
    //Setup our display if we have one
    //Wire.begin();
@@ -108,9 +106,8 @@ cleanup:
   delay(CYCLE_TIME);
  }
 
- /**
-  * Open up communication with our controller and see if there are any new commands to receive
-  */
+ 
+ ///<summary>Open up communication with our controller and see if there are any new commands to receive</summary> 
  void ReceiveOperatingInstructions()
  {
      int ivalue = 0;
@@ -125,7 +122,35 @@ cleanup:
 
      //We have a command
      systemCommand = m_Communicator->ParseCommand(command, &ivalue, &fvalue);
+     switch(systemCommand)
+     {
+     case(UTT):
+         //Update temperature target (UTT), followed by a XXX.X length float
+         if(0 != ivalue)
+         {
+             g_PrimarySensor->SetTargetTemperature(fvalue);
+         }
+         else
+         {
+            Serial.println("Unable to update temperature as it's set to 0");
+         }
+         break;
+     case(UTB):
+         break;
+     case(RCT):
+         break;
+     case(RRS):
+         break;
+     case(URS):
+         break;
+     case(INVALID):
+#ifdef _DEBUG
+         Serial.println("Can't operate on invalid command");
+#endif
+         break;
+     
 
+     }
 cleanup:
      return;
  }

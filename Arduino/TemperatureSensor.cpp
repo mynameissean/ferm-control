@@ -8,13 +8,26 @@
  ///<param name="SensorAddress">The GUID for the sensor on the system</param>
  ///<param name="TempBand">The target range the temperature can be</param>
  ///<param name="TempTarget">The target temperature for the sensor</param>
-TemperatureSensor::TemperatureSensor(byte* SensorAddress, float TempBand, float TempTarget, char* FriendlyName, int FriendlyNameLength)
+TemperatureSensor::TemperatureSensor(byte* SensorAddress, float TempBand, float TempTarget, ID* InId)
 {
     m_SensorAddress = SensorAddress;
     m_TemperatureBand = TempBand;
     m_TemperatureTarget = TempTarget;
-    m_FriendlyName = FriendlyName;
-    m_FriendlyNameLength = FriendlyNameLength;
+    m_ID = InId;
+}
+
+///<summary>Update the target temperature for this sensor</summary>
+///<param name="TempTarget">The new temperature value to shoot for</param>
+void TemperatureSensor::SetTargetTemperature(float TempTarget)
+{
+    m_TemperatureTarget = TempTarget;
+}
+
+///<summary>Set the target temperature band</summary>
+///<param name="TempBand">How wide the temperature is allowed to swing and still be in range</param>
+void TemperatureSensor::SetTemperatureBand(float TempBand)
+{
+    m_TemperatureBand = TempBand;
 }
 
 ///<summary>Determine whether our temperature is in our range of control. </summary>
@@ -177,20 +190,9 @@ cleanup:
   Sensors.reset_search();
   return retVal;   
  }
- 
- ///<summary>Trim off the trailing part of the friendly name.  This puts the null terminator earlier in the string</summary>
- ///<param name="Length">How long the name should be</param>
- void TemperatureSensor::TrimNameToLength(int Length)
- {
-     m_FriendlyNameLength = Length;
-
-     m_FriendlyName[Length - 1] = '\0';
- }
-
   
- /**
-  * Print out the sensor data in a readable format.
-  */
+  ///<summary>Print out the sensor data in a readable format.</summary>
+  ///<param name="SensorAddress">The address of the sensor to print out</param>
   void TemperatureSensor::DebugPrintSensor(byte* SensorAddress)
  {
     Serial.print("Device");
