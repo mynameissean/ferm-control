@@ -14,3 +14,13 @@ Arduino/Simple_Ferm_Chamber.sdf
 Arduino/Simple_Ferm_Chamber.opensdf
 Arduino/Simple_Ferm_Chamber.sdf
 *.sdf
+Arduino/Debug/cl.command.1.tlog
+Arduino/Debug/CL.read.1.tlog
+Arduino/Debug/CL.write.1.tlog
+Arduino/Debug/Simple_Ferm_Chamber.Build.CppClean.log
+Arduino/Debug/Simple_Ferm_Chamber.lastbuildstate
+Arduino/Debug/Simple_Ferm_Chamber.log
+Arduino/Debug/Simple_Ferm_Chamber.unsuccessfulbuild
+Arduino/Debug/Simple_Ferm_Chamber.write.1.tlog
+Arduino/Debug/vc100.idb
+Arduino/Debug/vc100.pdb
