@@ -5,6 +5,7 @@
 #include "Definitions.h"
 #include <OneWire.h>
 #include "Communicator.h"
+#include "EEPROMex.h"
 
 /*
  * This is a stripped down version of the fermentation controller
@@ -39,7 +40,7 @@ Communicator* m_Communicator = NULL;
 
 //Setup values
 float g_PrimaryTemperatureBand = 1.3;
-float g_PrimaryTargetTemperature = 67;
+float g_PrimaryTargetTemperature = 69;
 unsigned long g_CompressorRunTime = 30000; //30 Seconds
 unsigned long g_CompressorOffTime = 240000; //4 Minutes
 unsigned long g_HeatingOffTime = 300000;    //5 Minutes
@@ -52,14 +53,25 @@ void setup(){
    pinMode(CoolingRelayPin, OUTPUT);
    pinMode(HeatingRelayPin, OUTPUT);
 
+
+
    //Setup our temperature sensors   
-   g_PrimarySensor = new TemperatureSensor(g_PrimarySensorAddress, g_PrimaryTemperatureBand, g_PrimaryTargetTemperature, new ID("Primary", strlen("Primary"), 0));
-   g_AmbientExternalSensor = new TemperatureSensor(g_ambientExternalSensorAddress, g_PrimaryTemperatureBand, g_PrimaryTargetTemperature, new ID("Secondary", strlen("Secondary"), 1));
-   g_AmbientInternalSensor = new TemperatureSensor(g_ambientInternalSensorAddress, g_PrimaryTemperatureBand, g_PrimaryTargetTemperature, new ID("Ambient", strlen("Ambient"), 2));
+   g_PrimarySensor = new TemperatureSensor(g_PrimarySensorAddress, 
+                                           g_PrimaryTemperatureBand, 
+                                           g_PrimaryTargetTemperature, 
+                                           new ID("Primary", strlen("Primary"), 1, 0));
+   g_AmbientExternalSensor = new TemperatureSensor(g_ambientExternalSensorAddress, 
+                                                   g_PrimaryTemperatureBand, 
+                                                   g_PrimaryTargetTemperature, 
+                                                   new ID("Secondary", strlen("Secondary"), 2, sizeof(float) * 2));
+   g_AmbientInternalSensor = new TemperatureSensor(g_ambientInternalSensorAddress, 
+                                                   g_PrimaryTemperatureBand, 
+                                                   g_PrimaryTargetTemperature, 
+                                                   new ID("Ambient", strlen("Ambient"), 3, sizeof(float) * 4));
 
    //Setup our relays
-   g_Cooling = new Relay(CoolingRelayPin, CoolingDisplayPin, new ID("Cooling", strlen("Cooling"), 0), g_CompressorRunTime, g_CompressorOffTime); //4 minutes
-   g_Heating = new Relay(HeatingRelayPin, HeatingDisplayPin, new ID("Heating", strlen("Heating"), 1), 0, g_HeatingOffTime);
+   g_Cooling = new Relay(CoolingRelayPin, CoolingDisplayPin, new ID("Cooling", strlen("Cooling"), 1), g_CompressorRunTime, g_CompressorOffTime); //4 minutes
+   g_Heating = new Relay(HeatingRelayPin, HeatingDisplayPin, new ID("Heating", strlen("Heating"), 2), 0, g_HeatingOffTime);
 
    //Setup our display if we have one
    //Wire.begin();
@@ -72,6 +84,11 @@ void setup(){
    Utility::Cycle(g_Cooling->GetDisplayPin(), 1000, 1000);
    Utility::Cycle(g_Heating->GetDisplayPin(), 1000, 1000);
  }
+
+float ReadFloatFromMemory()
+{
+
+}
  
  void loop()
  {  
@@ -126,22 +143,53 @@ cleanup:
      {
      case(UTT):
          //Update temperature target (UTT), followed by a XXX.X length float
-         if(0 != ivalue)
+         if(0 != fvalue)
          {
              g_PrimarySensor->SetTargetTemperature(fvalue);
+             //Save stored temperature
+             Utility::UpdateEEPROMFloat(g_PrimarySensor->GetID()->GetEEPROMAddress(), fvalue);
          }
          else
          {
+#ifdef _DEBUG
             Serial.println("Unable to update temperature as it's set to 0");
+#endif
          }
          break;
      case(UTB):
+         if(fvalue < .1)
+         {
+             g_PrimarySensor->SetTemperatureBand(fvalue);
+             //Save stored band
+             Utility::UpdateEEPROMFloat(g_PrimarySensor->GetID()->GetEEPROMAddress() * sizeof(float), fvalue);
+         }
+         else
+         {
+#ifdef _DEBUG
+             Serial.println("Unable to update temperature band as it's set to less than .1");
+#endif
+         }
          break;
      case(RCT):
+         if(ivalue != 0)
+         {
+
+         }
+         else {
+#ifdef _DEBUG
+             Serial.println("Cannot report temperature for invalid index");
+#endif
+         }
          break;
      case(RRS):
          break;
      case(URS):
+         break;
+     case(RSI):
+         break;
+     case(RRI):
+         break;
+     case(HBS):
          break;
      case(INVALID):
 #ifdef _DEBUG

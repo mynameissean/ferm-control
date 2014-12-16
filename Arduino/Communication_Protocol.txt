@@ -33,4 +33,12 @@ VALUE: xx length integer indicating the index'ed relay's friendly name
 	
 Command - RRS: Report relay status  (DC)
 VALUE: XX length integer indicating the relay index to read
-Update Relay Status (URS), followed by a XX length integer.  The first   1 indicates off, 2 indicates on
+	Retrieves the on/off status of the relay.  1 indicates off, 2 indicates on
+
+Command - URS: Update Relay Status 
+VALUE: XX length integer indicating the index's status.  
+	1 indicates off, 2 indicates on
+
+Command - HBS: Heartbeat Service (DC)
+VALUE: None
+	Returns a timer indicating how long the service has been active for (in milliseconds).  Can roll over after approximately 50 days of continuous uptime.  If no command is recieved from the master for a period of 5 minutes, it will translate over to headless control mode.

@@ -11,7 +11,7 @@
 #define DEFAULT_COMM_TIMEOUT 1000
 
 enum TempInRange {TOO_HOT, TOO_COLD, JUST_RIGHT, NO_READING };
-enum OperatingCommand {UTT, UTB, RCT, RRS, URS, INVALID };
+enum OperatingCommand {UTT, UTB, RCT, RSI, RRS, RRI, URS, HBS, INVALID };
 //#define _DEBUG 1
 
 //extern Utility UTILITY;

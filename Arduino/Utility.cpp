@@ -2,6 +2,7 @@
 
 #include "Utility.h"
 #include "Definitions.h"
+#include "EEPROMex.h"
 
 /**
  *Convert the temperature to fahrenheit from celsius.
@@ -76,6 +77,19 @@ void Utility::Cycle(int Pin, int OnTime, int OffTime)
   delay(OnTime);              // wait for a second
   digitalWrite(Pin, LOW);    // set the LED off
   delay(OffTime);              // wait for a second
+}
+
+///<summary>Update the float at the specified address so it is stored in the EEPROM</summary>
+///<param name="Address">Where the float is stored</param>
+///<param name="Value">What the value is to store</param>
+void Utility::UpdateEEPROMFloat(int Address, float Value)
+{
+    if(0 == EEPROM.updateFloat(Address, Value))
+    {
+#ifdef _DEBUG
+        Serial.println("Unable to write to eeprom");
+#endif
+    }
 }
 
  //Utility UTILITY;

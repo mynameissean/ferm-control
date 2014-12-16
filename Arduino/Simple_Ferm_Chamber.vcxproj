@@ -53,7 +53,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>E:\Source\Arduino\Base Source Code\arduino-1.5\Arduino\hardware\arduino\avr\cores\arduino;E:\Source\Arduino\Base Source Code\arduino-1.5\Arduino\hardware\arduino\avr\variants\standard;E:\Source\Arduino\Base Source Code\arduino-1.5\Arduino\hardware\arduino\avr\libraries\Wire;E:\Source\Arduino\Base Source Code\arduino-1.5\Arduino\hardware\arduino\avr\libraries\Wire\utility;E:\Source\Arduino\Base Source Code\arduino-1.5\Arduino\libraries\OneWire;E:\Source\Arduino\Base Source Code\arduino-1.5\Arduino\libraries\OneWire\utility;E:\Source\Arduino\Base Source Code\arduino-1.5\Arduino\libraries;E:\Source\Arduino\Base Source Code\arduino-1.5\Arduino\hardware\arduino\avr\libraries;E:\Program Files (x86)\Visual Micro\Visual Micro for Arduino\Micro Platforms\default\debuggers;C:\Users\Sean\Documents\Arduino\libraries;e:\source\arduino\base source code\arduino-1.5\arduino\hardware\tools\avr\avr\include\;e:\source\arduino\base source code\arduino-1.5\arduino\hardware\tools\avr\avr\include\avr\;e:\source\arduino\base source code\arduino-1.5\arduino\hardware\tools\avr\avr\;e:\source\arduino\base source code\arduino-1.5\arduino\hardware\tools\avr\lib\gcc\avr\4.3.2\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\Source\Arduino\Base Source Code\arduino-1.5\Arduino\hardware\arduino\avr\cores\arduino;E:\Source\Arduino\Base Source Code\arduino-1.5\Arduino\hardware\arduino\avr\variants\standard;E:\Source\Arduino\Base Source Code\arduino-1.5\Arduino\hardware\arduino\avr\libraries\Wire;E:\Source\Arduino\Base Source Code\arduino-1.5\Arduino\hardware\arduino\avr\libraries\Wire\utility;E:\Source\Arduino\Base Source Code\arduino-1.5\Arduino\libraries\OneWire;E:\Source\Arduino\Base Source Code\arduino-1.5\Arduino\libraries\OneWire\utility;E:\Source\Arduino\Base Source Code\arduino-1.5\Arduino\libraries;E:\Source\Arduino\Base Source Code\arduino-1.5\Arduino\hardware\arduino\avr\libraries;C:\Program Files (x86)\Visual Micro\Visual Micro for Arduino\Micro Platforms\default\debuggers;C:\Users\Sean\Documents\Arduino\libraries;e:\source\arduino\base source code\arduino-1.5\arduino\hardware\tools\avr\avr\include\;e:\source\arduino\base source code\arduino-1.5\arduino\hardware\tools\avr\avr\include\avr\;e:\source\arduino\base source code\arduino-1.5\arduino\hardware\tools\avr\avr\;e:\source\arduino\base source code\arduino-1.5\arduino\hardware\tools\avr\lib\gcc\avr\4.3.2\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>E:\Source\Git-Hub\ferm-control\ferm-control\Arduino\Visual Micro\.Arduino.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
       <PreprocessorDefinitions>__AVR_ATmega328p__;__AVR_ATmega328P__;ARDUINO=153;ARDUINO_MAIN;__AVR__;__avr__;F_CPU=16000000L;__cplusplus;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -83,7 +83,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>E:\Source\Arduino\Base Source Code\arduino-1.0\hardware\arduino\cores\arduino;E:\Source\Arduino\Base Source Code\arduino-1.0\hardware\arduino\variants\standard;E:\Source\Arduino\Base Source Code\arduino-1.0\libraries\OneWire;E:\Source\Arduino\Base Source Code\arduino-1.0\libraries\OneWire\utility;e:\source\arduino\base source code\arduino-1.0\hardware\tools\avr\avr\include\;e:\source\arduino\base source code\arduino-1.0\hardware\tools\avr\avr\include\avr\;e:\source\arduino\base source code\arduino-1.0\hardware\tools\avr\avr\;e:\source\arduino\base source code\arduino-1.0\hardware\tools\avr\lib\gcc\avr\4.3.2\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\Source\Arduino\Base Source Code\arduino-1.5\Arduino\hardware\arduino\avr\cores\arduino;E:\Source\Arduino\Base Source Code\arduino-1.5\Arduino\hardware\arduino\avr\variants\standard;E:\Source\Arduino\Base Source Code\arduino-1.5\Arduino\hardware\arduino\avr\libraries\Wire;E:\Source\Arduino\Base Source Code\arduino-1.5\Arduino\hardware\arduino\avr\libraries\Wire\utility;E:\Source\Arduino\Base Source Code\arduino-1.5\Arduino\libraries\OneWire;E:\Source\Arduino\Base Source Code\arduino-1.5\Arduino\libraries\OneWire\utility;E:\Source\Arduino\Base Source Code\arduino-1.5\Arduino\libraries;E:\Source\Arduino\Base Source Code\arduino-1.5\Arduino\hardware\arduino\avr\libraries;C:\Program Files (x86)\Visual Micro\Visual Micro for Arduino\Micro Platforms\default\debuggers;C:\Users\Sean\Documents\Arduino\libraries;e:\source\arduino\base source code\arduino-1.5\arduino\hardware\tools\avr\avr\include\;e:\source\arduino\base source code\arduino-1.5\arduino\hardware\tools\avr\avr\include\avr\;e:\source\arduino\base source code\arduino-1.5\arduino\hardware\tools\avr\avr\;e:\source\arduino\base source code\arduino-1.5\arduino\hardware\tools\avr\lib\gcc\avr\4.3.2\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -99,6 +99,12 @@
   <ItemGroup>
     <ClInclude Include="Communicator.h" />
     <ClInclude Include="Definitions.h" />
+    <ClInclude Include="EEPROMex.h">
+      <FileType>CppCode</FileType>
+    </ClInclude>
+    <ClInclude Include="EEPROMVar.h">
+      <FileType>CppCode</FileType>
+    </ClInclude>
     <ClInclude Include="ID.h" />
     <ClInclude Include="Relay.h" />
     <ClInclude Include="TemperatureManager.h" />
@@ -106,11 +112,10 @@
     <ClInclude Include="Triggerable.h" />
     <ClInclude Include="Utility.h" />
     <ClInclude Include="Visual Micro\.Arduino.vsarduino.h" />
-    <ClInclude Include="Visual Micro\.Simple Fermentation Chamber.vsarduino.h" />
-    <ClInclude Include="Visual Micro\.Simple_Ferm_Chamber.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Communicator.cpp" />
+    <ClCompile Include="EEPROMex.cpp" />
     <ClCompile Include="ID.cpp" />
     <ClCompile Include="Relay.cpp" />
     <ClCompile Include="TemperatureManager.cpp" />

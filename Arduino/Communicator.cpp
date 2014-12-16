@@ -56,7 +56,9 @@ OperatingCommand Communicator::ParseCommand(String* Command, int* IValue, float*
      //ACTION_GROUP can be any of the following
      //Update temperature target (UTT), followed by a XXX.X length float
      //Update temperature band (UTB), followed by a xx.xx length float
+     //Report sensor index (RSI), followed by a XX length integer indicating the sensor to read
      //Report current temperature (RCT), followed by a XX length integer indicating the sensor to read
+     //Report relay index (RRI), followed by a XX length integer indicating the sensor to read
      //Report relay status (RRS), followed by a XX length integer indicating the relay to read
      //Update Relay Status (URS), followed by a XX length integer.  The first   1 indicates off, 2 indicates on
      action = Command->substring(0, Command->indexOf(':'));     
@@ -98,6 +100,23 @@ OperatingCommand Communicator::ParseCommand(String* Command, int* IValue, float*
           //Update Relay Status (URS), followed by a XX length integer.  The first   1 indicates off, 2 indicates on
           retVal = URS;
           *IValue = iValue;
+      }
+      else if(action.equalsIgnoreCase("RSI"))
+      {
+          //Report sensor index (RSI), followed by a XX length integer indicating the sensor to read
+          retVal = RSI;
+          *IValue = iValue;
+      }
+      else if(action.equalsIgnoreCase("RRI"))
+      {
+          //Report relay index (RRI), followed by a XX length integer indicating the sensor to read
+          retVal = RRI;
+          *IValue = iValue;
+      }
+      else if(action.equalsIgnoreCase("HBS"))
+      {
+          //Heart beat service (HBS)
+          retVal = HBS;
       }
       else
       {

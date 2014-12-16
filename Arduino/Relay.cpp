@@ -68,7 +68,8 @@ bool Relay::TurnOn()
        {
            //Can't turn on yet
 #ifdef _DEBUG 
-           Serial.println("Can't turn on");
+           Serial.print("Can't turn on ");
+           Serial.println(m_ID->GetName());
 #endif
           Utility::Cycle(GetDisplayPin(), 250, 250);
           goto cleanup;
@@ -102,7 +103,8 @@ bool Relay::TurnOff()
     {
         //Unable to turn the heater off 
         #ifdef _DEBUG 
-            Serial.println("Can't turn off");
+            Serial.print("Can't turn off ");
+            Serial.println(m_ID->GetName());
         #endif
         Utility::Cycle(GetDisplayPin(), 250, 250);
         goto cleanup;
