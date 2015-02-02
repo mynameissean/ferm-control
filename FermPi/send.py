@@ -8,7 +8,7 @@
 import usb, sys # 1.0 not 0.4
 sys.path.append("..")
 
-from digispark.usbdevice import ArduinoUsbDevice
+from arduino.usbdevice import ArduinoUsbDevice
 
 # Caller handles exceptions
 def send_to_digi(m_str):
@@ -25,7 +25,7 @@ if __name__ == "__main__":
     send_to_digi(sys.argv[1])
     try:
         user_input = sys.argv[1]
-        send_to_pi(user_input)
+        send_to_digi(user_input)
     except:
         exit("No data provided on cmd line to send!")
 

@@ -1,7 +1,13 @@
 from pymongo import MongoClient
 import datetime
+import ConfigParser
 
-mon_client = MongoClient('192.168.1.126', 27017) # this is bad declaring global this way!
+# TODO make mongo optional
+config = ConfigParser.ConfigParser()
+config.read('settings.cfg')
+m_server = config.get('mongo', 'host')
+m_port = int(config.get('mongo', 'port'))
+mon_client = MongoClient(m_server, m_port)
 
 def storelog(t_carboy, t_chamber, t_room):
     db = mon_client.temperatures

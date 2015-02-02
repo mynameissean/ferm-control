@@ -57,7 +57,7 @@ def get_temp(m_tname):
         for nam in named:
             if nam in m_map and m_tname in named[nam]:
                  return read_temp(m_map)
-    return "NONE!  Didn't find temp sensor %s" % m_tname
+    raise LookupError("Didn't find temp sensor %s" % m_tname)
 
 if __name__ == "__main__":
     file_log_freq = 5
