@@ -183,7 +183,6 @@ cleanup:
        break;      
      }     
    }  
-   Serial.println("Done searching for sensors");
    
 cleanup:
   //Reset the temperature sensor search for subsequent invocations
@@ -191,6 +190,7 @@ cleanup:
   return retVal;   
  }
   
+  #ifdef _DEBUG
   ///<summary>Print out the sensor data in a readable format.</summary>
   ///<param name="SensorAddress">The address of the sensor to print out</param>
   void TemperatureSensor::DebugPrintSensor(byte* SensorAddress)
@@ -203,3 +203,4 @@ cleanup:
       }
       Serial.println("");
  }
+ #endif

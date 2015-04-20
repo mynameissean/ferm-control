@@ -5,7 +5,7 @@
 #include "Definitions.h"
 #include <OneWire.h>
 #include "Communicator.h"
-#include "EEPROMex.h"
+//#include "EEPROMex.h"
 
 /*
  * This is a stripped down version of the fermentation controller
