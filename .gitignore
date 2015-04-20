@@ -25,3 +25,8 @@ Arduino/Debug/Simple_Ferm_Chamber.write.1.tlog
 Arduino/Debug/vc100.idb
 Arduino/Debug/vc100.pdb
 Arduino/Simple_Ferm_Chamber.sdf
+Arduino/Simple_Ferm_Chamber/Simple_Ferm_Chamber.opensdf
+*.user
+Arduino/Simple_Ferm_Chamber/Visual Micro/.Simple_Ferm_Chamber.vsarduino.h
+Arduino/Simple_Ferm_Chamber/Visual Micro/Configuration.Debug.vmps.xml
+Arduino/Simple_Ferm_Chamber/Visual Micro/Compile.vmps.xml

@@ -40,7 +40,7 @@ Communicator* m_Communicator = NULL;
 
 //Setup values
 float g_PrimaryTemperatureBand = 1.3;
-float g_PrimaryTargetTemperature = 69;
+float g_PrimaryTargetTemperature = 66;
 unsigned long g_CompressorRunTime = 30000; //30 Seconds
 unsigned long g_CompressorOffTime = 240000; //4 Minutes
 unsigned long g_HeatingOffTime = 300000;    //5 Minutes
@@ -111,12 +111,24 @@ float ReadFloatFromMemory()
   AdjustPrimaryTemperature();
 
   //Step 4: See if we need to store our current temperature data
-  //SaveTemperatureData();
+  SaveTemperatureData();
   
 cleanup:
   //Signal that we're done with this cycle
   Utility::Cycle(StatusLED, 1000, 1000);
   delay(CYCLE_TIME);
+ }
+
+ ///<summary>Print out the data so it can be ready by our calling functions.  
+ /// Data is written as the following: 
+ /// Primary:Temp 
+ /// Cooling:On|Off
+ /// Heating:On|Off</summary>
+ void SaveTemperatureData()
+ {
+	 g_PrimarySensor->Print();
+	 g_Cooling->Print();
+	 g_Heating->Print();
  }
 
  

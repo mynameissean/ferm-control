@@ -126,6 +126,15 @@ cleanup:
      return retVal;
  }
 
+ ///<summary>Print out the temperature sensor in the following format:
+ ///SensorName:Temperature</summary>
+ void TemperatureSensor::Print()
+ {
+	 Serial.print(m_ID->GetName());
+	 Serial.print(":");
+	 Serial.println(m_Temperature);
+ }
+
 
 ///<summary>Go through the collection of sensors and validate that we have the
 ///requested sensor on the system.</summary>
@@ -183,14 +192,17 @@ cleanup:
        break;      
      }     
    }  
+#ifdef _DEBUG
    Serial.println("Done searching for sensors");
+#endif
    
 cleanup:
   //Reset the temperature sensor search for subsequent invocations
   Sensors.reset_search();
   return retVal;   
  }
-  
+
+#ifdef _DEBUG
   ///<summary>Print out the sensor data in a readable format.</summary>
   ///<param name="SensorAddress">The address of the sensor to print out</param>
   void TemperatureSensor::DebugPrintSensor(byte* SensorAddress)
@@ -203,3 +215,4 @@ cleanup:
       }
       Serial.println("");
  }
+#endif

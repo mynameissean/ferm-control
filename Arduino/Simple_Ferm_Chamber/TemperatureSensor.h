@@ -37,6 +37,7 @@ public:
     void TrimNameToLength(int);
     void SetTargetTemperature(float);
     void SetTemperatureBand(float);
+	void Print();
     
 
     

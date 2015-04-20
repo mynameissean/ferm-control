@@ -160,6 +160,15 @@ cleanup:
     return retVal;
 }
 
+///<summary>Print out the state of the relay in the following format:
+///Name:On|Off</summary>
+void Relay::Print()
+{
+	Serial.print(m_ID->GetName());
+	Serial.print(":");
+	Serial.println(IsOn() ? "On" : "Off");
+}
+
 
 ///<summary>Determine if it's possible to turn off the relay.</summary>
 ///<return>True if the relay can be turned off, false otherwise</return>
