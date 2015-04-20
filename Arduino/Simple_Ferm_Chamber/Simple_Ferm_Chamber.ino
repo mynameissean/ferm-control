@@ -73,10 +73,6 @@ void setup(){
    g_Cooling = new Relay(CoolingRelayPin, CoolingDisplayPin, new ID("Cooling", strlen("Cooling"), 1), g_CompressorRunTime, g_CompressorOffTime); //4 minutes
    g_Heating = new Relay(HeatingRelayPin, HeatingDisplayPin, new ID("Heating", strlen("Heating"), 2), 0, g_HeatingOffTime);
 
-   //Setup our display if we have one
-   //Wire.begin();
-   //m_LCDDisplay = new DisplayManager(0x2E, DisplayManager::LCD2041);
-
    //Setup our controller (if applicable)
    m_Communicator = new Communicator();
 
