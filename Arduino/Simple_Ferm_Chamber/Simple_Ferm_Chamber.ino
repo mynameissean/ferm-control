@@ -13,7 +13,7 @@
  * external software program.  It only sends output out to the 
  * wire for monitoring purposes.
  */
-#define _DEBUG 0
+#undef _DEBUG
 int TempReadPin = 3;
 int CoolingRelayPin = 4;
 int CoolingDisplayPin = 5;

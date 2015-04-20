@@ -68,7 +68,9 @@ OperatingCommand Communicator::ParseCommand(String* Command, int* IValue, float*
       {
           value = Command->substring(Command->indexOf(':'), Command->length());
           iValue = value.toInt();
-          fValue = value.toFloat();
+		  char buffer[10];
+		  value.toCharArray(buffer, 10);
+          fValue = atof(buffer);
       }
 
       if(action.equalsIgnoreCase("UTT"))
@@ -214,7 +216,9 @@ bool Communicator::ValidateCommand(String* Command)
 
     //Now see if we have either an integer or a float
     iValue = value.toInt();
-    fValue = value.toFloat();
+	char buffer[10];
+	value.toCharArray(buffer, 10);
+    fValue = atof(buffer);
     if(0 == iValue && 0.0 == fValue)
     {
 #ifdef _DEBUG
