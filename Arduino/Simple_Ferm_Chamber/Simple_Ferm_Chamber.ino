@@ -101,8 +101,8 @@ float ReadFloatFromMemory()
           //Shut it all down         
           g_Heating->TurnOff();
           g_Cooling->TurnOff();          
-          Utility::Cycle(g_Heating->GetDisplayPin(), 1000, 1000);
-          Utility::Cycle(g_Cooling->GetDisplayPin(), 1000, 1000);
+          Utility::Flash(g_Heating->GetDisplayPin(), 10);
+          Utility::Flash(g_Heating->GetDisplayPin(), 10);
       }
       goto cleanup;
   }

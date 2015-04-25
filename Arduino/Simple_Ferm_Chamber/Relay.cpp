@@ -52,7 +52,9 @@ Relay::Relay(int TriggerPin, int DisplayPin, ID* InID,  unsigned long MinRunTime
 ///<return>True if successful, false otherwise. </return>
 bool Relay::TurnOn()
 {
+#ifdef _DEBUG
     Serial.println("trying to turn on the relay");
+#endif
     bool retVal = false;
     //We need to see if we can activate the cooling
        if(true == IsOn())
@@ -71,7 +73,7 @@ bool Relay::TurnOn()
            Serial.print("Can't turn on ");
            Serial.println(m_ID->GetName());
 #endif
-          Utility::Cycle(GetDisplayPin(), 250, 250);
+          Utility::Flash(GetDisplayPin(), 5);
           goto cleanup;
        }
          
@@ -90,6 +92,9 @@ cleanup:
 bool Relay::TurnOff()
 {
     bool retVal = false;
+#ifdef _DEBUG
+    Serial.println("trying to turn off the relay");
+#endif
     if(false == IsOn())
     {
         //Nothing to turn off.  Success
@@ -106,7 +111,7 @@ bool Relay::TurnOff()
             Serial.print("Can't turn off ");
             Serial.println(m_ID->GetName());
         #endif
-        Utility::Cycle(GetDisplayPin(), 250, 250);
+        Utility::Flash(GetDisplayPin(), 5);
         goto cleanup;
     }
            

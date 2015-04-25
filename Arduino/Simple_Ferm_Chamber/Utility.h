@@ -20,8 +20,10 @@ class Utility
     static unsigned long TimeDifference(unsigned long);
     static bool GetCurrentState(int);
     static void Cycle(int, int, int);
+	static void Flash(int, int);
     static void UpdateEEPROMFloat(int Address, float Value);
     static float ReadEEPROMFloat(int Address);
+	
 };
 
 //extern Utility UTILITY;
