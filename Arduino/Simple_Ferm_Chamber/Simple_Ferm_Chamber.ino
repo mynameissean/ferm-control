@@ -13,7 +13,8 @@
  * external software program.  It only sends output out to the 
  * wire for monitoring purposes.
  */
-#undef _DEBUG
+//#undef _DEBUG
+#define _DEBUG
 int TempReadPin = 3;
 int CoolingRelayPin = 4;
 int CoolingDisplayPin = 5;
@@ -26,11 +27,12 @@ int StatusLED = 13;
 
 //Global objects
 OneWire g_TempSensors(TempReadPin);
-byte g_PrimarySensorAddress[8] = {40,126,182,231,3,0,0,109};
+byte g_InternalFermentorSensorAddress[8] = {40,118,221,231,3,0,0,173};
+byte g_ExternalFermentorAddress[8] = {40,126,182,231,3,0,0,109};
 byte g_ambientExternalSensorAddress[8] = {40,118,221,231,3,0,0,173};
 byte g_ambientInternalSensorAddress[8] = {40,126,182,231,3,0,0,109};
-TemperatureSensor* g_PrimarySensor;
-TemperatureSensor* g_AmbientExternalSensor;
+TemperatureSensor* g_InternalFermentorSensor;
+TemperatureSensor* g_ExternalFermentorSensor;
 TemperatureSensor* g_AmbientInternalSensor;
 Relay* g_Cooling;
 Relay* g_Heating;
@@ -40,7 +42,7 @@ Communicator* m_Communicator = NULL;
 
 //Setup values
 float g_PrimaryTemperatureBand = 1.3;
-float g_PrimaryTargetTemperature = 66;
+float g_PrimaryTargetTemperature = 68;
 unsigned long g_CompressorRunTime = 30000; //30 Seconds
 unsigned long g_CompressorOffTime = 240000; //4 Minutes
 unsigned long g_HeatingOffTime = 300000;    //5 Minutes
@@ -56,14 +58,14 @@ void setup(){
 
 
    //Setup our temperature sensors   
-   g_PrimarySensor = new TemperatureSensor(g_PrimarySensorAddress, 
+   g_InternalFermentorSensor = new TemperatureSensor(g_InternalFermentorSensorAddress, 
                                            g_PrimaryTemperatureBand, 
                                            g_PrimaryTargetTemperature, 
-                                           new ID("Primary", strlen("Primary"), 1, 0));
-   g_AmbientExternalSensor = new TemperatureSensor(g_ambientExternalSensorAddress, 
+                                           new ID("Internal", strlen("Internal"), 1, 0));
+   g_ExternalFermentorSensor = new TemperatureSensor(g_ExternalFermentorAddress, 
                                                    g_PrimaryTemperatureBand, 
                                                    g_PrimaryTargetTemperature, 
-                                                   new ID("Secondary", strlen("Secondary"), 2, sizeof(float) * 2));
+                                                   new ID("External_Fermentor", strlen("External_Fermentor"), 2, sizeof(float) * 2));
    g_AmbientInternalSensor = new TemperatureSensor(g_ambientInternalSensorAddress, 
                                                    g_PrimaryTemperatureBand, 
                                                    g_PrimaryTargetTemperature, 
@@ -121,12 +123,14 @@ cleanup:
 
  ///<summary>Print out the data so it can be ready by our calling functions.  
  /// Data is written as the following: 
- /// Primary:Temp 
+ /// Internal:Temp 
+ /// External_Fermentor:Temp
  /// Cooling:On|Off
  /// Heating:On|Off</summary>
  void SaveTemperatureData()
  {
-	 g_PrimarySensor->Print();
+	 g_InternalFermentorSensor->Print();
+	 g_ExternalFermentorSensor->Print();
 	 g_Cooling->Print();
 	 g_Heating->Print();
  }
@@ -153,9 +157,9 @@ cleanup:
          //Update temperature target (UTT), followed by a XXX.X length float
          if(0 != fvalue)
          {
-             g_PrimarySensor->SetTargetTemperature(fvalue);
+             g_InternalFermentorSensor->SetTargetTemperature(fvalue);
              //Save stored temperature
-             Utility::UpdateEEPROMFloat(g_PrimarySensor->GetID()->GetEEPROMAddress(), fvalue);
+             Utility::UpdateEEPROMFloat(g_InternalFermentorSensor->GetID()->GetEEPROMAddress(), fvalue);
          }
          else
          {
@@ -167,9 +171,9 @@ cleanup:
      case(UTB):
          if(fvalue < .1)
          {
-             g_PrimarySensor->SetTemperatureBand(fvalue);
+             g_InternalFermentorSensor->SetTemperatureBand(fvalue);
              //Save stored band
-             Utility::UpdateEEPROMFloat(g_PrimarySensor->GetID()->GetEEPROMAddress() * sizeof(float), fvalue);
+             Utility::UpdateEEPROMFloat(g_InternalFermentorSensor->GetID()->GetEEPROMAddress() * sizeof(float), fvalue);
          }
          else
          {
@@ -218,14 +222,14 @@ cleanup:
  {
    bool retVal = false;
    //Go through our sensors     
-   if(false == g_PrimarySensor->DoesSensorExist(g_TempSensors))
+   if(false == g_InternalFermentorSensor->DoesSensorExist(g_TempSensors))
    {
      Serial.println("Unable to find sensor.");
      goto cleanup;
    }
    //Found the sensor we wanted, get the temperature data   
    
-   if(INVALID_DATA == g_PrimarySensor->RetrieveTemperatureFromSensor(g_TempSensors))
+   if(INVALID_DATA == g_InternalFermentorSensor->RetrieveTemperatureFromSensor(g_TempSensors))
    {  
      Serial.println("Unable to get temperature data for primary sensor.");
      goto cleanup;
@@ -233,10 +237,10 @@ cleanup:
 
    //Got the one we need.  The rest are secondary
    retVal = true;
-   if(true == g_AmbientExternalSensor->DoesSensorExist(g_TempSensors))
+   if(true == g_ExternalFermentorSensor->DoesSensorExist(g_TempSensors))
    {
      //Get the temperature
-     g_AmbientExternalSensor->RetrieveTemperatureFromSensor(g_TempSensors);
+     g_ExternalFermentorSensor->RetrieveTemperatureFromSensor(g_TempSensors);
    }
    
    if(true == g_AmbientInternalSensor->DoesSensorExist(g_TempSensors))
@@ -266,7 +270,7 @@ cleanup:
  void AdjustPrimaryTemperature()
  {
    //We care most about the primary temperature.  This is the temperature we want to control
-   TempInRange adjustment = g_PrimarySensor->ShouldBeginTemperatureAdjustment();
+   TempInRange adjustment = g_InternalFermentorSensor->ShouldBeginTemperatureAdjustment();
    
    if(TOO_HOT == adjustment)
    {
@@ -331,7 +335,7 @@ cleanup:
        if(true == g_Heating->IsOn())
        {
            //Heating, see if we're at the target
-           if(true == g_PrimarySensor->HaveHitTemperatureTarget(false))
+           if(true == g_InternalFermentorSensor->HaveHitTemperatureTarget(false))
            {
                //We've hit our goal.  See if we can turn it off
                if(false == g_Heating->TurnOff())
@@ -345,7 +349,7 @@ cleanup:
        if(true == g_Cooling->IsOn())
        {
            //Cooling, see if we're at the target
-           if(true == g_PrimarySensor->HaveHitTemperatureTarget(true))
+           if(true == g_InternalFermentorSensor->HaveHitTemperatureTarget(true))
            {
                //See if we can turn of the cooling
                if(false == g_Cooling->TurnOff())
