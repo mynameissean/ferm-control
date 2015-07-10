@@ -1,0 +1,6 @@
+<h1>{{ beer.name }} Data Options</h1>
+<form action="{% url 'beerviewer:beerDetailChooser' beer.name %}" method="post">
+{% csrf_token %}
+{{ form }}
+<input type="submit" value="Display" />
+</form>
