@@ -47,7 +47,8 @@ class CSVWriter(DataWriter):
         DataWriter.__init__(self)
         #For now, we'll be using CSV files
         #Prepare our stream writer
-        self.m_CSVFile = open("/home/pi/data/readings.csv", "wb");
+    
+        self.m_CSVFile = open("/home/pi/data/readings.csv", "a");
         self.m_CSVWriter = csv.writer(self.m_CSVFile);
         
 
