@@ -251,10 +251,10 @@ cleanup:
      
 #ifdef _DEBUG
    //Print out the temperature
-   Serial.print("Primary Temperature: ");
-   Serial.println(g_PrimarySensor->GetTemperature());
-   Serial.print("Ambient Extneral Temperature: ");
-   Serial.println(g_AmbientExternalSensor->GetTemperature());
+   Serial.print("Internal Fermentor Temperature: ");
+   Serial.println(g_InternalFermentorSensor->GetTemperature());
+   Serial.print("Extneral Fermentor Temperature: ");
+   Serial.println(g_ExternalFermentorSensor->GetTemperature());
    Serial.print("Ambient Internal Temperature: ");
    Serial.println(g_AmbientInternalSensor->GetTemperature());
 #endif
