@@ -23,7 +23,7 @@ class DatabaseWriter(DataWriter):
     def __init__(self):
         #For now, do nothing
         DataWriter.__init__(self)
-        self.db = MySQLdb.connect(read_default_file='~/.my.cnf') # name of the data base
+        self.db = MySQLdb.connect(read_default_file='/home/pi/.my.cnf') # name of the data base
 
         # you must create a Cursor object. It will let
         #  you execute all the queries you need

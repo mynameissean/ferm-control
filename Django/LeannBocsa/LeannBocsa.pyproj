@@ -21,6 +21,7 @@
     <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ArduinoReader.py" />
     <Compile Include="beerviewer\admin.py" />
     <Compile Include="beerviewer\forms.py" />
     <Compile Include="beerviewer\migrations\__init__.py" />
@@ -29,6 +30,7 @@
     <Compile Include="beerviewer\urls.py" />
     <Compile Include="beerviewer\views.py" />
     <Compile Include="beerviewer\__init__.py" />
+    <Compile Include="DataWriter.py" />
     <Compile Include="LeannBocsa\settings.py" />
     <Compile Include="LeannBocsa\urls.py" />
     <Compile Include="LeannBocsa\wsgi.py" />

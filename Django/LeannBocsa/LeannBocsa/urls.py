@@ -43,3 +43,9 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     
 )
+
+#if settings.DEBUG:
+#    import debug_toolbar
+#    urlpatterns += patterns('',
+#        url(r'^debug/', include(debug_toolbar.urls)),
+#    )
