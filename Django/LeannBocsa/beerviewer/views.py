@@ -8,11 +8,11 @@ import datetime
 
 # Create your views here.
 import os
-os.environ['MPLCONFIGDIR'] = '/home/pi/data'
+os.environ['MPLCONFIGDIR'] = '/home/sean/data'
 from django.http import HttpResponse
 #import numpy as np  # (*) numpy for math functions and arrays
 import matplotlib
-
+matplotlib.use('Agg')
 from matplotlib import pyplot as plt
 #import cStringIO
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
