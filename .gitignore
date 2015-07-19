@@ -31,4 +31,3 @@ Arduino/Simple_Ferm_Chamber/Visual Micro/.Simple_Ferm_Chamber.vsarduino.h
 Arduino/Simple_Ferm_Chamber/Visual Micro/Configuration.Debug.vmps.xml
 Arduino/Simple_Ferm_Chamber/Visual Micro/Compile.vmps.xml
 *.suo
-*.pyc
