@@ -13,8 +13,8 @@
  * external software program.  It only sends output out to the 
  * wire for monitoring purposes.
  */
-//#undef _DEBUG
-#define _DEBUG
+#undef _DEBUG
+//#define _DEBUG
 int TempReadPin = 3;
 int CoolingRelayPin = 4;
 int CoolingDisplayPin = 5;
@@ -42,7 +42,7 @@ Communicator* m_Communicator = NULL;
 
 //Setup values
 float g_PrimaryTemperatureBand = 1.3;
-float g_PrimaryTargetTemperature = 68;
+float g_PrimaryTargetTemperature = 80;
 unsigned long g_CompressorRunTime = 30000; //30 Seconds
 unsigned long g_CompressorOffTime = 240000; //4 Minutes
 unsigned long g_HeatingOffTime = 300000;    //5 Minutes
@@ -252,9 +252,9 @@ cleanup:
 #ifdef _DEBUG
    //Print out the temperature
    Serial.print("Primary Temperature: ");
-   Serial.println(g_PrimarySensor->GetTemperature());
+   Serial.println(g_InternalFermentorSensor->GetTemperature());
    Serial.print("Ambient Extneral Temperature: ");
-   Serial.println(g_AmbientExternalSensor->GetTemperature());
+   Serial.println(g_ExternalFermentorSensor->GetTemperature());
    Serial.print("Ambient Internal Temperature: ");
    Serial.println(g_AmbientInternalSensor->GetTemperature());
 #endif
