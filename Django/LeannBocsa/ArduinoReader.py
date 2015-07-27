@@ -7,7 +7,7 @@ import time
 from serial.serialutil import SerialException
 import DataWriter
 import sys
- 
+from django.utils import timezone
 g_FailureThreshold = 5
 
 class ArduinoReader(threading.Thread):
@@ -135,7 +135,7 @@ def main():
             time.sleep(5)
             if reader.IsValid():
                 #Save our data off to the database
-                x = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')
+                x = timezone.now().strftime('%Y-%m-%d %H:%M:%S.%f')
                 writer.writeData([x, reader.m_Primary, reader.m_Heating, reader.m_Cooling])
                 print "Added time at " + str(x)
         print "All done"
