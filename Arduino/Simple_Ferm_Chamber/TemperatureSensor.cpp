@@ -100,13 +100,24 @@ void TemperatureSensor::SetTemperatureBand(float TempBand)
      
      //Send the 0x44 command, which is the convert command
      Sensors.write(0x44);
+
+	 //TODO: Can only do this when not in parasitic power mode
+	 while(Sensors.read() == 0) 
+	 {
+		 //Chill for 5 ms to see if it's all done
+		 delay(5);
+	 }
+
+	 //TODO: This might not be needed for non-parasite powered sensors
      if(0 == Sensors.reset())
      {
        Serial.println("Unable to reset the bus after converting temperature");
        goto cleanup;
      }
      Sensors.select(m_SensorAddress);
-     
+	 
+	 
+
      //Send the 0xBE command, which is read the scratchpad
      Sensors.write(0xBE);     
      
