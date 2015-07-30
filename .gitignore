@@ -32,3 +32,4 @@ Arduino/Simple_Ferm_Chamber/Visual Micro/Configuration.Debug.vmps.xml
 Arduino/Simple_Ferm_Chamber/Visual Micro/Compile.vmps.xml
 *.suo
 *.pyc
+Django/LeannBocsa/beerviewer/static/bower_components
