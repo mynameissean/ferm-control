@@ -1,8 +1,22 @@
 {
   "name": "LeannBocsa",
   "version": "0.1.0",
+  "authors": [
+    "Sean Davis"
+  ],
+  "ignore": [],
   "dependencies": {
     "jquery": "~2.1.4",
-    "bootstrap": "~3.3.5"
+    "bootstrap": "~3.3.5",
+    "datatables": "~1.10.7",
+    "datatables-plugins": "~1.10.7",
+    "flot": "~0.8.3",
+    "font-awesome": "~4.4.0",
+    "holderjs": "~2.8.1",
+    "metisMenu": "~2.0.3",
+    "morrisjs": "~0.5.1",
+    "datatables-responsive": "~1.0.6",
+    "bootstrap-social": "~4.9.1",
+    "flot.tooltip": "~0.8.5"
   }
 }

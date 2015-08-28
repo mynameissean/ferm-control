@@ -5,9 +5,12 @@ import MySQLdb
 from .models import Readings, Beer, TemperatureProfile
 from .forms import GranularityForm
 import datetime
+import time
+#from datetime import datetime, timedelta
 
 # Create your views here.
 import os
+from decimal import Decimal
 os.environ['MPLCONFIGDIR'] = '/home/sean/data'
 from django.http import HttpResponse
 #import numpy as np  # (*) numpy for math functions and arrays
@@ -19,13 +22,15 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 
 from django.template import RequestContext, loader
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, render_to_response
 from django.http import Http404
 from django.views import generic
+from django.utils import timezone
 
 class IndexView(generic.ListView):
     template_name = 'beerviewer/index.html'
     context_object_name = 'reading_list'
+    
 
     def get_queryset(self):
         return Beer.objects.order_by('-id')
@@ -37,7 +42,7 @@ class IndexView(generic.ListView):
 #        'reading_list': reading_list,
 #    })
 #    return render(request, 'reader/index.html', context)
-
+records_per_minute = 12
 def status(request):
     f = open("/home/pi/data/readings.csv", 'r')    
     return HttpResponse("The data is : " +  "<br />".join(f.read().split("\n")))
@@ -99,7 +104,7 @@ def beerDetailChooser(request, beerName):
             end_time = beer.end_time
             if not end_time:
                 #Not defined, use right now
-                end_time = datetime.datetime.utcnow            
+                end_time = datetime.datetime.utcnow()
             form = GranularityForm(initial={'end_time' : end_time,
                                             'start_time' : beer.start_time})
 
@@ -116,7 +121,7 @@ def feed(request, beerName):
     return render(request, 'beerviewer/feed.html')
 
 def generateGraphWithRange(beer, minutes, start, end):
-    records = Readings.objects.mod(start, end, 12*minutes)
+    records = Readings.objects.mod(start, end, records_per_minute*minutes)
     #output = "Found " + str(records.count()) + " records in the table"
     dates  = []        
     primarytemp = []
@@ -151,7 +156,12 @@ def generateGraphWithRange(beer, minutes, start, end):
             cooling_start = -1;
         #mintemp.append(min)
         #maxtemp.append(max)
-    
+    #See if we have an ongoing event
+    if(cooling_start != -1):
+            #Append a new end
+            colorings.append([matplotlib.dates.date2num(cooling_start), matplotlib.dates.date2num(end), 'b', .5])
+    if(heat_start != -1):
+            colorings.append([matplotlib.dates.date2num(heat_start), matplotlib.dates.date2num(end), 'r', .5])
     m_dates = matplotlib.dates.date2num(dates)
     ax.plot_date(m_dates, primarytemp, 'b-', label="Internal")        
     #Colorize our graph data with pretty bars
@@ -226,11 +236,222 @@ def beer(request, beerName):
     if(beer):
         output = "Found a beer by " + beerName
         #Now that we have a valid beer object, get the start and end date
-        return generateGraph(beer, 5)
-        #sio = cStringIO.StringIO()
-        #fig.savefig(sio, format='png')
-        # delete figure to prevent memory leaks!
-        #fig.clf()
-        #plt.close()
-        #return HttpResponse(sio.getvalue(), content_type="image/png")
+        return generateGraph(beer, 5)      
     return HttpResponse(output)
+
+from django.shortcuts     import redirect
+from django.views.generic import ListView
+from beerviewer.models   import Color
+ 
+MIN_SEARCH_CHARS = 2
+
+
+class ColorList(ListView):
+    """
+    Displays all colors in a table with only two columns: the name
+    of the color, and a "like/unlike" button.
+    """
+    model = Color
+    context_object_name = "colors"
+    template_name = 'beerviewer/color_list.html'    
+
+    def dispatch(self, request, *args, **kwargs):
+        return super(ColorList, self).dispatch(request, *args, **kwargs)
+ 
+    def get_queryset(self):
+        """
+        This returns the all colors, for display in the main table.
+ 
+        The search result query set, if any, is passed as context.
+        """
+        return  super(ColorList, self).get_queryset()
+ 
+    def get_context_data(self, **kwargs):
+        #Get the current context.
+        context = super(ColorList, self).get_context_data(**kwargs)
+ 
+        context["MIN_SEARCH_CHARS"] = MIN_SEARCH_CHARS
+ 
+        return  context
+ 
+def submit_color_search_from_ajax(request):
+    """
+    Processes a search request, ignoring any where less than two
+    characters are provided. The search text is both trimmed and
+    lower-cased.
+ 
+    See <link to MIN_SEARCH_CHARS>
+    """
+ 
+    colors = []  #Assume no results.
+ 
+    global  MIN_SEARCH_CHARS
+ 
+    search_text = ""   #Assume no search
+    if(request.method == "GET"):
+        search_text = request.GET.get("color_search_text", "").strip().lower()
+        if(len(search_text) < MIN_SEARCH_CHARS):
+            """
+            Ignore the search. This is also validated by
+            JavaScript, and should never reach here, but remains
+            as prevention.
+            """
+            search_text = ""
+ 
+    #Assume no results.
+    #Use an empty list instead of None. In the template, use
+    #   {% if color_search_results.count > 0 %}
+    color_results = []
+ 
+    if(search_text != ""):
+        color_results = Color.objects.filter(name__contains=search_text)
+ 
+    #print('search_text="' + search_text + '", results=' + str(color_results))
+ 
+    context = {
+        "search_text": search_text,
+        "color_search_results": color_results,
+        "MIN_SEARCH_CHARS": MIN_SEARCH_CHARS,
+    };
+ 
+    return  render_to_response("beerviewer/color_search_results__html_snippet.txt",
+                               context)
+
+def toggle_color_like(request, color_id):
+    """Toggle "like" for a single color, then refresh the color-list page."""
+    color = None
+    try:
+        #There's only one object with this id, but this returns a list
+        #of length one. Get the first (index 0)
+        color = Color.objects.filter(id=color_id)[0]
+    except Color.DoesNotExist as e:
+        raise  ValueError("Unknown color.id=" + str(color_id) + ". Original error: " + str(e))
+ 
+    #print("pre-toggle:  color_id=" + str(color_id) + ", color.is_favorited=" + str(color.is_favorited) + "")
+ 
+    color.is_favorited = not color.is_favorited
+    color.save()  #Commit the change to the database
+ 
+    #print("post-toggle: color_id=" + str(color_id) + ", color.is_favorited=" + str(color.is_favorited) + "")
+ 
+    #return  redirect("beerviewer:color_list")  #See urls.py
+    return  render_to_response("beerviewer/color_like_link__html_snippet.txt",
+                            {"color": color})
+
+def bootstrap(request):
+    return render_to_response("beerviewer/bootstrap.html")
+
+def status(request):
+    beernames = []
+    #Get the names of our currently running beers
+    for beer in Beer.objects.filter(end_time__isnull=True):
+        beernames.append(str(beer.name));
+
+    #beerJson = [{"beers":beernames}];
+    
+    #Get a minigraph of the last hour of data
+
+    #Get the current heater/cooling status and how long it's been on
+    timeChanged = getCurrentOperation()
+
+    context = {
+        "beers": beernames,
+        "timechanged": timeChanged,
+     #   "options": options,
+        };
+    return render_to_response("beerviewer/status.html", context)
+
+#Look at what's currently happening with the heating and cooling, and determine how
+#long it's been doing it for
+#TODO: Don't look at every record, look at every 20th record or something
+def getCurrentOperation():
+    #Find out what's the current state of things by getting the most recent
+    #temperature reading
+    latest = Readings.objects.latest('timestamp')
+
+    
+    records = Readings.objects.order_by('-timestamp')[:records_per_minute*60*24]
+    changedTime = ''
+    retVal = ''
+    if(latest.heater_state == 1):
+        #Heating on, build the last 4 hours of heating data        
+        retVal = "Heating "
+        for curt in records:
+            #Search for the last change
+            if(curt.heater_state == 0):
+                #Found it
+                changedTime = time.gmtime(time.mktime(curt.timestamp.timetuple()) * 1000)
+                break
+    elif(latest.cooling_state == 1):
+        #Cooling on, build the last 4 hours of cooling data
+        retVal = "Cooling " 
+        for curt in records:
+           #Search for the last change
+           if(curt.cooling_state == 0):
+                #Found it
+                #changedTime = time.gmtime(time.mktime(curt.timestamp.timetuple()) * 1000)
+                changedTime = curt.timestamp
+                break
+    else:
+        #Neither, sitting idle.  Build the last 4 hours of idle data
+        retVal = "Neutral "         
+        for curt in records:        
+            #Search for the last change
+            if(curt.cooling_state == 1 or curt.heater_state == 1):
+                #Found it
+                #changedTime = time.gmtime(time.mktime(curt.timestamp.timetuple()) * 1000)        
+                changedTime = curt.timestamp
+                break
+    
+    if(changedTime):
+        #We found a time
+        timedelta = datetime.datetime.utcnow() - changedTime.replace(tzinfo=None)
+        if(timedelta.seconds // 3600 > 0):
+            retVal += " for %d hours, %d minutes" % (timedelta.seconds // 3600, (timedelta.seconds // 60) % 60)
+        else:
+            retVal += " for %d minutes, %d overall" % ((timedelta.seconds // 60) % 60, timedelta.seconds)
+        retVal += " But " + str(datetime.datetime.utcnow()) + " ---- " + str(changedTime.replace(tzinfo=None))
+    else:
+        retVal += " for over 24 hours"
+    
+    return retVal;
+
+def flot_test(request):
+    #Now that we have a valid beer object, get the start and end date
+    beer = ""
+    output = ""
+    beerName = "Ol' Rasputin"
+    try:
+        beer = Beer.objects.get(name=beerName)
+    except Beer.DoesNotExist:
+        output = "No beer " + beerName + " found";
+    except MultipleObjectsReturned:
+        output = "More than one beer " + beerName + " found";
+    if(beer):
+        output = "Found a beer by " + beerName
+        #Now that we have a valid beer object, get the start and end date   
+    start = beer.start_time;
+    end = beer.end_time;
+    
+    if end is None:
+        #No end date.  Use the current time
+        end = datetime.datetime.utcnow()
+    records = Readings.objects.mod(start, end, records_per_minute*5)
+    recordData = [];
+    for curt in records:
+        #timestamp = (curt[0] - datetime.datetime(1970, 1, 1)).total_seconds()
+        recordData.append([time.mktime(curt[0].timetuple()) * 1000, str(curt[1])]);
+        
+    data = [{"data":recordData}];
+    #options = {
+    #    series: {stack: 0,
+    #             lines: {show: false, steps: false },
+    #             bars: {show: true, barWidth: 0.9, align: 'center',},},
+    #    xaxis: {ticks: [[1,'One'], [2,'Two'], [3,'Three'], [4,'Four'], [5,'Five']]},
+    #};
+    context = {
+        "series_json": data,
+     #   "options": options,
+        };
+    return  render_to_response("beerviewer/flot_test.html",
+                               context)

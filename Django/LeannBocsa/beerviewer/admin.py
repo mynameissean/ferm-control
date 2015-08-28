@@ -32,3 +32,4 @@ class TemperatureProfileAdmin(admin.ModelAdmin):
 admin.site.register(models.Readings, ReadingsAdmin)
 admin.site.register(models.Beer, BeerAdmin)
 admin.site.register(models.TemperatureProfile, TemperatureProfileAdmin)
+admin.site.register(models.Color);
