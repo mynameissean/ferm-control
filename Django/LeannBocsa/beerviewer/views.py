@@ -11,6 +11,7 @@ import time
 # Create your views here.
 import os
 from decimal import Decimal
+from datetime import timedelta
 os.environ['MPLCONFIGDIR'] = '/home/sean/data'
 from django.http import HttpResponse
 #import numpy as np  # (*) numpy for math functions and arrays
@@ -43,9 +44,9 @@ class IndexView(generic.ListView):
 #    })
 #    return render(request, 'reader/index.html', context)
 records_per_minute = 12
-def status(request):
-    f = open("/home/pi/data/readings.csv", 'r')    
-    return HttpResponse("The data is : " +  "<br />".join(f.read().split("\n")))
+#def status(request):
+#    f = open("/home/pi/data/readings.csv", 'r')    
+#    return HttpResponse("The data is : " +  "<br />".join(f.read().split("\n")))
     #return HttpResponse("You got to the status data bro!")
 
 def getLatestBeer(request):
@@ -120,8 +121,13 @@ def beerDetailChooser(request, beerName):
 def feed(request, beerName):
     return render(request, 'beerviewer/feed.html')
 
-def generateGraphWithRange(beer, minutes, start, end):
-    records = Readings.objects.mod(start, end, records_per_minute*minutes)
+def generateGraphWithRange(beer, 
+                           granularity, 
+                           start, 
+                           end,
+                           xwidth=20,
+                           ywidth=12):
+    records = Readings.objects.mod(start, end, records_per_minute*granularity)
     #output = "Found " + str(records.count()) + " records in the table"
     dates  = []        
     primarytemp = []
@@ -130,7 +136,7 @@ def generateGraphWithRange(beer, minutes, start, end):
     heat_start = -1
     cooling_start = -1
     
-    fig = plt.figure(figsize=(20,12), dpi=80)
+    fig = plt.figure(figsize=(xwidth,ywidth), dpi=80)
     ax = fig.add_subplot(111)
     colorings = []
     for curt in records:
@@ -168,27 +174,28 @@ def generateGraphWithRange(beer, minutes, start, end):
     for row in colorings:
         plt.axvspan(row[0], row[1], facecolor=row[2], alpha=row[3])
     
-    #Plot in our ideal temperatures
-    records = TemperatureProfile.objects.filter(beer=beer)
-    dates = []
-    ideal = []
+    #Plot in our ideal temperatures, if we have one
+    if(beer):
+        records = TemperatureProfile.objects.filter(beer=beer)
+        dates = []
+        ideal = []
 
-    for curt in records:
-        #Go through and pull out or times and temps
-        time = curt.start_time
-        if(time):
-            #We have a starting point
-            #TODO: Someone could put a wrong time in here before our graph started
-            dates.append(matplotlib.dates.date2num(time))
-        else:
-            #Don't, have to use the starting point of the beer
-            dates.append(m_dates[0])
-        ideal.append(curt.temperature)
-    if(dates and ideal):
-        #Put in the last end point so we can draw our lines
-        dates.append(m_dates[-1])
-        ideal.append(ideal[-1])
-        ax.plot_date(dates, ideal, 'r--', label="Target")
+        for curt in records:
+            #Go through and pull out or times and temps
+            time = curt.start_time
+            if(time):
+                #We have a starting point
+                #TODO: Someone could put a wrong time in here before our graph started
+                dates.append(matplotlib.dates.date2num(time))
+            else:
+                #Don't, have to use the starting point of the beer
+                dates.append(m_dates[0])
+            ideal.append(curt.temperature)
+        if(dates and ideal):
+            #Put in the last end point so we can draw our lines
+            dates.append(m_dates[-1])
+            ideal.append(ideal[-1])
+            ax.plot_date(dates, ideal, 'r--', label="Target")
 
     #Put in our legend
     #red_patch = mpatches.Patch(color='red', label='The red data')
@@ -341,24 +348,46 @@ def toggle_color_like(request, color_id):
 def bootstrap(request):
     return render_to_response("beerviewer/bootstrap.html")
 
+def simple(request):
+    return generateGraphWithRange("", 
+                                  5, 
+                                  (datetime.datetime.utcnow() - timedelta(days=1)), datetime.datetime.utcnow(), 
+                                  xwidth=10, 
+                                  ywidth=6);
+
 def status(request):
     beernames = []
     #Get the names of our currently running beers
     for beer in Beer.objects.filter(end_time__isnull=True):
-        beernames.append(str(beer.name));
+        beernames.append(str(beer.name))
 
-    #beerJson = [{"beers":beernames}];
+    #See if we're still getting updates
+    latest = Readings.objects.latest('timestamp')   
+    timeSinceLastUpdate = 0 
+    if(latest):        
+        timeSinceLastUpdate = (datetime.datetime.utcnow() - latest.timestamp.replace(tzinfo=None)).total_seconds()                
     
-    #Get a minigraph of the last hour of data
-
+    #Get a minigraph of the last day of data
+    records = Readings.objects.mod((datetime.datetime.utcnow() - timedelta(days=1)),
+                                   datetime.datetime.utcnow(), 
+                                   records_per_minute*5)
+    recordData = [];
+    for curt in records:
+        #timestamp = (curt[0] - datetime.datetime(1970, 1, 1)).total_seconds()
+        recordData.append([time.mktime(curt[0].timetuple()) * 1000, str(curt[1])]);
+        
+    data = [{"data":recordData}];
+  
+        
     #Get the current heater/cooling status and how long it's been on
     timeChanged = getCurrentOperation()
 
     context = {
         "beers": beernames,
-        "timechanged": timeChanged,
-     #   "options": options,
+        "series_json": data,
+        "last_update": timeSinceLastUpdate,
         };
+    context.update(timeChanged)
     return render_to_response("beerviewer/status.html", context)
 
 #Look at what's currently happening with the heating and cooling, and determine how
@@ -372,19 +401,20 @@ def getCurrentOperation():
     
     records = Readings.objects.order_by('-timestamp')[:records_per_minute*60*24]
     changedTime = ''
-    retVal = ''
+    retVal = {};
+    
     if(latest.heater_state == 1):
         #Heating on, build the last 4 hours of heating data        
-        retVal = "Heating "
+        retVal['State'] = "Heating"
         for curt in records:
             #Search for the last change
             if(curt.heater_state == 0):
                 #Found it
-                changedTime = time.gmtime(time.mktime(curt.timestamp.timetuple()) * 1000)
+                changedTime = curt.timestamp
                 break
     elif(latest.cooling_state == 1):
         #Cooling on, build the last 4 hours of cooling data
-        retVal = "Cooling " 
+        retVal['State'] = "Cooling" 
         for curt in records:
            #Search for the last change
            if(curt.cooling_state == 0):
@@ -394,7 +424,7 @@ def getCurrentOperation():
                 break
     else:
         #Neither, sitting idle.  Build the last 4 hours of idle data
-        retVal = "Neutral "         
+        retVal['State'] = "Stable"
         for curt in records:        
             #Search for the last change
             if(curt.cooling_state == 1 or curt.heater_state == 1):
@@ -407,12 +437,11 @@ def getCurrentOperation():
         #We found a time
         timedelta = datetime.datetime.utcnow() - changedTime.replace(tzinfo=None)
         if(timedelta.seconds // 3600 > 0):
-            retVal += " for %d hours, %d minutes" % (timedelta.seconds // 3600, (timedelta.seconds // 60) % 60)
+            retVal['Time'] = "%d hours, %d minutes" % (timedelta.seconds // 3600, (timedelta.seconds // 60) % 60)
         else:
-            retVal += " for %d minutes, %d overall" % ((timedelta.seconds // 60) % 60, timedelta.seconds)
-        retVal += " But " + str(datetime.datetime.utcnow()) + " ---- " + str(changedTime.replace(tzinfo=None))
+            retVal['Time']= "%d minutes" % ((timedelta.seconds // 60) % 60)        
     else:
-        retVal += " for over 24 hours"
+        retVal['Time'] = "over 24 hours"
     
     return retVal;
 

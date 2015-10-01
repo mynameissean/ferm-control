@@ -16,4 +16,5 @@ urlpatterns = [
     url(r"^bootstrap/$", views.bootstrap, name="bootstrap"),
     url(r"^flot_test/$", views.flot_test, name="flot_test"),
     url(r"^status/$", views.status, name="status"),
+    url(r"^status/simple.png$", views.simple, name="simple"),
 ]
