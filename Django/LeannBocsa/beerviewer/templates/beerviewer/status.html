@@ -31,14 +31,15 @@
             <div class="row">
                 <div id="beers" class="col-lg-2 col-md-4">
                     <div class="panel panel-default">
-                        <div class="panel-heading">Being Brewed</div>
+                        <div class="panel-heading">Fermenting</div>
                         <div class="panel-body">{% for beer in beers %}
 	                         {{beer}}<br />
                             {% endfor %}
                         </div>
                     </div>
                 </div>
-                <div id="dynamic-panel" class="col-lg-2 col-md-4">
+                <script type="text/javascript" src="{% static 'beerviewer_static/js/bootstrap-helpers.js' %}"></script>
+                <div id="chamber-state" class="col-lg-2 col-md-4">
                     <script type="text/javascript"> 
                         
                         var panel = document.createElement("div");
@@ -57,22 +58,10 @@
                                 panel.setAttribute("class", "panel panel-danger");
                                 break;
                         }
-                        //Add our panel content
-                        var header = document.createElement("div");
-                        header.setAttribute("class", "panel-heading");
-                        header.appendChild(document.createTextNode("Chamber State: {{ State }}"));
-                        panel.appendChild(header);
-
-                        var body = document.createElement("div");
-                        body.setAttribute("class", "panel-body");
-                        body.appendChild(document.createTextNode("{{ Time }}"));
-                        panel.appendChild(body);
-
-                        var parent = document.getElementById("dynamic-panel");
-                        parent.appendChild(panel);
+                        addDynamicPanel("chamber-state", "Chamber State: {{ State }}", "{{ Time }}");                        
                     </script>            
                     </div>
-                    <div id="div2" class="col-lg-2 col-md-4">
+                    <div id="last-updated" class="col-lg-2 col-md-4">
                         <script type="text/javascript"> 
                             var panel = document.createElement("div");
                             panel.setAttribute("class", "panel panel-default");
@@ -96,20 +85,8 @@
                                 //If we're more than 20 minutes overdue for an update, change the panel
                                 panel.setAttribute("class", "panel panel-danger");
                             }
-
                             //Add our panel content
-                            var header = document.createElement("div");
-                            header.setAttribute("class", "panel-heading");
-                            header.appendChild(document.createTextNode("Last Updated"));
-                            panel.appendChild(header);
-
-                            var body = document.createElement("div");
-                            body.setAttribute("class", "panel-body");
-                            body.appendChild(document.createTextNode(output));
-                            panel.appendChild(body);
-
-                            var parent = document.getElementById("div2");
-                            parent.appendChild(panel);
+                            addDynamicPanel("last-updated", "Last Updated", output);                                                                
                         </script>
                     </div>
                 </div>

@@ -380,7 +380,7 @@ def status(request):
   
         
     #Get the current heater/cooling status and how long it's been on
-    timeChanged = getCurrentOperation()
+    timeChanged = getCurrentOperation(latest)
 
     context = {
         "beers": beernames,
@@ -392,11 +392,12 @@ def status(request):
 
 #Look at what's currently happening with the heating and cooling, and determine how
 #long it's been doing it for
+#<param name="latest">The most recent row in the readings table</param>
 #TODO: Don't look at every record, look at every 20th record or something
-def getCurrentOperation():
+def getCurrentOperation(latest):
     #Find out what's the current state of things by getting the most recent
     #temperature reading
-    latest = Readings.objects.latest('timestamp')
+    
 
     
     records = Readings.objects.order_by('-timestamp')[:records_per_minute*60*24]
