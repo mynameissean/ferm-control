@@ -36,8 +36,8 @@ class DatabaseWriter(DataWriter):
 
     def writeData(self, iteratorable):        
         #We don't care about the timestamp.  The database instance will set it
-        self.cur.execute('''INSERT into beerviewer_readings (primary_temp, heater_state, cooling_state)
-                  values (%s, %s, %s)''',
+        self.cur.execute('''INSERT into beerviewer_readings (timestamp, primary_temp, heater_state, cooling_state)
+                  values (UTC_TIMESTAMP(), %s, %s, %s)''',
                   (iteratorable[1], iteratorable[2], iteratorable[3]))
         self.db.commit()
         pass
