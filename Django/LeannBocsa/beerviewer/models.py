@@ -18,7 +18,7 @@ class ReadingsManager(models.Manager):
         return cursor.fetchall()
 
 class Readings(models.Model):
-    timestamp = models.DateTimeField(db_index=True)
+    timestamp = models.DateTimeField(db_index=True, auto_now_add=True)
     primary_temp = models.DecimalField(verbose_name = 'primary temperature', decimal_places = 3, max_digits = 6)
     heater_state = models.BooleanField()
     cooling_state = models.BooleanField()
