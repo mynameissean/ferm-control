@@ -40,7 +40,22 @@
   <ItemGroup>
     <Folder Include="beerviewer" />
     <Folder Include="beerviewer\migrations" />
+    <Folder Include="beerviewer\templates\" />
+    <Folder Include="beerviewer\templates\beerviewer\" />
     <Folder Include="LeannBocsa" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="beerviewer\templates\beerviewer\bootstrap.html" />
+    <Content Include="beerviewer\templates\beerviewer\color_like_link__html_snippet.txt" />
+    <Content Include="beerviewer\templates\beerviewer\color_list.html" />
+    <Content Include="beerviewer\templates\beerviewer\color_list.html.original" />
+    <Content Include="beerviewer\templates\beerviewer\color_search_results__html_snippet.txt" />
+    <Content Include="beerviewer\templates\beerviewer\detailchooser.html" />
+    <Content Include="beerviewer\templates\beerviewer\feed.html" />
+    <Content Include="beerviewer\templates\beerviewer\flot_test.html" />
+    <Content Include="beerviewer\templates\beerviewer\flot_test.js" />
+    <Content Include="beerviewer\templates\beerviewer\index.html" />
+    <Content Include="beerviewer\templates\beerviewer\status.html" />
   </ItemGroup>
   <Import Project="$(PtvsTargetsFile)" Condition="Exists($(PtvsTargetsFile))" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="!Exists($(PtvsTargetsFile))" />

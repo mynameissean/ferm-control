@@ -10,7 +10,7 @@
 
     <!-- Bootstrap -->
     <link href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
-
+    <link href="{% static 'beerviewer_static/dist/css/sb-admin-2.css' %}" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -33,7 +33,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">Fermenting</div>
                         <div class="panel-body">{% for beer in beers %}
-	                         {{beer}}<br />
+	                         <a href="{% url 'beerviewer:getSpecificBeer' beer %}">{{beer}}</a><br />
                             {% endfor %}
                         </div>
                     </div>
@@ -58,7 +58,7 @@
                                 panel.setAttribute("class", "panel panel-danger");
                                 break;
                         }
-                        addDynamicPanel("chamber-state", "Chamber State: {{ State }}", "{{ Time }}");                        
+                        addDynamicPanel("chamber-state", panel,  "Chamber State: {{ State }}", "{{ Time }}");                        
                     </script>            
                     </div>
                     <div id="last-updated" class="col-lg-2 col-md-4">
@@ -86,8 +86,10 @@
                                 panel.setAttribute("class", "panel panel-danger");
                             }
                             //Add our panel content
-                            addDynamicPanel("last-updated", "Last Updated", output);                                                                
+                            addDynamicPanel("last-updated", panel, "Last Updated", output);                                                                
                         </script>
+                    </div>
+                    <div id="temperature" class="col-lg-1 col-md-4">
                     </div>
                 </div>
             </div>
@@ -100,10 +102,8 @@
 <div id="linear-graph" style="width:640px;height:480px"></div>
 <script id="source" language="javascript" type="text/javascript">
 $(function () {
-    $.plot($("#linear-graph"), {{ series_json|safe }}, { xaxis: {mode: "time"}})
+    $.plot($("#linear-graph"), [{{ series_json|safe }}], { xaxis: {mode: "time"}, legend: {show: true}})
 });
 </script>
-
-
 </body>
 </html>

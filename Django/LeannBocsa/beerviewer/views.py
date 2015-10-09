@@ -376,7 +376,7 @@ def status(request):
         #timestamp = (curt[0] - datetime.datetime(1970, 1, 1)).total_seconds()
         recordData.append([time.mktime(curt[0].timetuple()) * 1000, str(curt[1])]);
         
-    data = [{"data":recordData}];
+    data = {"data": recordData, 'label': 'Temperature'};
   
         
     #Get the current heater/cooling status and how long it's been on
@@ -443,6 +443,10 @@ def getCurrentOperation(latest):
             retVal['Time']= "%d minutes" % ((timedelta.seconds // 60) % 60)        
     else:
         retVal['Time'] = "over 24 hours"
+
+    #Set what the current temperature is
+    if(latest):
+        retVal['Current_Temperature'] = latest.primary_temp
     
     return retVal;
 
