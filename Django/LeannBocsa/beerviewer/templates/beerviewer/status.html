@@ -102,7 +102,7 @@
 <div id="linear-graph" style="width:640px;height:480px"></div>
 <script id="source" language="javascript" type="text/javascript">
 $(function () {
-    $.plot($("#linear-graph"), [{{ series_json|safe }}], { xaxis: {mode: "time"}, legend: {show: true}})
+    $.plot($("#linear-graph"), [{{ series_json|safe }}], { xaxis: {mode: "time", timeformat: "%a %I%p"}, legend: {show: true}})
 });
 </script>
 </body>
