@@ -1,7 +1,7 @@
-function addDynamicPanel(Parent, Child, Header, Body)
-{ 
+function addDynamicPanel(Parent, Child, TypeOfPanel, Header, Body)
+{
 
-
+    Child.setAttribute("class", TypeOfPanel);
 	 //Add our panel content
 	var header = document.createElement("div");
 	header.setAttribute("class", "panel-heading");

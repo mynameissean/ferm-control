@@ -365,17 +365,18 @@ def status(request):
     latest = Readings.objects.latest('timestamp')   
     timeSinceLastUpdate = 0 
     if(latest):        
-        timeSinceLastUpdate = (datetime.datetime.utcnow() - latest.timestamp.replace(tzinfo=None)).total_seconds()                
+        #We don't care about microseconds.  Just get the actual integer seconds
+        timeSinceLastUpdate = int((datetime.datetime.utcnow() - latest.timestamp.replace(tzinfo=None)).total_seconds())                
     
     #Get a minigraph of the last day of data
     records = Readings.objects.mod((datetime.datetime.utcnow() - timedelta(days=1)),
                                    datetime.datetime.utcnow(), 
-                                   records_per_minute*5)
+                                   5)
     recordData = [];
     for curt in records:
         #timestamp = (curt[0] - datetime.datetime(1970, 1, 1)).total_seconds()
         recordData.append([time.mktime(curt[0].timetuple()) * 1000, str(curt[1])]);
-        
+    
     data = {"data": recordData, 'label': 'Temperature'};
   
         

@@ -39,71 +39,104 @@
                     </div>
                 </div>
                 <script type="text/javascript" src="{% static 'beerviewer_static/js/bootstrap-helpers.js' %}"></script>
+
                 <div id="chamber-state" class="col-lg-2 col-md-4">
-                    <script type="text/javascript"> 
-                        
+                    <script type="text/javascript">
+                        //See if we have an active fermentation
                         var panel = document.createElement("div");
-                        
-                        switch("{{ State }}") {
-                            case "Heating":
-                                panel.setAttribute("class", "panel panel-red");
-                                break;
-                            case "Cooling":
-                                panel.setAttribute("class", "panel panel-blue");
-                                break;
-                            case "Stable":
-                                panel.setAttribute("class", "panel panel-default");
-                                break;
-                            default:
-                                panel.setAttribute("class", "panel panel-danger");
-                                break;
-                        }
-                        addDynamicPanel("chamber-state", panel,  "Chamber State: {{ State }}", "{{ Time }}");                        
+                        {% if beers %}	                                                                                                        
+                            var typeOfPanel;
+                            switch("{{ State }}") {
+                                case "Heating":
+                                    typeOfPanel = "panel panel-red";
+                                    break;
+                                case "Cooling":
+                                    typeOfPanel = "panel panel-blue";
+                                    break;
+                                case "Stable":
+                                    typeOfPanel = "panel panel-default";
+                                    break;
+                                default:
+                                    typeOfPanel = "panel panel-danger";
+                                    break;
+                            }
+                            addDynamicPanel("chamber-state",
+                                            panel,
+                                            typeOfPanel,
+                                            "Chamber State: {{ State }}", 
+                                            "{{ Time }}");  
+                        {% else %}
+                            addDynamicPanel("chamber-state",
+                                            panel,
+                                            "panel panel-warning",
+                                            "No active fermentation",
+                                            "");                      
+                        {% endif %}
                     </script>            
                     </div>
                     <div id="last-updated" class="col-lg-2 col-md-4">
                         <script type="text/javascript"> 
                             var panel = document.createElement("div");
-                            panel.setAttribute("class", "panel panel-default");
+                            var typeOfPanel = "panel panel-default"                            
                             var time = {{ last_update|safe }};
                             var output = "";
+
+                            if(time > 60*60*24)
+                            {
+                                //Days.
+                                output = (time / (60*60*24)).toFixed(0) + " days, ";
+                            }
                             if(time > 60*60)
                             {
-                                //Hours, minutes, seconds
-                                output = (time / (60*60)).toFixed(0) + " hours, ";
+                                //Hours                                
+                                output += ((time / (60*60)) % 24).toFixed(0) + " hours, ";
                             }
                             if(time > 60)
                             {
+                                //Minutes
                                 output += ((time / 60) % 60).toFixed(0) + " minutes, ";
+                            }                            
+                            if(time % 60 != 0)
+                            {
+                                //Seconds
+                                output += (time % 60).toFixed(0) + " seconds ago";                            
                             }
-                            
-                            output += (time % 60).toFixed(0) + " second(s) ago";
-                            
                             
                             if(time > 60*20)
                             {
                                 //If we're more than 20 minutes overdue for an update, change the panel
-                                panel.setAttribute("class", "panel panel-danger");
+                                {% if beers %}	   
+                                    typeOfPanel = "panel panel-danger";
+                                {% endif %}
                             }
                             //Add our panel content
-                            addDynamicPanel("last-updated", panel, "Last Updated", output);                                                                
+                            addDynamicPanel("last-updated", 
+                                            panel, 
+                                            typeOfPanel, 
+                                            "Last Updated", 
+                                            output);                                                                
                         </script>
                     </div>
                     <div id="temperature" class="col-lg-1 col-md-4">
                     </div>
                 </div>
             </div>
-                          
-   <script type="text/javascript" src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
-  <script type="text/javascript" src="{% static 'bower_components/flot/jquery.flot.js' %}"></script>
-  <script type="text/javascript" src="{% static 'bower_components/flot/jquery.flot.stack.js' %}"></script>
-  <script type="text/javascript" src="{% static 'bower_components/flot/jquery.flot.time.js' %}"></script>
-<br><br>Graph for the last 24 hours of brewing:
-<div id="linear-graph" style="width:640px;height:480px"></div>
-<script id="source" language="javascript" type="text/javascript">
-$(function () {
-    $.plot($("#linear-graph"), [{{ series_json|safe }}], { xaxis: {mode: "time", timeformat: "%a %I%p"}, legend: {show: true}})
-});
-</script>
+ {% if series_json.data %}     
+    <!-- We have json data to display -->                     
+       <script type="text/javascript" src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
+      <script type="text/javascript" src="{% static 'bower_components/flot/jquery.flot.js' %}"></script>
+      <script type="text/javascript" src="{% static 'bower_components/flot/jquery.flot.stack.js' %}"></script>
+      <script type="text/javascript" src="{% static 'bower_components/flot/jquery.flot.time.js' %}"></script>
+      <br><br>Graph for the last 24 hours of brewing:
+      <div id="linear-graph" style="width:640px;height:480px"></div>
+          <script id="source" language="javascript" type="text/javascript">
+              $(function () {
+                  $.plot($("#linear-graph"), [{{ series_json|safe }}], { xaxis: {mode: "time", timeformat: "%a %I%p"}, legend: {show: true}})
+              });
+          </script>
+{% else %}
+    <!-- No JSON data, show an empty message -->
+    <br /><br />No data for the last 24 hours to display
+{% endif %}
 </body>
 </html>
