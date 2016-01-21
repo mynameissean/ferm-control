@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{14db3fe3-c437-4a3f-b647-f5194ced40cf}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>ArduinoReader.py</StartupFile>
+    <StartupFile>Start.py</StartupFile>
     <SearchPath />
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -21,8 +21,17 @@
     <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ArduinoReader.py" />
+    <Compile Include="ArduinoState.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Communicator.py" />
     <Compile Include="DataWriter.py" />
+    <Compile Include="Start.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ArduinoStateTest.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <Import Project="$(PtvsTargetsFile)" Condition="Exists($(PtvsTargetsFile))" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="!Exists($(PtvsTargetsFile))" />
