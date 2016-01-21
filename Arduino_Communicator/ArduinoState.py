@@ -1,5 +1,6 @@
 from __future__ import with_statement 
-import threading
+from threading import Lock
+import datetime
 
 class ArduinoState():
     m_CoolingState = ""
@@ -13,26 +14,28 @@ class ArduinoState():
 
     #With our line of input, update our objects within
     def UpdateState(self, line):  
+        bRetVal = False
         if line == None or line == "":
             print "Invalid line of data received.  Cannot be null."
-            return
+            return bRetVal
 
         list = line.split(":");
         #See if we have valid input
         if len(list) == 1 or len(list) > 2:
             #Invalid, need one colon
             print "Invalid line received: <%s>" % line
-            return
+            return bRetVal
         
         #Valid characters
         operator = list[0]
         value = list[1]
         #No need to lock the read/write of our values. Python says this is
         #thread safe        
-        if operator == None or value == None:
+        if operator == None or operator == "" or value == None or value == "":
             print "Invalid line received: <%s>" % line
-            return
+            return bRetVal
 
+        
         #remove trailing whitespace
         value = value.rstrip()
         operator = operator.rstrip()
@@ -44,24 +47,30 @@ class ArduinoState():
         #could have readers pulling at the same time
         with self.m_Lock:
             if operator.lower() == "internal":            
-                self.m_Primary = value                
+                self.m_PrimaryTemperature = value       
+                bRetVal = True         
             elif operator.lower() == "cooling":        
                 if value.lower() == "off":
-                    self.m_Cooling = 0
+                    self.m_CoolingState = 0
+                    bRetVal = True
                 else:
-                    self.m_Cooling = 1                   
+                    self.m_CoolingState = 1                   
+                    bRetVal = True
             elif operator.lower() == "heating":            
                 if value.lower() == "off":
-                    self.m_Heating = 0
+                    self.m_HeatingState = 0
+                    bRetVal = True
                 else:
-                    self.m_Heating = 1
+                    self.m_HeatingState = 1
+                    bRetVal = True
             else:
                 #Invalid command.  Don't update our time
+                print "Invalid command received <%s>" % operator
                 time = self.m_LastUpdateTime
             self.m_LastUpdateTime = time
 
         #Done updating, release the lock with the with statement
-        return
+        return bRetVal
 
     #See if we're valid.  A valid ArduinoReader has non null for heating, 
     #cooling, and temperature
@@ -75,7 +84,7 @@ class ArduinoState():
         #Lock the read state of the variables
         retVal = None
         with self.m_Lock:
-            retVal = "Time <%s>, Primary <%s>, Heating <%s>, Cooling <%s>" % (self.m_LastUpdateTime, self.m_Primary, self.m_Heating, self.m_Cooling)
+            retVal = "Time <%s>, Primary <%s>, Heating <%s>, Cooling <%s>" % (self.m_LastUpdateTime, self.m_PrimaryTemperature, self.m_HeatingState, self.m_CoolingState)
         return retVal
 
     def GetLastUpdatedTime(self):

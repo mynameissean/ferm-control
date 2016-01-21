@@ -2,7 +2,7 @@
 
 import serial
 import threading
-import datetime
+
 import time
 from serial.serialutil import SerialException
 import DataWriter
