@@ -41,7 +41,7 @@ class ArduinoState():
         operator = operator.rstrip()
 
         #Compare
-        time = datetime.datetime.now()
+        time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')
 
         #As we update our internal state, we need to lock as we
         #could have readers pulling at the same time

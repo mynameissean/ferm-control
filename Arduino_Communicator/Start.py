@@ -16,8 +16,11 @@ def main():
             time.sleep(5)
             if reader.IsValid():
                 #Save our data off to the database
-                x = datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S.%f')
-                writer.writeData([x, reader.m_Primary, reader.m_Heating, reader.m_Cooling])
+                #x = datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S.%f')
+                writer.writeData([reader.m_ArduinoState.GetLastUpdatedTime(), 
+                                  reader.m_ArduinoState.m_PrimaryTemperature, 
+                                  reader.m_ArduinoState.m_HeatingState, 
+                                  reader.m_ArduinoState.m_CoolingState])
                 print reader.ToString() 
         print "All done"
 
