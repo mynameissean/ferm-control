@@ -1,6 +1,6 @@
 #!/usr/bin/python -u 
 
-import threading
+import time
 import Communicator
 
 def main():

@@ -72,7 +72,7 @@ class Communicator(threading.Thread):
    
 
     def ToString(self):        
-        retVal = "Time <%s>, Primary <%s>, Heating <%s>, Cooling <%s>" % (self.m_ArduinoState.GetLastUpdatedTime, 
+        retVal = "Time <%s>, Primary <%s>, Heating <%s>, Cooling <%s>" % (self.m_ArduinoState.GetLastUpdatedTime(), 
                                                                           self.m_ArduinoState.m_PrimaryTemperature, 
                                                                           self.m_ArduinoState.m_HeatingState, 
                                                                           self.m_ArduinoState.m_CoolingState)

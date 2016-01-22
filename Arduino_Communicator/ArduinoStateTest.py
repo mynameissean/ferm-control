@@ -1,5 +1,6 @@
 import unittest
 from ArduinoState import ArduinoState
+import time
 
 class ArduinoStateTest(unittest.TestCase):
     def setUp(self):
@@ -33,7 +34,20 @@ class InputTests(ArduinoStateTest):
         #Make sure nothing got changed again
         self.assertEqual(self.m_Arduino.m_CoolingState, 1, "Cooling set to invalid state")
         self.assertEqual(self.m_Arduino.m_PrimaryTemperature, "76", "Temperature should be 76, not <%s>" % (self.m_Arduino.m_PrimaryTemperature))
-        
+
+    def test_TimeUpdates(self):
+        #Set the initial update time
+        self.m_Arduino.UpdateState("Cooling:On")
+
+        #Get the time
+        updateTime = self.m_Arduino.GetLastUpdatedTime()
+
+        #Sleep for a second, Perform another update and check that the time is higher
+        time.sleep(1)
+        self.m_Arduino.UpdateState("Cooling:Off")
+
+        #Time should now be higher
+        self.assertGreater(self.m_Arduino.GetLastUpdatedTime(), updateTime, "Time not updated properly")
 
 if __name__ == '__main__':
     try:
