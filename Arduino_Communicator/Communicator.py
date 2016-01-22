@@ -37,9 +37,10 @@ class Communicator(threading.Thread):
             input = serial.Serial(port=port, baudrate=baudrate, timeout=timeout)
             while input.isOpen():
                 #We have a valid connection.  Attempt to read anything we have
+                print "hit"
                 if input.inWaiting:
                     #We have data to read
-                    line = ReadLine(input)
+                    line = self.ReadLine(input)
                     if line == None or False == self.m_ArduinoState.UpdateState(line):
                         #Haven't got a full line yet, or there was an error
                         consecutiveFailures += 1
@@ -47,6 +48,8 @@ class Communicator(threading.Thread):
                     else:
                         #Have a valid line, reset our count
                         consecutiveFailures = 0
+                #End of a cycle.  Wait a second
+                time.sleep(1)
 
 
     def ReadLine(self, input):
@@ -77,6 +80,9 @@ class Communicator(threading.Thread):
                                                                           self.m_ArduinoState.m_HeatingState, 
                                                                           self.m_ArduinoState.m_CoolingState)
         return retVal
+
+    def IsValid(self):
+        return self.m_ArduinoState.IsValid()
 
 
 

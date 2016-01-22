@@ -18,6 +18,11 @@ class ArduinoState():
         if line == None or line == "":
             print "Invalid line of data received.  Cannot be null."
             return bRetVal
+        #See if we have a debugging line.  Debugging lines always start with ###
+        if(line.startswith("###")):
+            #Debugging line. Success
+            bRetVal = True
+            return bRetVal
 
         list = line.split(":");
         #See if we have valid input
@@ -76,8 +81,9 @@ class ArduinoState():
     #cooling, and temperature
     def IsValid(self):
         retVal = False
-        if self.m_LastUpdateTime != "" and self.m_PrimaryTemperature != "" and self.m_HeatingState != "" and self.m_CoolingState != "":
-            retVal = True
+        with self.m_Lock:
+            if self.m_LastUpdateTime != "" and self.m_PrimaryTemperature != "" and self.m_HeatingState != "" and self.m_CoolingState != "":
+                retVal = True
         return retVal
     
     def ToString(self):     
@@ -88,4 +94,7 @@ class ArduinoState():
         return retVal
 
     def GetLastUpdatedTime(self):
-        return "%s" % (self.m_LastUpdateTime)
+        retVal = None
+        with self.m_Lock:
+            retVal = "%s" % (self.m_LastUpdateTime)
+        return retVal
