@@ -8,12 +8,11 @@
 #else
 	#include "WProgram.h"
 #endif
+#include "Definitions.h"
 
 class Utility
 {
  private:
-
-
  public:
 	static float ToCelsius(float);
     static float ToFahrenheit(float);

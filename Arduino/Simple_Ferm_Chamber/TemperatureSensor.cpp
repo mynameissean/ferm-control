@@ -1,7 +1,7 @@
 
 #include "TemperatureSensor.h"
 #include "Utility.h"
-
+#include "Logger.h"
 
 
  ///<summary>Generate and encapsulate all the data related to a temperature sensor.</summary>
@@ -92,7 +92,7 @@ void TemperatureSensor::SetTemperatureBand(float TempBand)
    //Found the sensor we were looking for, read the data from it
      if(0 == Sensors.reset())
      {
-       Serial.println("Unable to reset the bus");
+       Logger::Log("Unable to reset the bus", ERR);
        goto cleanup;
      }  
      
@@ -111,7 +111,7 @@ void TemperatureSensor::SetTemperatureBand(float TempBand)
 	 //TODO: This might not be needed for non-parasite powered sensors
      if(0 == Sensors.reset())
      {
-       Serial.println("Unable to reset the bus after converting temperature");
+       Logger::Log("Unable to reset the bus after converting temperature", ERR);
        goto cleanup;
      }
      Sensors.select(m_SensorAddress);
@@ -141,9 +141,9 @@ cleanup:
  ///SensorName:Temperature</summary>
  void TemperatureSensor::Print()
  {
-	 Serial.print(m_ID->GetName());
-	 Serial.print(":");
-	 Serial.println(m_Temperature);
+	 char buffer[33];
+	 sprintf(buffer, "%f", m_Temperature);
+	 Logger::LogCommunicationStatement(m_ID->GetName(), buffer);	 
  }
 
 
@@ -156,10 +156,10 @@ cleanup:
    bool retVal = false;
    byte foundSensorAddress[8];
 
-#ifdef _DEBUG
-   Serial.print("Searching for ");
-   DebugPrintSensor(m_SensorAddress);
-#endif 
+   Logger::PrependLogStatement(DEB);
+   Logger::LogStatement("Searching for ", DEB);   
+   Logger::LogStatement(m_SensorAddress, DEB);
+   Logger::EndLogStatement(DEB);
 
    while(true == Sensors.search(foundSensorAddress))
    {

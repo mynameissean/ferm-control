@@ -12,6 +12,7 @@
 
 enum TempInRange {TOO_HOT, TOO_COLD, JUST_RIGHT, NO_READING };
 enum OperatingCommand {UTT, UTB, RCT, RSI, RRS, RRI, URS, HBS, INVALID };
+enum ErrorLevels {COM, ERR, WAR, INF, DEB};
 //#define _DEBUG 1
 
 //extern Utility UTILITY;

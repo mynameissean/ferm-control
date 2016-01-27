@@ -4,6 +4,8 @@
 #include "Definitions.h"
 #include "EEPROMex.h"
 
+
+
 /**
  *Convert the temperature to fahrenheit from celsius.
  *@param Temperature the temperature in degrees celsius
@@ -102,5 +104,6 @@ void Utility::UpdateEEPROMFloat(int Address, float Value)
 #endif
     }
 }
+
 
  //Utility UTILITY;

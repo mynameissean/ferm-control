@@ -1,7 +1,7 @@
 #include "Definitions.h"
 #include "Utility.h"
 #include "Communicator.h"
-
+#include "Logger.h"
 
 ///<summary>Create a new communicator socket for receiving and sending commands</summary>
 Communicator::Communicator()
@@ -45,11 +45,13 @@ OperatingCommand Communicator::ParseCommand(String* Command, int* IValue, float*
      float fValue;
      if(false == ValidateCommand(Command))
      {
-#ifdef _DEBUG
-         Serial.print("Invalid command: ");
-         Serial.println(*Command);
-#endif
-         goto cleanup;
+		//Write out a warning to our output stream
+		Logger::PrependLogStatement(WAR);
+		Logger::LogStatement("Invalid Command <", WAR);
+		Logger::LogStatement(Command->c_str(), WAR);	
+		Logger::LogStatement(">", WAR);
+		Logger::EndLogStatement(WAR);
+        goto cleanup;
      }
 
      //Commands are in the format ACTION_GROUP:VALUE
@@ -123,10 +125,11 @@ OperatingCommand Communicator::ParseCommand(String* Command, int* IValue, float*
       else
       {
           //Invalid command
-#ifdef _DEBUG
-          Serial.print("Unknown command: ");
-          Serial.println(*Command);
-#endif
+		  Logger::PrependLogStatement(WAR);
+		  Logger::LogStatement("Unknown Command <", WAR);
+		  Logger::LogStatement(Command->c_str(), WAR);	
+		  Logger::LogStatement(">", WAR);
+		  Logger::EndLogStatement(WAR);
           retVal = INVALID;
       }
 
@@ -168,30 +171,33 @@ bool Communicator::ValidateCommand(String* Command)
     if(NULL == Command || Command->length() < 4 || Command->length() > 11)
     {
         //Invalid
-#ifdef _DEBUG
-        Serial.print("Invalid string.  Either null or too long: ");
-        Serial.println(*Command);
-#endif
+		Logger::PrependLogStatement(WAR);
+		Logger::LogStatement("Invalid string.  Either null or too long <", WAR);
+		Logger::LogStatement(Command->c_str(), WAR);	
+		Logger::LogStatement(">", WAR);
+		Logger::EndLogStatement(WAR);
         goto cleanup;
     }
 
     //Validate the ACTION_GROUP
     if(-1 == Command->indexOf(':'))
     {        
-#ifdef _DEBUG
-        Serial.print("Invalid string.  No ':' in the command: ");
-        Serial.println(*Command);
-#endif
+		Logger::PrependLogStatement(WAR);
+		Logger::LogStatement("Invalid string.  No 'colon' in the command <", WAR);
+		Logger::LogStatement(Command->c_str(), WAR);	
+		Logger::LogStatement(">", WAR);
+		Logger::EndLogStatement(WAR);
         goto cleanup;
     }
 
     action = Command->substring(0, Command->indexOf(':'));
     if(NULL == action || 3 != action.length())
     {
-#ifdef _DEBUG
-        Serial.print("Invalid string.  Action group isn't the correct length: ");
-        Serial.println(*Command);
-#endif
+		Logger::PrependLogStatement(WAR);
+		Logger::LogStatement("Invalid string.  Action group isn't the correct length <", WAR);
+		Logger::LogStatement(Command->c_str(), WAR);	
+		Logger::LogStatement(">", WAR);
+		Logger::EndLogStatement(WAR);
         goto cleanup;
     }
 
@@ -207,10 +213,11 @@ bool Communicator::ValidateCommand(String* Command)
     value = Command->substring(Command->indexOf(':'), Command->length());
     if(NULL == value || 0 == value.length() || value.length() > 6)
     {
-#ifdef _DEBUG
-        Serial.print("Invalid value.  Length does not match requirements: ");
-        Serial.println(value);
-#endif
+		Logger::PrependLogStatement(WAR);
+		Logger::LogStatement("Invalid value.  Length does not match requirements <", WAR);
+		Logger::LogStatement(value.c_str(), WAR);	
+		Logger::LogStatement(">", WAR);
+		Logger::EndLogStatement(WAR);
         goto cleanup;
     }
 
@@ -221,10 +228,11 @@ bool Communicator::ValidateCommand(String* Command)
     fValue = atof(buffer);
     if(0 == iValue && 0.0 == fValue)
     {
-#ifdef _DEBUG
-        Serial.print("Invalid value: ");
-        Serial.println(value);
-#endif
+		Logger::PrependLogStatement(WAR);
+		Logger::LogStatement("Invalid value. <", WAR);
+		Logger::LogStatement(value.c_str(), WAR);	
+		Logger::LogStatement(">", WAR);
+		Logger::EndLogStatement(WAR);
         goto cleanup;
     }
 

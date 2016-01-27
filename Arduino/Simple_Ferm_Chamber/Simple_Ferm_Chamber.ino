@@ -6,7 +6,7 @@
 #include <OneWire.h>
 #include "Communicator.h"
 #include "EEPROMex.h"
-
+#include "Logger.h"
 /*
  * This is a stripped down version of the fermentation controller
  * project.  It doesn't allow for command and control via
@@ -23,7 +23,7 @@ int HeatingRelayPin = 7;
 int StatusLED = 13;
 #define DEBOUNCE_VALUE 5
 #define CYCLE_TIME 5000
-
+#define DEFAULT_DEBUG_LEVEL ERR
 
 //Global objects
 OneWire g_TempSensors(TempReadPin);
@@ -49,6 +49,10 @@ unsigned long g_HeatingOffTime = 300000;    //5 Minutes
 
 void setup(){
    Serial.begin(9600);
+   
+   //Set our logging level
+   Logger::SetLoggingLevel(DEFAULT_DEBUG_LEVEL);
+
    pinMode(StatusLED, OUTPUT); 
    pinMode(CoolingDisplayPin, OUTPUT);
    pinMode(HeatingDisplayPin, OUTPUT);
@@ -163,9 +167,7 @@ cleanup:
          }
          else
          {
-#ifdef _DEBUG
-            Serial.println("Unable to update temperature as it's set to 0");
-#endif
+			 Logger::Log("Unable to update temperature as it's set to 0", ERR);
          }
          break;
      case(UTB):
@@ -177,9 +179,7 @@ cleanup:
          }
          else
          {
-#ifdef _DEBUG
-             Serial.println("Unable to update temperature band as it's set to less than .1");
-#endif
+             Logger::Log("Unable to update temperature band as it's set to less than .1", ERR);
          }
          break;
      case(RCT):
@@ -188,9 +188,7 @@ cleanup:
 
          }
          else {
-#ifdef _DEBUG
-             Serial.println("Cannot report temperature for invalid index");
-#endif
+			 Logger::Log("Cannot report temperature for invalid index", ERR);
          }
          break;
      case(RRS):
@@ -204,9 +202,7 @@ cleanup:
      case(HBS):
          break;
      case(INVALID):
-#ifdef _DEBUG
-         Serial.println("Can't operate on invalid command");
-#endif
+		 Logger::Log("Can't operate on invalid command", ERR);
          break;
      
 
@@ -224,14 +220,14 @@ cleanup:
    //Go through our sensors     
    if(false == g_InternalFermentorSensor->DoesSensorExist(g_TempSensors))
    {
-     Serial.println("Unable to find sensor.");
+     Logger::Log("Unable to find sensor.", ERR);
      goto cleanup;
    }
    //Found the sensor we wanted, get the temperature data   
    
    if(INVALID_DATA == g_InternalFermentorSensor->RetrieveTemperatureFromSensor(g_TempSensors))
    {  
-     Serial.println("Unable to get temperature data for primary sensor.");
+     Logger::Log("Unable to get temperature data for primary sensor.", ERR);
      goto cleanup;
    }
 
@@ -249,20 +245,30 @@ cleanup:
      g_AmbientInternalSensor->RetrieveTemperatureFromSensor(g_TempSensors);
    }
      
-#ifdef _DEBUG
-   //Print out the temperature
-   Serial.print("Primary Temperature: ");
-   Serial.println(g_InternalFermentorSensor->GetTemperature());
-   Serial.print("Ambient Extneral Temperature: ");
-   Serial.println(g_ExternalFermentorSensor->GetTemperature());
-   Serial.print("Ambient Internal Temperature: ");
-   Serial.println(g_AmbientInternalSensor->GetTemperature());
-#endif
+
+   //Print out the temperature 
+   //Primary
+   Logger::PrependLogStatement(DEB);
+   Logger::LogStatement("Primary Temperature: ", DEB);
+   Logger::LogStatement(g_InternalFermentorSensor->GetTemperature(), DEB);
+   Logger::EndLogStatement(DEB);
+   Logger::PrependLogStatement(DEB);
+
+   //Ambient External
+   Logger::LogStatement("Ambient External Temperature: ", DEB);
+   Logger::LogStatement(g_ExternalFermentorSensor->GetTemperature(), DEB);
+   Logger::EndLogStatement(DEB);
+   
+   //Ambient Internal
+   Logger::PrependLogStatement(DEB);
+   Logger::LogStatement("Ambient Internal Temperature: ", DEB);
+   Logger::LogStatement(g_AmbientInternalSensor->GetTemperature(), DEB);
+   Logger::EndLogStatement(DEB);
+
    
 cleanup:
    return retVal;
  }
-
  
  /**
   * Determine if any of our temperature sensors is outside of the necessary ranges.
@@ -274,34 +280,28 @@ cleanup:
    
    if(TOO_HOT == adjustment)
    {
-#ifdef _DEBUG 
-       Serial.println("Too hot");
-#endif
+	   Logger::Log("Too hot", DEB);
+
        if(false == DebounceTemperatureReading(TOO_HOT))
        {
            goto cleanup;
        }
        //Turn the heater off if it's on
        if(false == g_Heating->TurnOff())
-       {
-          #ifdef _DEBUG
-           Serial.println("Unable to turn the heater off");
-          #endif
+       {          
+		   Logger::Log("Unable to turn the heater off", WAR);          
        }
        //We need to see if we can activate the cooling
        if(false == g_Cooling->TurnOn())
        {          
-               //Can't turn the compressor on yet
-#ifdef _DEBUG 
-        Serial.println("Can't turn the compressor on");
-#endif
-        }
+            //Can't turn the compressor on yet
+		   Logger::Log("Can't turn the compressor on", WAR);
+       }
    }
    else if(TOO_COLD == adjustment)
    {
-       #ifdef _DEBUG 
-        Serial.println("Too cold");
-        #endif
+       
+        Logger::Log("Too cold", DEB);       
         if(false == DebounceTemperatureReading(TOO_COLD))
         {
             goto cleanup;
@@ -309,24 +309,18 @@ cleanup:
        //See if we can turn of the cooling
         if(false == g_Cooling->TurnOff())
        {          
-               //Can't turn the compressor on yet
-#ifdef _DEBUG 
-        Serial.println("Can't turn the compressor off");
-#endif
+           //Can't turn the compressor on yet
+		   Logger::Log("Can't turn the compressor off", WAR);
         }
        //Turn the heater off if it's on
        if(false == g_Heating->TurnOn())
-       {
-          #ifdef _DEBUG
-           Serial.println("Unable to turn the heater on");
-          #endif
+       {          
+		   Logger::Log("Unable to turn the heater on", WAR);          
        }
    }
    else if(JUST_RIGHT == adjustment)
-   {
-       #ifdef _DEBUG 
-            Serial.println("Just Right");
-        #endif
+   {       
+	   Logger::Log("Just Right", DEB);        
        if(false == DebounceTemperatureReading(JUST_RIGHT))
        {
            goto cleanup;
@@ -339,10 +333,8 @@ cleanup:
            {
                //We've hit our goal.  See if we can turn it off
                if(false == g_Heating->TurnOff())
-               {
-                   #ifdef _DEBUG 
-                      Serial.println("Can't turn the heater off");
-                   #endif                   
+               {                   
+				   Logger::Log("Can't turn the heater off", WAR);                   
                }
            }
        }
@@ -354,10 +346,8 @@ cleanup:
                //See if we can turn of the cooling
                if(false == g_Cooling->TurnOff())
                {          
-                       //Can't turn the compressor on yet
-            #ifdef _DEBUG 
-                    Serial.println("Can't turn the compressor off");
-            #endif
+                   //Can't turn the compressor on yet            
+				   Logger::Log("Can't turn the compressor off", WAR);
                }
            }
        }
@@ -377,10 +367,9 @@ cleanup:
  {
      bool retVal = false;
      if(Temperature != g_LastReading)
-     {
-         #ifdef _DEBUG 
-            Serial.println("Debouncing reset");
-        #endif
+     {         
+		 Logger::Log("Debouncing reset", DEB);
+        
          g_DebounceCounter = 0;       
          g_LastReading = Temperature;
      }
@@ -388,22 +377,20 @@ cleanup:
      {         
          if(g_DebounceCounter + 1 > DEBOUNCE_VALUE)
          {
-             #ifdef _DEBUG 
-                Serial.println("Debounce Hit");
-            #endif
+             
+			 Logger::Log("Debounce Hit", DEB);
+            
              //We've hit the threshold to break free of our debounce value
              retVal = true;
          }
          else
          {
              //Still working up to hitting the debounce value
-             g_DebounceCounter++;
-
-             #ifdef _DEBUG 
-                Serial.print("Debounce Increasing.  Now at: ");
-                Serial.println(g_DebounceCounter);
-            #endif
-             
+             g_DebounceCounter++;			    
+			 Logger::PrependLogStatement(DEB);
+			 Logger::LogStatement("Debounce increasing. Now at ", DEB);
+			 Logger::LogStatement(g_DebounceCounter, DEB);
+			 Logger::EndLogStatement(DEB);
          }
      }
      return retVal;
