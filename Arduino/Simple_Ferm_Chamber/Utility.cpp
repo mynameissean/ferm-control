@@ -3,7 +3,7 @@
 #include "Utility.h"
 #include "Definitions.h"
 #include "EEPROMex.h"
-
+#include "Logger.h"
 
 
 /**
@@ -51,10 +51,11 @@
          //No rollover.  Do the normal calculation
          retVal = currentTime - PreviousTime;
      }
-#ifdef _DEBUG
-     Serial.print("Time difference is ");
-     Serial.println(retVal);
-#endif
+
+	 Logger::PrependLogStatement(DEB);
+     Logger::LogStatement(F("Time difference is "), DEB);
+     Logger::LogStatement(retVal, DEB);
+
 
      return retVal;
  }
@@ -99,9 +100,9 @@ void Utility::UpdateEEPROMFloat(int Address, float Value)
 {
     if(0 == EEPROM.updateFloat(Address, Value))
     {
-#ifdef _DEBUG
-        Serial.println("Unable to write to eeprom");
-#endif
+
+        Logger::Log(F("Unable to write to eeprom"), WAR);
+
     }
 }
 

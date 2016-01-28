@@ -15,11 +15,16 @@ class Logger
  private:
 	 static ErrorLevels DebugLevel;
  public:
+	static void Log(const __FlashStringHelper*, ErrorLevels);
 	static void Log(const char*, ErrorLevels);
-	static void PrependLogStatement(ErrorLevels);
-	static void LogStatement(const char*, ErrorLevels);
+	static void PrependLogStatement(ErrorLevels);	
 	static void LogStatement(byte*, ErrorLevels);
+	static void LogStatement(byte, ErrorLevels);
 	static void LogStatement(float, ErrorLevels);
+	static void LogStatement(int, ErrorLevels);
+	static void LogStatement(unsigned long, ErrorLevels);
+	static void LogStatement(const __FlashStringHelper*, ErrorLevels);
+	static void LogStatement(const char*, ErrorLevels);
 	static void EndLogStatement(ErrorLevels);
 	static void LogCommunicationStatement(const char*, const char*);
 	static void SetLoggingLevel(ErrorLevels LoggingLevel){

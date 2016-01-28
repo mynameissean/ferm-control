@@ -53,12 +53,12 @@ Relay::Relay(int TriggerPin, int DisplayPin, ID* InID,  unsigned long MinRunTime
 ///<return>True if successful, false otherwise. </return>
 bool Relay::TurnOn()
 {
-	Logger::Log("trying to turn on the relay", INF);
+	Logger::Log(F("Trying to turn on the relay"), INF);
     bool retVal = false;
     //We need to see if we can activate the cooling
        if(true == IsOn())
        {
-		   Logger::Log("Already on", DEB);
+		   Logger::Log(F("Already on"), DEB);
            //Nothing to turn on
            retVal = true;
            goto cleanup;
@@ -67,7 +67,7 @@ bool Relay::TurnOn()
        {
            //Can't turn on yet
 		   Logger::PrependLogStatement(WAR);		   
-		   Logger::LogStatement("Can't turn on ", WAR);
+		   Logger::LogStatement(F("Can't turn on "), WAR);
            Logger::LogStatement(m_ID->GetName(), WAR);
 		   Logger::EndLogStatement(WAR);
            Utility::Flash(GetDisplayPin(), 5);
@@ -89,13 +89,13 @@ cleanup:
 bool Relay::TurnOff()
 {
     bool retVal = false;
-#ifdef _DEBUG
-    Serial.println("trying to turn off the relay");
-#endif
+
+	Logger::Log(F("Trying to turn off the relay"), DEB);
+
     if(false == IsOn())
     {
         //Nothing to turn off.  Success
-        Logger::Log("Nothing to turn off", INF);        
+        Logger::Log(F("Nothing to turn off"), INF);        
         retVal = true;
         goto cleanup;
     }
@@ -103,7 +103,7 @@ bool Relay::TurnOff()
     {
         //Unable to turn the heater off         
         Logger::PrependLogStatement(WAR);		   
-		Logger::LogStatement("Can't turn off ", WAR);
+		Logger::LogStatement(F("Can't turn off "), WAR);
         Logger::LogStatement(m_ID->GetName(), WAR);
 		Logger::EndLogStatement(WAR);        
 
@@ -144,9 +144,9 @@ bool Relay::CanTurnOn()
 
     //Get the current time difference
 	Logger::PrependLogStatement(DEB);		   
-	Logger::LogStatement("Off start time is <", DEB);
+	Logger::LogStatement(F("Off start time is <"), DEB);
     Logger::LogStatement(m_OffTimeStart, DEB);
-	Logger::LogStatement(">", DEB);
+	Logger::LogStatement(F(">"), DEB);
 	Logger::EndLogStatement(DEB);
 
     difference = Utility::TimeDifference(m_OffTimeStart);

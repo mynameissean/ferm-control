@@ -30,17 +30,7 @@ void Logger::PrependLogStatement(ErrorLevels Level)
 	}
 }
 
-///<summary>Log out a single line statement.  It does not end the line,
-///simply writes out the log to the buffer</summary>
-///<param name="Statement">The error message to be logged out</param>
-///<param name="Level">What type of message is to be logged</param>
-void Logger::LogStatement(const char* Statement, ErrorLevels Level)
-{
-	if(Level <= Logger::DebugLevel)
-	{
-		Serial.print(Statement);
-	}
-}
+
 
 ///<summary>Log out a single line statement.  It does not end the line,
 ///simply writes out the log to the buffer</summary>
@@ -54,11 +44,73 @@ void Logger::LogStatement(byte* Statement, ErrorLevels Level)
 		Serial.print(p);
 	}
 }
+
+///<summary>Log out a single line statement.  It does not end the line,
+///simply writes out the log to the buffer</summary>
+///<param name="Statement">The error message to be logged out</param>
+///<param name="Level">What type of message is to be logged</param>
+void Logger::LogStatement(byte Statement, ErrorLevels Level)
+{
+	if(Level <= Logger::DebugLevel)
+	{
+		char p = (char)Statement;
+		Serial.print(p);
+	}
+}
+
+///<summary>Log out a single line statement.  It does not end the line,
+///simply writes out the log to the buffer</summary>
+///<param name="Statement">The error message to be logged out</param>
+///<param name="Level">What type of message is to be logged</param>
+void Logger::LogStatement(const __FlashStringHelper* Statement, ErrorLevels Level)
+{
+	if(Level <= Logger::DebugLevel)
+	{		
+		Serial.print(Statement);
+	}
+}
+
 ///<summary>Log out a single line statement.  It does not end the line,
 ///simply writes out the log to the buffer</summary>
 ///<param name="Statement">The error message to be logged out</param>
 ///<param name="Level">What type of message is to be logged</param>
 void Logger::LogStatement(float Statement, ErrorLevels Level)
+{
+	if(Level <= Logger::DebugLevel)
+	{
+		Serial.print(Statement);
+	}
+}
+
+///<summary>Log out a single line statement.  It does not end the line,
+///simply writes out the log to the buffer</summary>
+///<param name="Statement">The error message to be logged out</param>
+///<param name="Level">What type of message is to be logged</param>
+void Logger::LogStatement(int Statement, ErrorLevels Level)
+{
+	if(Level <= Logger::DebugLevel)
+	{
+		Serial.print(Statement);
+	}
+}
+
+///<summary>Log out a single line statement.  It does not end the line,
+///simply writes out the log to the buffer</summary>
+///<param name="Statement">The error message to be logged out</param>
+///<param name="Level">What type of message is to be logged</param>
+void Logger::LogStatement(unsigned long Statement, ErrorLevels Level)
+{
+	if(Level <= Logger::DebugLevel)
+	{
+		Serial.print(Statement);
+	}
+}
+
+///<summary>Log out a single line statement.  It does not end the line,
+///simply writes out the log to the buffer</summary>
+///<param name="Statement">The error message to be logged out</param>
+///<param name="Level">What type of message is to be logged</param>
+void Logger::LogStatement(const char* Statement, ErrorLevels Level)
 {
 	if(Level <= Logger::DebugLevel)
 	{
@@ -74,6 +126,20 @@ void Logger::EndLogStatement(ErrorLevels Level)
 	{
 		Serial.println();
 	}
+}
+
+///<summary> Write a complete logging message to the output stream</summary>
+///<param name="DebugStatement">What we want to log out</param>
+///<param name="Level">What type of message is to be logged</param>
+void Logger::Log(const __FlashStringHelper* Statement, ErrorLevels Level)
+{
+	if(Level <= Logger::DebugLevel)
+	{
+		PrependLogStatement(Level);			
+		LogStatement(Statement, Level);
+		EndLogStatement(Level);
+	}
+
 }
 
 ///<summary> Write a complete logging message to the output stream</summary>

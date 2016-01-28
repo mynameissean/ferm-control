@@ -92,7 +92,7 @@ void TemperatureSensor::SetTemperatureBand(float TempBand)
    //Found the sensor we were looking for, read the data from it
      if(0 == Sensors.reset())
      {
-       Logger::Log("Unable to reset the bus", ERR);
+       Logger::Log(F("Unable to reset the bus"), ERR);
        goto cleanup;
      }  
      
@@ -111,7 +111,7 @@ void TemperatureSensor::SetTemperatureBand(float TempBand)
 	 //TODO: This might not be needed for non-parasite powered sensors
      if(0 == Sensors.reset())
      {
-       Logger::Log("Unable to reset the bus after converting temperature", ERR);
+       Logger::Log(F("Unable to reset the bus after converting temperature"), ERR);
        goto cleanup;
      }
      Sensors.select(m_SensorAddress);
@@ -157,7 +157,7 @@ cleanup:
    byte foundSensorAddress[8];
 
    Logger::PrependLogStatement(DEB);
-   Logger::LogStatement("Searching for ", DEB);   
+   Logger::LogStatement(F("Searching for "), DEB);   
    Logger::LogStatement(m_SensorAddress, DEB);
    Logger::EndLogStatement(DEB);
 
@@ -165,21 +165,23 @@ cleanup:
    {
      bool found = true;   
      
-#ifdef _DEBUG
+
      //Print out the data
-     Serial.println("Found Sensor: ");
-      DebugPrintSensor(foundSensorAddress);     
-#endif 
+	 Logger::PrependLogStatement(DEB);
+     Logger::LogStatement(F("Found sensor "), DEB);   
+	 Logger::LogStatement(foundSensorAddress, DEB);
+	 Logger::EndLogStatement(DEB);        
+
 
      //See if this is a valid address
      if ( OneWire::crc8( foundSensorAddress, 7) != foundSensorAddress[7]) {
-          Serial.println("CRC is not valid!");
+          Logger::Log(F("CRC is not valid!"), WAR);
           Sensors.reset();
           Sensors.reset_search();
           break;
       }     
       if ( foundSensorAddress[0] != 0x10 && foundSensorAddress[0] != 0x28) {
-        Serial.println("Device is not recognized");
+        Logger::Log(F("Device is not recognized"), WAR);
         continue;
       }
       
@@ -196,16 +198,14 @@ cleanup:
      if(true == found)
      {
        //This is the sensor we're looking for
-#ifdef _DEBUG
-       Serial.println("Found sensor");
-#endif
+       Logger::Log(F("Found sensor"), DEB);
        retVal = true;
        break;      
      }     
    }  
-#ifdef _DEBUG
-   Serial.println("Done searching for sensors");
-#endif
+
+   Logger::Log(F("Done searching for sensors"), DEB);
+
    
 cleanup:
   //Reset the temperature sensor search for subsequent invocations
@@ -213,17 +213,16 @@ cleanup:
   return retVal;   
  }
 
-#ifdef _DEBUG
+
   ///<summary>Print out the sensor data in a readable format.</summary>
   ///<param name="SensorAddress">The address of the sensor to print out</param>
   void TemperatureSensor::DebugPrintSensor(byte* SensorAddress)
  {
-    Serial.print("Device");
-      for(int i = 0; i < 8; i++)
-      {
-        Serial.print(SensorAddress[i]);
-        Serial.print("-");        
-      }
-      Serial.println("");
+	Logger::PrependLogStatement(DEB);
+	Logger::LogStatement(F("Device "), DEB);
+    for(int i = 0; i < 8; i++){
+		Logger::LogStatement(SensorAddress[i], DEB);
+        Logger::LogStatement(F("-"), DEB);        
+    }
+	Logger::EndLogStatement(DEB);
  }
-#endif

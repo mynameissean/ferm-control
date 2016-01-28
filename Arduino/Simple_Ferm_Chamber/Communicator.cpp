@@ -47,9 +47,9 @@ OperatingCommand Communicator::ParseCommand(String* Command, int* IValue, float*
      {
 		//Write out a warning to our output stream
 		Logger::PrependLogStatement(WAR);
-		Logger::LogStatement("Invalid Command <", WAR);
+		Logger::LogStatement(F("Invalid Command <"), WAR);
 		Logger::LogStatement(Command->c_str(), WAR);	
-		Logger::LogStatement(">", WAR);
+		Logger::LogStatement(F(">"), WAR);
 		Logger::EndLogStatement(WAR);
         goto cleanup;
      }
@@ -75,49 +75,49 @@ OperatingCommand Communicator::ParseCommand(String* Command, int* IValue, float*
           fValue = atof(buffer);
       }
 
-      if(action.equalsIgnoreCase("UTT"))
+      if(action.equalsIgnoreCase(F("UTT")))
       {
           //Update temperature target (UTT), followed by a XXX length integer
           retVal = UTT;
           *FValue = fValue;
       }
-      else if(action.equalsIgnoreCase("UTB"))
+      else if(action.equalsIgnoreCase(F("UTB")))
       {
           //Update temperature band (UTB), followed by a x.xx length float
           retVal = UTB;
           *FValue = fValue;
       }
-      else if(action.equalsIgnoreCase("RCT"))
+      else if(action.equalsIgnoreCase(F("RCT")))
       {
           //Report current temperature (RCT), followed by a XX length integer indicating the sensor to read
           retVal = RCT;
           *IValue = iValue;
       }
-      else if(action.equalsIgnoreCase("RRS"))
+      else if(action.equalsIgnoreCase(F("RRS")))
       {
           //Report relay status (RRS), followed by a XX length integer indicating the relay to read
           retVal = RRS;
           *IValue = iValue;
       }
-      else if(action.equalsIgnoreCase("URS"))
+      else if(action.equalsIgnoreCase(F("URS")))
       {
           //Update Relay Status (URS), followed by a XX length integer.  The first   1 indicates off, 2 indicates on
           retVal = URS;
           *IValue = iValue;
       }
-      else if(action.equalsIgnoreCase("RSI"))
+      else if(action.equalsIgnoreCase(F("RSI")))
       {
           //Report sensor index (RSI), followed by a XX length integer indicating the sensor to read
           retVal = RSI;
           *IValue = iValue;
       }
-      else if(action.equalsIgnoreCase("RRI"))
+      else if(action.equalsIgnoreCase(F("RRI")))
       {
           //Report relay index (RRI), followed by a XX length integer indicating the sensor to read
           retVal = RRI;
           *IValue = iValue;
       }
-      else if(action.equalsIgnoreCase("HBS"))
+      else if(action.equalsIgnoreCase(F("HBS")))
       {
           //Heart beat service (HBS)
           retVal = HBS;
@@ -126,9 +126,9 @@ OperatingCommand Communicator::ParseCommand(String* Command, int* IValue, float*
       {
           //Invalid command
 		  Logger::PrependLogStatement(WAR);
-		  Logger::LogStatement("Unknown Command <", WAR);
+		  Logger::LogStatement(F("Unknown Command <"), WAR);
 		  Logger::LogStatement(Command->c_str(), WAR);	
-		  Logger::LogStatement(">", WAR);
+		  Logger::LogStatement(F(">"), WAR);
 		  Logger::EndLogStatement(WAR);
           retVal = INVALID;
       }
@@ -172,9 +172,9 @@ bool Communicator::ValidateCommand(String* Command)
     {
         //Invalid
 		Logger::PrependLogStatement(WAR);
-		Logger::LogStatement("Invalid string.  Either null or too long <", WAR);
+		Logger::LogStatement(F("Invalid string.  Either null or too long <"), WAR);
 		Logger::LogStatement(Command->c_str(), WAR);	
-		Logger::LogStatement(">", WAR);
+		Logger::LogStatement(F(">"), WAR);
 		Logger::EndLogStatement(WAR);
         goto cleanup;
     }
@@ -183,9 +183,9 @@ bool Communicator::ValidateCommand(String* Command)
     if(-1 == Command->indexOf(':'))
     {        
 		Logger::PrependLogStatement(WAR);
-		Logger::LogStatement("Invalid string.  No 'colon' in the command <", WAR);
+		Logger::LogStatement(F("Invalid string.  No 'colon' in the command <"), WAR);
 		Logger::LogStatement(Command->c_str(), WAR);	
-		Logger::LogStatement(">", WAR);
+		Logger::LogStatement(F(">"), WAR);
 		Logger::EndLogStatement(WAR);
         goto cleanup;
     }
@@ -194,9 +194,9 @@ bool Communicator::ValidateCommand(String* Command)
     if(NULL == action || 3 != action.length())
     {
 		Logger::PrependLogStatement(WAR);
-		Logger::LogStatement("Invalid string.  Action group isn't the correct length <", WAR);
+		Logger::LogStatement(F("Invalid string.  Action group isn't the correct length <"), WAR);
 		Logger::LogStatement(Command->c_str(), WAR);	
-		Logger::LogStatement(">", WAR);
+		Logger::LogStatement(F(">"), WAR);
 		Logger::EndLogStatement(WAR);
         goto cleanup;
     }
@@ -214,9 +214,9 @@ bool Communicator::ValidateCommand(String* Command)
     if(NULL == value || 0 == value.length() || value.length() > 6)
     {
 		Logger::PrependLogStatement(WAR);
-		Logger::LogStatement("Invalid value.  Length does not match requirements <", WAR);
+		Logger::LogStatement(F("Invalid value.  Length does not match requirements <"), WAR);
 		Logger::LogStatement(value.c_str(), WAR);	
-		Logger::LogStatement(">", WAR);
+		Logger::LogStatement(F(">"), WAR);
 		Logger::EndLogStatement(WAR);
         goto cleanup;
     }
@@ -229,9 +229,9 @@ bool Communicator::ValidateCommand(String* Command)
     if(0 == iValue && 0.0 == fValue)
     {
 		Logger::PrependLogStatement(WAR);
-		Logger::LogStatement("Invalid value. <", WAR);
+		Logger::LogStatement(F("Invalid value. <"), WAR);
 		Logger::LogStatement(value.c_str(), WAR);	
-		Logger::LogStatement(">", WAR);
+		Logger::LogStatement(F(">"), WAR);
 		Logger::EndLogStatement(WAR);
         goto cleanup;
     }

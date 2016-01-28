@@ -167,7 +167,7 @@ cleanup:
          }
          else
          {
-			 Logger::Log("Unable to update temperature as it's set to 0", ERR);
+			 Logger::Log(F("Unable to update temperature as it's set to 0"), ERR);
          }
          break;
      case(UTB):
@@ -179,7 +179,7 @@ cleanup:
          }
          else
          {
-             Logger::Log("Unable to update temperature band as it's set to less than .1", ERR);
+             Logger::Log(F("Unable to update temperature band as it's set to less than .1"), ERR);
          }
          break;
      case(RCT):
@@ -188,7 +188,7 @@ cleanup:
 
          }
          else {
-			 Logger::Log("Cannot report temperature for invalid index", ERR);
+			 Logger::Log(F("Cannot report temperature for invalid index"), ERR);
          }
          break;
      case(RRS):
@@ -202,7 +202,7 @@ cleanup:
      case(HBS):
          break;
      case(INVALID):
-		 Logger::Log("Can't operate on invalid command", ERR);
+		 Logger::Log(F("Can't operate on invalid command"), ERR);
          break;
      
 
@@ -220,14 +220,14 @@ cleanup:
    //Go through our sensors     
    if(false == g_InternalFermentorSensor->DoesSensorExist(g_TempSensors))
    {
-     Logger::Log("Unable to find sensor.", ERR);
+     Logger::Log(F("Unable to find primary sensor."), ERR);
      goto cleanup;
    }
    //Found the sensor we wanted, get the temperature data   
    
    if(INVALID_DATA == g_InternalFermentorSensor->RetrieveTemperatureFromSensor(g_TempSensors))
    {  
-     Logger::Log("Unable to get temperature data for primary sensor.", ERR);
+     Logger::Log(F("Unable to get temperature data for primary sensor."), ERR);
      goto cleanup;
    }
 
@@ -249,19 +249,19 @@ cleanup:
    //Print out the temperature 
    //Primary
    Logger::PrependLogStatement(DEB);
-   Logger::LogStatement("Primary Temperature: ", DEB);
+   Logger::LogStatement(F("Primary Temperature: "), DEB);
    Logger::LogStatement(g_InternalFermentorSensor->GetTemperature(), DEB);
    Logger::EndLogStatement(DEB);
    Logger::PrependLogStatement(DEB);
 
    //Ambient External
-   Logger::LogStatement("Ambient External Temperature: ", DEB);
+   Logger::LogStatement(F("Ambient External Temperature: "), DEB);
    Logger::LogStatement(g_ExternalFermentorSensor->GetTemperature(), DEB);
    Logger::EndLogStatement(DEB);
    
    //Ambient Internal
    Logger::PrependLogStatement(DEB);
-   Logger::LogStatement("Ambient Internal Temperature: ", DEB);
+   Logger::LogStatement(F("Ambient Internal Temperature: "), DEB);
    Logger::LogStatement(g_AmbientInternalSensor->GetTemperature(), DEB);
    Logger::EndLogStatement(DEB);
 
@@ -280,7 +280,7 @@ cleanup:
    
    if(TOO_HOT == adjustment)
    {
-	   Logger::Log("Too hot", DEB);
+	   Logger::Log(F("Too hot"), DEB);
 
        if(false == DebounceTemperatureReading(TOO_HOT))
        {
@@ -289,19 +289,19 @@ cleanup:
        //Turn the heater off if it's on
        if(false == g_Heating->TurnOff())
        {          
-		   Logger::Log("Unable to turn the heater off", WAR);          
+		   Logger::Log(F("Unable to turn the heater off"), WAR);          
        }
        //We need to see if we can activate the cooling
        if(false == g_Cooling->TurnOn())
        {          
             //Can't turn the compressor on yet
-		   Logger::Log("Can't turn the compressor on", WAR);
+		   Logger::Log(F("Can't turn the compressor on"), WAR);
        }
    }
    else if(TOO_COLD == adjustment)
    {
        
-        Logger::Log("Too cold", DEB);       
+        Logger::Log(F("Too cold"), DEB);       
         if(false == DebounceTemperatureReading(TOO_COLD))
         {
             goto cleanup;
@@ -310,17 +310,17 @@ cleanup:
         if(false == g_Cooling->TurnOff())
        {          
            //Can't turn the compressor on yet
-		   Logger::Log("Can't turn the compressor off", WAR);
+		   Logger::Log(F("Can't turn the compressor off"), WAR);
         }
        //Turn the heater off if it's on
        if(false == g_Heating->TurnOn())
        {          
-		   Logger::Log("Unable to turn the heater on", WAR);          
+		   Logger::Log(F("Unable to turn the heater on"), WAR);          
        }
    }
    else if(JUST_RIGHT == adjustment)
    {       
-	   Logger::Log("Just Right", DEB);        
+	   Logger::Log(F("Just Right"), DEB);        
        if(false == DebounceTemperatureReading(JUST_RIGHT))
        {
            goto cleanup;
@@ -334,7 +334,7 @@ cleanup:
                //We've hit our goal.  See if we can turn it off
                if(false == g_Heating->TurnOff())
                {                   
-				   Logger::Log("Can't turn the heater off", WAR);                   
+				   Logger::Log(F("Can't turn the heater off"), WAR);                   
                }
            }
        }
@@ -347,7 +347,7 @@ cleanup:
                if(false == g_Cooling->TurnOff())
                {          
                    //Can't turn the compressor on yet            
-				   Logger::Log("Can't turn the compressor off", WAR);
+				   Logger::Log(F("Can't turn the compressor off"), WAR);
                }
            }
        }
@@ -368,7 +368,7 @@ cleanup:
      bool retVal = false;
      if(Temperature != g_LastReading)
      {         
-		 Logger::Log("Debouncing reset", DEB);
+		 Logger::Log(F("Debouncing reset"), DEB);
         
          g_DebounceCounter = 0;       
          g_LastReading = Temperature;
@@ -378,7 +378,7 @@ cleanup:
          if(g_DebounceCounter + 1 > DEBOUNCE_VALUE)
          {
              
-			 Logger::Log("Debounce Hit", DEB);
+			 Logger::Log(F("Debounce Hit"), DEB);
             
              //We've hit the threshold to break free of our debounce value
              retVal = true;
@@ -388,7 +388,7 @@ cleanup:
              //Still working up to hitting the debounce value
              g_DebounceCounter++;			    
 			 Logger::PrependLogStatement(DEB);
-			 Logger::LogStatement("Debounce increasing. Now at ", DEB);
+			 Logger::LogStatement(F("Debounce increasing. Now at "), DEB);
 			 Logger::LogStatement(g_DebounceCounter, DEB);
 			 Logger::EndLogStatement(DEB);
          }
