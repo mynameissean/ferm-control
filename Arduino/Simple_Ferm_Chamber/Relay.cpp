@@ -34,7 +34,10 @@ Relay::Relay(int TriggerPin, int DisplayPin, ID* InID) : Triggerable(TriggerPin,
 ///<param name="DIsplayPin">The wire on the arudiono board to activate for displaying the relay is active</param>
 ///<param name="MinRunTime">The minimum amount of time to run the relay, measured in ms</param>
 ///<param name="CompressorDelay">How long to wait before activating the relay after turning it off, measured in ms</param>
-Relay::Relay(int TriggerPin, int DisplayPin, ID* InID,  unsigned long MinRunTime, unsigned long CompressorDelay) : Triggerable(TriggerPin, DisplayPin)
+Relay::Relay(int TriggerPin, 
+			 int DisplayPin, ID* InID,  
+			 unsigned long MinRunTime, 
+			 unsigned long CompressorDelay) : Triggerable(TriggerPin, DisplayPin)
 {
     m_TriggerPin = TriggerPin;
     m_DisplayPin = DisplayPin;
