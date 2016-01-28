@@ -106,6 +106,7 @@
       <FileType>CppCode</FileType>
     </ClInclude>
     <ClInclude Include="ID.h" />
+    <ClInclude Include="Logger.h" />
     <ClInclude Include="Relay.h" />
     <ClInclude Include="TemperatureManager.h" />
     <ClInclude Include="TemperatureSensor.h" />
@@ -117,6 +118,7 @@
     <ClCompile Include="Communicator.cpp" />
     <ClCompile Include="EEPROMex.cpp" />
     <ClCompile Include="ID.cpp" />
+    <ClCompile Include="Logger.cpp" />
     <ClCompile Include="Relay.cpp" />
     <ClCompile Include="TemperatureManager.cpp" />
     <ClCompile Include="TemperatureSensor.cpp">
