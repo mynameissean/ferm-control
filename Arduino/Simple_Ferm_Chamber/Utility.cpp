@@ -3,6 +3,8 @@
 #include "Utility.h"
 #include "Definitions.h"
 #include "EEPROMex.h"
+#include "Logger.h"
+
 
 /**
  *Convert the temperature to fahrenheit from celsius.
@@ -49,10 +51,11 @@
          //No rollover.  Do the normal calculation
          retVal = currentTime - PreviousTime;
      }
-#ifdef _DEBUG
-     Serial.print("Time difference is ");
-     Serial.println(retVal);
-#endif
+
+	 Logger::PrependLogStatement(DEB);
+     Logger::LogStatement(F("Time difference is "), DEB);
+     Logger::LogStatement(retVal, DEB);
+
 
      return retVal;
  }
@@ -79,6 +82,17 @@ void Utility::Cycle(int Pin, int OnTime, int OffTime)
   delay(OffTime);              // wait for a second
 }
 
+///<summary> Cycle the LED pin on and off a set number of times </summary>
+///<param name="Pin">Output LED pin number </param>
+///<param name="TimesToFlash"> How many 100ms cycles of on and off to go through</param>
+void Utility::Flash(int Pin, int TimesToFlash)
+{
+	for(int i = 0; i < TimesToFlash; i++)
+	{
+		Cycle(Pin, 100, 100);
+	}
+}
+
 ///<summary>Update the float at the specified address so it is stored in the EEPROM</summary>
 ///<param name="Address">Where the float is stored</param>
 ///<param name="Value">What the value is to store</param>
@@ -86,10 +100,11 @@ void Utility::UpdateEEPROMFloat(int Address, float Value)
 {
     if(0 == EEPROM.updateFloat(Address, Value))
     {
-#ifdef _DEBUG
-        Serial.println("Unable to write to eeprom");
-#endif
+
+        Logger::Log(F("Unable to write to eeprom"), WAR);
+
     }
 }
+
 
  //Utility UTILITY;

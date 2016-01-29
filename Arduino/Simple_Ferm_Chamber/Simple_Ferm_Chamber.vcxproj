@@ -53,10 +53,10 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>E:\Source\Arduino\Base Source Code\arduino-1.5\Arduino\hardware\arduino\avr\cores\arduino;E:\Source\Arduino\Base Source Code\arduino-1.5\Arduino\hardware\arduino\avr\variants\standard;E:\Source\Arduino\Base Source Code\arduino-1.5\Arduino\hardware\arduino\avr\libraries\Wire;E:\Source\Arduino\Base Source Code\arduino-1.5\Arduino\hardware\arduino\avr\libraries\Wire\utility;E:\Source\Arduino\Base Source Code\arduino-1.5\Arduino\libraries\OneWire;E:\Source\Arduino\Base Source Code\arduino-1.5\Arduino\libraries\OneWire\utility;E:\Source\Arduino\Base Source Code\arduino-1.5\Arduino\libraries;E:\Source\Arduino\Base Source Code\arduino-1.5\Arduino\hardware\arduino\avr\libraries;C:\Program Files (x86)\Visual Micro\Visual Micro for Arduino\Micro Platforms\default\debuggers;C:\Users\Sean\Documents\Arduino\libraries;e:\source\arduino\base source code\arduino-1.5\arduino\hardware\tools\avr\avr\include\;e:\source\arduino\base source code\arduino-1.5\arduino\hardware\tools\avr\avr\include\avr\;e:\source\arduino\base source code\arduino-1.5\arduino\hardware\tools\avr\avr\;e:\source\arduino\base source code\arduino-1.5\arduino\hardware\tools\avr\lib\gcc\avr\4.3.2\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <ForcedIncludeFiles>E:\Source\Git-Hub\ferm-control\ferm-control\Arduino\Visual Micro\.Arduino.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <AdditionalIncludeDirectories>E:\Program Files (x86)\Arduino\Arduino 1.6.1\hardware\arduino\avr\cores\arduino;E:\Program Files (x86)\Arduino\Arduino 1.6.1\hardware\arduino\avr\variants\standard;G:\Source\GitHub\ferm-control\Arduino\Simple_Ferm_Chamber;E:\Program Files (x86)\Arduino\Arduino 1.6.1\hardware\arduino\avr\libraries\Wire;E:\Program Files (x86)\Arduino\Arduino 1.6.1\hardware\arduino\avr\libraries\Wire\utility;E:\Program Files (x86)\Arduino\Arduino 1.6.1\libraries\OneWire;E:\Program Files (x86)\Arduino\Arduino 1.6.1\libraries\OneWire\utility;E:\Program Files (x86)\Arduino\Arduino 1.6.1\libraries;E:\Program Files (x86)\Arduino\Arduino 1.6.1\hardware\arduino\avr\libraries;E:\Program Files (x86)\Visual Micro\Visual Micro for Arduino\Micro Platforms\default\debuggers;E:\Users\Sean\Documents\Arduino\libraries;e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\;e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\;e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\;e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\lib\gcc\avr\4.8.1\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ForcedIncludeFiles>G:\Source\GitHub\ferm-control\Arduino\Simple_Ferm_Chamber\Visual Micro\.Simple_Ferm_Chamber.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
-      <PreprocessorDefinitions>__AVR_ATmega328p__;__AVR_ATmega328P__;ARDUINO=153;ARDUINO_MAIN;__AVR__;__avr__;F_CPU=16000000L;__cplusplus;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>__AVR_ATmega328p__;__AVR_ATmega328P__;ARDUINO=161;ARDUINO_MAIN;__AVR__;__avr__;F_CPU=16000000L;__cplusplus;GCC_VERSION=40801;ARDUINO_ARCH_AVR;ARDUINO_AVR_UNO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>/D_DEBUG %(AdditionalOptions)</AdditionalOptions>
       <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
     </ClCompile>
@@ -106,17 +106,19 @@
       <FileType>CppCode</FileType>
     </ClInclude>
     <ClInclude Include="ID.h" />
+    <ClInclude Include="Logger.h" />
     <ClInclude Include="Relay.h" />
     <ClInclude Include="TemperatureManager.h" />
     <ClInclude Include="TemperatureSensor.h" />
     <ClInclude Include="Triggerable.h" />
     <ClInclude Include="Utility.h" />
-    <ClInclude Include="Visual Micro\.Arduino.vsarduino.h" />
+    <ClInclude Include="Visual Micro\.Simple_Ferm_Chamber.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Communicator.cpp" />
     <ClCompile Include="EEPROMex.cpp" />
     <ClCompile Include="ID.cpp" />
+    <ClCompile Include="Logger.cpp" />
     <ClCompile Include="Relay.cpp" />
     <ClCompile Include="TemperatureManager.cpp" />
     <ClCompile Include="TemperatureSensor.cpp">

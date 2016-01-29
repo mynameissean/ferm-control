@@ -4,6 +4,7 @@
 #include "Relay.h"
 #include "Definitions.h"
 #include "Utility.h"
+#include "Logger.h"
 
 ///<summary>Create a relay that is able to activate the given pin output</summary>
 ///<param name="TriggerPin">The wire on the arduino board to activate</param>
@@ -33,7 +34,10 @@ Relay::Relay(int TriggerPin, int DisplayPin, ID* InID) : Triggerable(TriggerPin,
 ///<param name="DIsplayPin">The wire on the arudiono board to activate for displaying the relay is active</param>
 ///<param name="MinRunTime">The minimum amount of time to run the relay, measured in ms</param>
 ///<param name="CompressorDelay">How long to wait before activating the relay after turning it off, measured in ms</param>
-Relay::Relay(int TriggerPin, int DisplayPin, ID* InID,  unsigned long MinRunTime, unsigned long CompressorDelay) : Triggerable(TriggerPin, DisplayPin)
+Relay::Relay(int TriggerPin, 
+			 int DisplayPin, ID* InID,  
+			 unsigned long MinRunTime, 
+			 unsigned long CompressorDelay) : Triggerable(TriggerPin, DisplayPin)
 {
     m_TriggerPin = TriggerPin;
     m_DisplayPin = DisplayPin;
@@ -52,14 +56,12 @@ Relay::Relay(int TriggerPin, int DisplayPin, ID* InID,  unsigned long MinRunTime
 ///<return>True if successful, false otherwise. </return>
 bool Relay::TurnOn()
 {
-    Serial.println("trying to turn on the relay");
+	Logger::Log(F("Trying to turn on the relay"), INF);
     bool retVal = false;
     //We need to see if we can activate the cooling
        if(true == IsOn())
        {
-#ifdef _DEBUG
-           Serial.println("Already on");
-#endif
+		   Logger::Log(F("Already on"), DEB);
            //Nothing to turn on
            retVal = true;
            goto cleanup;
@@ -67,12 +69,12 @@ bool Relay::TurnOn()
        if(false == CanTurnOn())
        {
            //Can't turn on yet
-#ifdef _DEBUG 
-           Serial.print("Can't turn on ");
-           Serial.println(m_ID->GetName());
-#endif
-          Utility::Cycle(GetDisplayPin(), 250, 250);
-          goto cleanup;
+		   Logger::PrependLogStatement(WAR);		   
+		   Logger::LogStatement(F("Can't turn on "), WAR);
+           Logger::LogStatement(m_ID->GetName(), WAR);
+		   Logger::EndLogStatement(WAR);
+           Utility::Flash(GetDisplayPin(), 5);
+           goto cleanup;
        }
          
     TriggerHigh();
@@ -90,23 +92,25 @@ cleanup:
 bool Relay::TurnOff()
 {
     bool retVal = false;
+
+	Logger::Log(F("Trying to turn off the relay"), DEB);
+
     if(false == IsOn())
     {
         //Nothing to turn off.  Success
-         #ifdef _DEBUG 
-            Serial.println("Nothing to turn off");
-        #endif
+        Logger::Log(F("Nothing to turn off"), INF);        
         retVal = true;
         goto cleanup;
     }
     if(false == CanTurnOff())
     {
-        //Unable to turn the heater off 
-        #ifdef _DEBUG 
-            Serial.print("Can't turn off ");
-            Serial.println(m_ID->GetName());
-        #endif
-        Utility::Cycle(GetDisplayPin(), 250, 250);
+        //Unable to turn the heater off         
+        Logger::PrependLogStatement(WAR);		   
+		Logger::LogStatement(F("Can't turn off "), WAR);
+        Logger::LogStatement(m_ID->GetName(), WAR);
+		Logger::EndLogStatement(WAR);        
+
+        Utility::Flash(GetDisplayPin(), 5);
         goto cleanup;
     }
            
@@ -142,10 +146,12 @@ bool Relay::CanTurnOn()
     }
 
     //Get the current time difference
-#ifdef _DEBUG
-    Serial.print("Off start time is ");
-    Serial.println(m_OffTimeStart);
-#endif
+	Logger::PrependLogStatement(DEB);		   
+	Logger::LogStatement(F("Off start time is <"), DEB);
+    Logger::LogStatement(m_OffTimeStart, DEB);
+	Logger::LogStatement(F(">"), DEB);
+	Logger::EndLogStatement(DEB);
+
     difference = Utility::TimeDifference(m_OffTimeStart);
 
     //See if we've exceeded the necessary wait limit
@@ -158,6 +164,13 @@ bool Relay::CanTurnOn()
 
 cleanup:
     return retVal;
+}
+
+///<summary>Print out the state of the relay in the following format:
+///Name:On|Off</summary>
+void Relay::Print()
+{	
+	Logger::LogCommunicationStatement(m_ID->GetName(), IsOn() ? "On" : "Off");	
 }
 
 

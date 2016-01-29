@@ -35,6 +35,7 @@ class Relay : public Triggerable
     bool IsOn(){return m_IsOn;};
     int GetDisplayPin(){return m_DisplayPin;};
     ID* GetID(){return m_ID;};
+	void Print();
 };
 #endif
 

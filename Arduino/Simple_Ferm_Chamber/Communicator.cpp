@@ -1,7 +1,7 @@
 #include "Definitions.h"
 #include "Utility.h"
 #include "Communicator.h"
-
+#include "Logger.h"
 
 ///<summary>Create a new communicator socket for receiving and sending commands</summary>
 Communicator::Communicator()
@@ -45,11 +45,13 @@ OperatingCommand Communicator::ParseCommand(String* Command, int* IValue, float*
      float fValue;
      if(false == ValidateCommand(Command))
      {
-#ifdef _DEBUG
-         Serial.print("Invalid command: ");
-         Serial.println(*Command);
-#endif
-         goto cleanup;
+		//Write out a warning to our output stream
+		Logger::PrependLogStatement(WAR);
+		Logger::LogStatement(F("Invalid Command <"), WAR);
+		Logger::LogStatement(Command->c_str(), WAR);	
+		Logger::LogStatement(F(">"), WAR);
+		Logger::EndLogStatement(WAR);
+        goto cleanup;
      }
 
      //Commands are in the format ACTION_GROUP:VALUE
@@ -68,55 +70,55 @@ OperatingCommand Communicator::ParseCommand(String* Command, int* IValue, float*
       {
           value = Command->substring(Command->indexOf(':'), Command->length());
           iValue = value.toInt();
-          //Can't use .toFloat as this won't compile on Arduino 1.0 on Pi
-          char buffer[10];
-          value.toCharArray(buffer, 10);
+
+		  char buffer[10];
+		  value.toCharArray(buffer, 10);
           fValue = atof(buffer);
       }
 
-      if(action.equalsIgnoreCase("UTT"))
+      if(action.equalsIgnoreCase(F("UTT")))
       {
           //Update temperature target (UTT), followed by a XXX length integer
           retVal = UTT;
           *FValue = fValue;
       }
-      else if(action.equalsIgnoreCase("UTB"))
+      else if(action.equalsIgnoreCase(F("UTB")))
       {
           //Update temperature band (UTB), followed by a x.xx length float
           retVal = UTB;
           *FValue = fValue;
       }
-      else if(action.equalsIgnoreCase("RCT"))
+      else if(action.equalsIgnoreCase(F("RCT")))
       {
           //Report current temperature (RCT), followed by a XX length integer indicating the sensor to read
           retVal = RCT;
           *IValue = iValue;
       }
-      else if(action.equalsIgnoreCase("RRS"))
+      else if(action.equalsIgnoreCase(F("RRS")))
       {
           //Report relay status (RRS), followed by a XX length integer indicating the relay to read
           retVal = RRS;
           *IValue = iValue;
       }
-      else if(action.equalsIgnoreCase("URS"))
+      else if(action.equalsIgnoreCase(F("URS")))
       {
           //Update Relay Status (URS), followed by a XX length integer.  The first   1 indicates off, 2 indicates on
           retVal = URS;
           *IValue = iValue;
       }
-      else if(action.equalsIgnoreCase("RSI"))
+      else if(action.equalsIgnoreCase(F("RSI")))
       {
           //Report sensor index (RSI), followed by a XX length integer indicating the sensor to read
           retVal = RSI;
           *IValue = iValue;
       }
-      else if(action.equalsIgnoreCase("RRI"))
+      else if(action.equalsIgnoreCase(F("RRI")))
       {
           //Report relay index (RRI), followed by a XX length integer indicating the sensor to read
           retVal = RRI;
           *IValue = iValue;
       }
-      else if(action.equalsIgnoreCase("HBS"))
+      else if(action.equalsIgnoreCase(F("HBS")))
       {
           //Heart beat service (HBS)
           retVal = HBS;
@@ -124,10 +126,11 @@ OperatingCommand Communicator::ParseCommand(String* Command, int* IValue, float*
       else
       {
           //Invalid command
-#ifdef _DEBUG
-          Serial.print("Unknown command: ");
-          Serial.println(*Command);
-#endif
+		  Logger::PrependLogStatement(WAR);
+		  Logger::LogStatement(F("Unknown Command <"), WAR);
+		  Logger::LogStatement(Command->c_str(), WAR);	
+		  Logger::LogStatement(F(">"), WAR);
+		  Logger::EndLogStatement(WAR);
           retVal = INVALID;
       }
 
@@ -169,30 +172,33 @@ bool Communicator::ValidateCommand(String* Command)
     if(NULL == Command || Command->length() < 4 || Command->length() > 11)
     {
         //Invalid
-#ifdef _DEBUG
-        Serial.print("Invalid string.  Either null or too long: ");
-        Serial.println(*Command);
-#endif
+		Logger::PrependLogStatement(WAR);
+		Logger::LogStatement(F("Invalid string.  Either null or too long <"), WAR);
+		Logger::LogStatement(Command->c_str(), WAR);	
+		Logger::LogStatement(F(">"), WAR);
+		Logger::EndLogStatement(WAR);
         goto cleanup;
     }
 
     //Validate the ACTION_GROUP
     if(-1 == Command->indexOf(':'))
     {        
-#ifdef _DEBUG
-        Serial.print("Invalid string.  No ':' in the command: ");
-        Serial.println(*Command);
-#endif
+		Logger::PrependLogStatement(WAR);
+		Logger::LogStatement(F("Invalid string.  No 'colon' in the command <"), WAR);
+		Logger::LogStatement(Command->c_str(), WAR);	
+		Logger::LogStatement(F(">"), WAR);
+		Logger::EndLogStatement(WAR);
         goto cleanup;
     }
 
     action = Command->substring(0, Command->indexOf(':'));
     if(NULL == action || 3 != action.length())
     {
-#ifdef _DEBUG
-        Serial.print("Invalid string.  Action group isn't the correct length: ");
-        Serial.println(*Command);
-#endif
+		Logger::PrependLogStatement(WAR);
+		Logger::LogStatement(F("Invalid string.  Action group isn't the correct length <"), WAR);
+		Logger::LogStatement(Command->c_str(), WAR);	
+		Logger::LogStatement(F(">"), WAR);
+		Logger::EndLogStatement(WAR);
         goto cleanup;
     }
 
@@ -208,24 +214,28 @@ bool Communicator::ValidateCommand(String* Command)
     value = Command->substring(Command->indexOf(':'), Command->length());
     if(NULL == value || 0 == value.length() || value.length() > 6)
     {
-#ifdef _DEBUG
-        Serial.print("Invalid value.  Length does not match requirements: ");
-        Serial.println(value);
-#endif
+		Logger::PrependLogStatement(WAR);
+		Logger::LogStatement(F("Invalid value.  Length does not match requirements <"), WAR);
+		Logger::LogStatement(value.c_str(), WAR);	
+		Logger::LogStatement(F(">"), WAR);
+		Logger::EndLogStatement(WAR);
         goto cleanup;
     }
 
     //Now see if we have either an integer or a float
     iValue = value.toInt();
-    char buffer[10];
-    value.toCharArray(buffer, 10);
+
+	char buffer[10];
+	value.toCharArray(buffer, 10);
+
     fValue = atof(buffer);
     if(0 == iValue && 0.0 == fValue)
     {
-#ifdef _DEBUG
-        Serial.print("Invalid value: ");
-        Serial.println(value);
-#endif
+		Logger::PrependLogStatement(WAR);
+		Logger::LogStatement(F("Invalid value. <"), WAR);
+		Logger::LogStatement(value.c_str(), WAR);	
+		Logger::LogStatement(F(">"), WAR);
+		Logger::EndLogStatement(WAR);
         goto cleanup;
     }
 

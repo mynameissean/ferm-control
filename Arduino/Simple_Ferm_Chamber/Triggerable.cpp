@@ -1,5 +1,6 @@
 #include "Definitions.h"
 #include "Triggerable.h"
+#include "Logger.h"
 
 ///<summary>Create a new triggerable event</summary>
 ///<param name="InTriggerPin">The pin to trigger depending on the command</param>
@@ -24,10 +25,11 @@ Triggerable::Triggerable(int InTriggerPin, int InDisplayPin)
 /// to</param>
 void Triggerable::Trigger(int Setting)
 {
-    #ifdef _DEBUG
-    Serial.print("Turning off triggerable");
-    Serial.println(m_TriggerPin);
-#endif
+	Logger::PrependLogStatement(DEB);
+	Logger::LogStatement(F("Turning off triggerable"), DEB);
+    Logger::LogStatement(m_TriggerPin, DEB);
+	Logger::EndLogStatement(DEB);
+
     digitalWrite(m_TriggerPin, Setting);
     //See if we have a display pin to work with
     if(INVALID_PIN != m_DisplayPin)

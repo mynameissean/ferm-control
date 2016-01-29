@@ -1,0 +1,13 @@
+{% if reading_list %}
+    <ul>
+    {% for beer in reading_list %}
+	<li> {{beer.name}}</li>
+	<ul>
+	    <li><a href="{% url 'beerviewer:getSpecificBeer' beer.name %}">Full Data Graph</a></li>
+	    <li><a href="{% url 'beerviewer:beerDetailChooser' beer.name %}">Subset Data Graph</a></li>
+	</ul>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No beer readings available.</p>
+{% endif %}

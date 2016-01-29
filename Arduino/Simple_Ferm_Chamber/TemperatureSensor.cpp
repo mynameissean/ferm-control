@@ -1,7 +1,7 @@
 
 #include "TemperatureSensor.h"
 #include "Utility.h"
-
+#include "Logger.h"
 
 
  ///<summary>Generate and encapsulate all the data related to a temperature sensor.</summary>
@@ -92,7 +92,7 @@ void TemperatureSensor::SetTemperatureBand(float TempBand)
    //Found the sensor we were looking for, read the data from it
      if(0 == Sensors.reset())
      {
-       Serial.println("Unable to reset the bus");
+       Logger::Log(F("Unable to reset the bus"), ERR);
        goto cleanup;
      }  
      
@@ -100,13 +100,24 @@ void TemperatureSensor::SetTemperatureBand(float TempBand)
      
      //Send the 0x44 command, which is the convert command
      Sensors.write(0x44);
+
+	 //TODO: Can only do this when not in parasitic power mode
+	 while(Sensors.read() == 0) 
+	 {
+		 //Chill for 5 ms to see if it's all done
+		 delay(5);
+	 }
+
+	 //TODO: This might not be needed for non-parasite powered sensors
      if(0 == Sensors.reset())
      {
-       Serial.println("Unable to reset the bus after converting temperature");
+       Logger::Log(F("Unable to reset the bus after converting temperature"), ERR);
        goto cleanup;
      }
      Sensors.select(m_SensorAddress);
-     
+	 
+	 
+
      //Send the 0xBE command, which is read the scratchpad
      Sensors.write(0xBE);     
      
@@ -126,6 +137,15 @@ cleanup:
      return retVal;
  }
 
+ ///<summary>Print out the temperature sensor in the following format:
+ ///SensorName:Temperature</summary>
+ void TemperatureSensor::Print()
+ {
+	 char buffer[33];
+	 sprintf(buffer, "%f", m_Temperature);
+	 Logger::LogCommunicationStatement(m_ID->GetName(), buffer);	 
+ }
+
 
 ///<summary>Go through the collection of sensors and validate that we have the
 ///requested sensor on the system.</summary>
@@ -136,30 +156,32 @@ cleanup:
    bool retVal = false;
    byte foundSensorAddress[8];
 
-#ifdef _DEBUG
-   Serial.print("Searching for ");
-   DebugPrintSensor(m_SensorAddress);
-#endif 
+   Logger::PrependLogStatement(DEB);
+   Logger::LogStatement(F("Searching for "), DEB);   
+   Logger::LogStatement(m_SensorAddress, DEB);
+   Logger::EndLogStatement(DEB);
 
    while(true == Sensors.search(foundSensorAddress))
    {
      bool found = true;   
      
-#ifdef _DEBUG
+
      //Print out the data
-     Serial.println("Found Sensor: ");
-      DebugPrintSensor(foundSensorAddress);     
-#endif 
+	 Logger::PrependLogStatement(DEB);
+     Logger::LogStatement(F("Found sensor "), DEB);   
+	 Logger::LogStatement(foundSensorAddress, DEB);
+	 Logger::EndLogStatement(DEB);        
+
 
      //See if this is a valid address
      if ( OneWire::crc8( foundSensorAddress, 7) != foundSensorAddress[7]) {
-          Serial.println("CRC is not valid!");
+          Logger::Log(F("CRC is not valid!"), WAR);
           Sensors.reset();
           Sensors.reset_search();
           break;
       }     
       if ( foundSensorAddress[0] != 0x10 && foundSensorAddress[0] != 0x28) {
-        Serial.println("Device is not recognized");
+        Logger::Log(F("Device is not recognized"), WAR);
         continue;
       }
       
@@ -176,31 +198,33 @@ cleanup:
      if(true == found)
      {
        //This is the sensor we're looking for
-#ifdef _DEBUG
-       Serial.println("Found sensor");
-#endif
+       Logger::Log(F("Found sensor"), DEB);
        retVal = true;
        break;      
      }     
    }  
+
+   Logger::Log(F("Done searching for sensors"), DEB);
+
+
    
 cleanup:
   //Reset the temperature sensor search for subsequent invocations
   Sensors.reset_search();
   return retVal;   
  }
-  
-  #ifdef _DEBUG
+
   ///<summary>Print out the sensor data in a readable format.</summary>
   ///<param name="SensorAddress">The address of the sensor to print out</param>
   void TemperatureSensor::DebugPrintSensor(byte* SensorAddress)
  {
-    Serial.print("Device");
-      for(int i = 0; i < 8; i++)
-      {
-        Serial.print(SensorAddress[i]);
-        Serial.print("-");        
-      }
-      Serial.println("");
+
+	Logger::PrependLogStatement(DEB);
+	Logger::LogStatement(F("Device "), DEB);
+    for(int i = 0; i < 8; i++){
+		Logger::LogStatement(SensorAddress[i], DEB);
+        Logger::LogStatement(F("-"), DEB);        
+    }
+	Logger::EndLogStatement(DEB);
  }
- #endif
+
