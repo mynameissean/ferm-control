@@ -9,6 +9,9 @@ void Logger::PrependLogStatement(ErrorLevels Level)
 	{
 		switch(Level)
 		{
+      case COM:
+        //Nothing to prepend with
+        break;
 			case ERR:
 				Serial.print("ERR:");
 				break;

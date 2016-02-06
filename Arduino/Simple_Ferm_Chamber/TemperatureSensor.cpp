@@ -141,9 +141,9 @@ cleanup:
  ///SensorName:Temperature</summary>
  void TemperatureSensor::Print()
  {
-	 char buffer[33];
-	 sprintf(buffer, "%f", m_Temperature);
-	 Logger::LogCommunicationStatement(m_ID->GetName(), buffer);	 
+	 char buffer[15];
+   char* buf = Utility::ftoa(buffer, m_Temperature, 2);
+	 Logger::LogCommunicationStatement(m_ID->GetName(), buf);	 
  }
 
 

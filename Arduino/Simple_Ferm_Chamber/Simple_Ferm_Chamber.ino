@@ -43,7 +43,7 @@ Communicator* m_Communicator = NULL;
 
 //Setup values
 float g_PrimaryTemperatureBand = 1.3;
-float g_PrimaryTargetTemperature = 83;
+float g_PrimaryTargetTemperature = 50;
 unsigned long g_CompressorRunTime = 30000; //30 Seconds
 unsigned long g_CompressorOffTime = 240000; //4 Minutes
 unsigned long g_HeatingOffTime = 300000;    //5 Minutes

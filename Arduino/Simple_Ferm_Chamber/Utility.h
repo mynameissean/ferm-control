@@ -22,6 +22,7 @@ class Utility
 	static void Flash(int, int);
     static void UpdateEEPROMFloat(int Address, float Value);
     static float ReadEEPROMFloat(int Address);
+    static char* ftoa(char *a, double f, int precision);
 	
 };
 

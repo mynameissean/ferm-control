@@ -26,7 +26,7 @@ class Logger
 	static void LogStatement(const __FlashStringHelper*, ErrorLevels);
 	static void LogStatement(const char*, ErrorLevels);
 	static void EndLogStatement(ErrorLevels);
-	static void LogCommunicationStatement(const char*, const char*);
+	static void LogCommunicationStatement(const char*,const char*);
 	static void SetLoggingLevel(ErrorLevels LoggingLevel){
 		Logger::DebugLevel = LoggingLevel;};
 	
