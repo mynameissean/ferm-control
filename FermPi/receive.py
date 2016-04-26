@@ -11,7 +11,7 @@ import usb # 1.0 not 0.4
 import sys
 sys.path.append("..")
 
-from digispark.usbdevice import ArduinoUsbDevice
+from arduino.usbdevice import ArduinoUsbDevice
 
 
 if __name__ == "__main__":

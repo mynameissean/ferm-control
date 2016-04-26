@@ -28,7 +28,7 @@ import sys
 import wx
 
 
-from digispark.usbdevice import ArduinoUsbDevice
+from arduino.usbdevice import ArduinoUsbDevice
 
 
 

@@ -9,7 +9,7 @@ import usb, sys # 1.0 not 0.4
 sys.path.append("..")
 import time
 
-from digispark.usbdevice import ArduinoUsbDevice
+from arduino.usbdevice import ArduinoUsbDevice
 
 send_bank = ["0\n","1\n","2\n","3\n","5\n","6\n","7\n","8\n"]
 
