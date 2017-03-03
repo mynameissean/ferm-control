@@ -142,7 +142,7 @@ cleanup:
  void TemperatureSensor::Print()
  {
 	 char buffer[15];
-   char* buf = Utility::ftoa(buffer, m_Temperature, 2);
+     char* buf = Utility::ftoa(buffer, m_Temperature, 2);
 	 Logger::LogCommunicationStatement(m_ID->GetName(), buf);	 
  }
 

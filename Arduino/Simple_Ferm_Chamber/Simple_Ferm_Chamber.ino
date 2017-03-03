@@ -164,7 +164,7 @@ cleanup:
          {
              g_InternalFermentorSensor->SetTargetTemperature(fvalue);
              //Save stored temperature
-             Utility::UpdateEEPROMFloat(g_InternalFermentorSensor->GetID()->GetEEPROMAddress(), fvalue);
+             //Utility::UpdateEEPROMFloat(g_InternalFermentorSensor->GetID()->GetEEPROMAddress(), fvalue);
          }
          else
          {
@@ -172,7 +172,7 @@ cleanup:
          }
          break;
      case(UTB):
-         if(fvalue < .1)
+         if(fvalue > .1)
          {
              g_InternalFermentorSensor->SetTemperatureBand(fvalue);
              //Save stored band
