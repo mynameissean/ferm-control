@@ -228,3 +228,8 @@ cleanup:
 	Logger::EndLogStatement(DEB);
  }
 
+  int TemperatureSensor::foo()
+  {
+	  return 1;
+  }
+

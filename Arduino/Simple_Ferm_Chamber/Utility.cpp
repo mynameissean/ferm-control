@@ -106,6 +106,11 @@ void Utility::UpdateEEPROMFloat(int Address, float Value)
     }
 }
 
+///<summary>Convert a float to a character string with the requested precision.</summary>
+///<param name="a"> The character to convert into</param>
+///<param name="f"> The floating point number to convert</param>
+///<param name="precision"> How many decimal points to try and put into the character string</param>
+///<returns> The converted character string</param>
 char* Utility::ftoa(char *a, double f, int precision)
 {
  long p[] = {0,10,100,1000,10000,100000,1000000,10000000,100000000};

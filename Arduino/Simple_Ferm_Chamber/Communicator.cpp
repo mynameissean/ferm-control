@@ -55,6 +55,7 @@ OperatingCommand Communicator::ParseCommand(String* Command, int* IValue, float*
      }
 
      //Commands are in the format ACTION_GROUP:VALUE
+	 //For certain ACTION_GROUP commands, the value is not needed, but the : is still required
      //ACTION_GROUP can be any of the following
      //Update temperature target (UTT), followed by a XXX.X length float
      //Update temperature band (UTB), followed by a xx.xx length float
@@ -63,9 +64,11 @@ OperatingCommand Communicator::ParseCommand(String* Command, int* IValue, float*
      //Report relay index (RRI), followed by a XX length integer indicating the sensor to read
      //Report relay status (RRS), followed by a XX length integer indicating the relay to read
      //Update Relay Status (URS), followed by a XX length integer.  The first   1 indicates off, 2 indicates on
+	 //List Temp Sensors (LTS). This will cause the arduino to list out the sensors that are attached
+	 //Heart Beat Service (HBS).  Will force the controller to respond back that it is still active
      action = Command->substring(0, Command->indexOf(':'));     
 
-     //Value may not have anything in it.  That's fine for report relay status
+     //Value may not have anything in it.  That's fine for report temp sensors
       if(true == HasValue(Command))
       {
           value = Command->substring(Command->indexOf(':'), Command->length());
@@ -122,7 +125,12 @@ OperatingCommand Communicator::ParseCommand(String* Command, int* IValue, float*
       {
           //Heart beat service (HBS)
           retVal = HBS;
-      }
+      }	  
+	  else if (action.equalsIgnoreCase(F("LTS")))
+	  {
+		  //List temperature sensors (LTS).  Just return out the sensors that we have attached
+		  retVal = LTS;
+	  }
       else
       {
           //Invalid command

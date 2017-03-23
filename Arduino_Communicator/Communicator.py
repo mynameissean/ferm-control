@@ -34,13 +34,14 @@ class Communicator(threading.Thread):
         consecutiveFailures = 0;
         while consecutiveFailures < g_FailureThreshold:
             #Open a connection to the serial device
-            input = serial.Serial(port=port, baudrate=baudrate, timeout=timeout)
-            while input.isOpen():
+            communication = serial.Serial(port=port, baudrate=baudrate, timeout=timeout)
+            
+            while communication.isOpen():
                 #We have a valid connection.  Attempt to read anything we have
                 print "hit"
-                if input.inWaiting:
+                if communication.inWaiting:
                     #We have data to read
-                    line = self.ReadLine(input)
+                    line = self.ReadLine(communication)
                     if line == None or False == self.m_ArduinoState.UpdateState(line):
                         #Haven't got a full line yet, or there was an error
                         consecutiveFailures += 1
@@ -48,6 +49,7 @@ class Communicator(threading.Thread):
                     else:
                         #Have a valid line, reset our count
                         consecutiveFailures = 0
+                #See if we have anything to write to the output stream
                 #End of a cycle.  Wait a second
                 time.sleep(1)
 

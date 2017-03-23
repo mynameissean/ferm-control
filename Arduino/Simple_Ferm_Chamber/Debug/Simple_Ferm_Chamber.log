@@ -1,0 +1,397 @@
+﻿Build started 3/22/2017 8:59:31 PM.
+     1>Project "G:\Source\GitHub\ferm-control\Arduino\Simple_Ferm_Chamber\Simple_Ferm_Chamber.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         E:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"E:\Program Files (x86)\Arduino\Arduino 1.6.1\hardware\arduino\avr\cores\arduino" /I"E:\Program Files (x86)\Arduino\Arduino 1.6.1\hardware\arduino\avr\variants\standard" /I"G:\Source\GitHub\ferm-control\Arduino\Simple_Ferm_Chamber" /I"E:\Program Files (x86)\Arduino\Arduino 1.6.1\hardware\arduino\avr\libraries\Wire" /I"E:\Program Files (x86)\Arduino\Arduino 1.6.1\hardware\arduino\avr\libraries\Wire\utility" /I"E:\Program Files (x86)\Arduino\Arduino 1.6.1\libraries\OneWire" /I"E:\Program Files (x86)\Arduino\Arduino 1.6.1\libraries\OneWire\utility" /I"E:\Program Files (x86)\Arduino\Arduino 1.6.1\libraries" /I"E:\Program Files (x86)\Arduino\Arduino 1.6.1\hardware\arduino\avr\libraries" /I"E:\Program Files (x86)\Visual Micro\Visual Micro for Arduino\Micro Platforms\default\debuggers" /IE:\Users\Sean\Documents\Arduino\libraries /I"e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\\" /I"e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\\" /I"e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\\" /I"e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\lib\gcc\avr\4.8.1\include\\" /ZI /nologo /W3 /WX- /Od /Oy- /D __AVR_ATmega328p__ /D __AVR_ATmega328P__ /D ARDUINO=161 /D ARDUINO_MAIN /D __AVR__ /D __avr__ /D F_CPU=16000000L /D __cplusplus /D GCC_VERSION=40801 /D ARDUINO_ARCH_AVR /D ARDUINO_AVR_UNO /D _MBCS /X /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /doc"Debug\\" /Gd /TP /FI"G:\Source\GitHub\ferm-control\Arduino\Simple_Ferm_Chamber\Visual Micro\.Simple_Ferm_Chamber.vsarduino.h" /analyze- /errorReport:prompt /D_DEBUG Communicator.cpp EEPROMex.cpp ID.cpp Logger.cpp Relay.cpp TemperatureManager.cpp Test_Example.cpp Triggerable.cpp Utility.cpp
+         Utility.cpp
+     1>c1xx : warning C4117: macro name '__cplusplus' is reserved, '#define' ignored
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(13): warning C4005: '__AVR_ATmega328p__' : macro redefinition
+                 command-line arguments :  see previous definition of '__AVR_ATmega328p__'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(14): warning C4005: '__AVR_ATmega328P__' : macro redefinition
+                 command-line arguments :  see previous definition of '__AVR_ATmega328P__'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(16): warning C4005: 'ARDUINO_MAIN' : macro redefinition
+                 command-line arguments :  see previous definition of 'ARDUINO_MAIN'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(17): warning C4005: '__AVR__' : macro redefinition
+                 command-line arguments :  see previous definition of '__AVR__'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(18): warning C4005: '__avr__' : macro redefinition
+                 command-line arguments :  see previous definition of '__avr__'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(20): warning C4117: macro name '__cplusplus' is reserved, '#define' ignored
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(22): warning C4005: 'ARDUINO_ARCH_AVR' : macro redefinition
+                 command-line arguments :  see previous definition of 'ARDUINO_ARCH_AVR'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(23): warning C4005: 'ARDUINO_AVR_UNO' : macro redefinition
+                 command-line arguments :  see previous definition of 'ARDUINO_AVR_UNO'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\lib\gcc\avr\4.8.1\include\stddef.h(212): error C2371: 'size_t' : redefinition; different basic types
+                 g:\source\github\ferm-control\arduino\simple_ferm_chamber\predefined c++ types (compiler internal)(19) : see declaration of 'size_t'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\stdlib.h(420): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\stdlib.h(465): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\stdlib.h(508): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\stdlib.h(550): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\math.h(364): warning C4002: too many actual parameters for macro '__asm__'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\pgmspace.h(1186): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\pgmspace.h(1186): error C3861: '__builtin_strlen': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\pgmspace.h(1187): error C3861: '__builtin_strlen': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\arduino\avr\cores\arduino\arduino.h(118): error C2371: 'byte' : redefinition; different basic types
+                 g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(61) : see declaration of 'byte'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\arduino\avr\cores\arduino\hardwareserial.h(122): error C2535: 'size_t HardwareSerial::write(uint8_t)' : member function already defined or declared
+                 e:\program files (x86)\arduino\arduino 1.6.1\hardware\arduino\avr\cores\arduino\hardwareserial.h(119) : see declaration of 'HardwareSerial::write'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(684): error C4980: '__value' : use of this keyword requires /clr:oldSyntax command line option
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(684): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(689): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(694): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(699): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(711): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(716): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(721): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(726): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\util\delay_basic.h(88): error C2065: '__asm__' : undeclared identifier
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\util\delay_basic.h(110): error C2065: '__asm__' : undeclared identifier
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\util\delay.h(95): fatal error C1021: invalid preprocessor command 'warning'
+         Triggerable.cpp
+     1>c1xx : warning C4117: macro name '__cplusplus' is reserved, '#define' ignored
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(13): warning C4005: '__AVR_ATmega328p__' : macro redefinition
+                 command-line arguments :  see previous definition of '__AVR_ATmega328p__'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(14): warning C4005: '__AVR_ATmega328P__' : macro redefinition
+                 command-line arguments :  see previous definition of '__AVR_ATmega328P__'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(16): warning C4005: 'ARDUINO_MAIN' : macro redefinition
+                 command-line arguments :  see previous definition of 'ARDUINO_MAIN'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(17): warning C4005: '__AVR__' : macro redefinition
+                 command-line arguments :  see previous definition of '__AVR__'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(18): warning C4005: '__avr__' : macro redefinition
+                 command-line arguments :  see previous definition of '__avr__'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(20): warning C4117: macro name '__cplusplus' is reserved, '#define' ignored
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(22): warning C4005: 'ARDUINO_ARCH_AVR' : macro redefinition
+                 command-line arguments :  see previous definition of 'ARDUINO_ARCH_AVR'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(23): warning C4005: 'ARDUINO_AVR_UNO' : macro redefinition
+                 command-line arguments :  see previous definition of 'ARDUINO_AVR_UNO'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\lib\gcc\avr\4.8.1\include\stddef.h(212): error C2371: 'size_t' : redefinition; different basic types
+                 g:\source\github\ferm-control\arduino\simple_ferm_chamber\predefined c++ types (compiler internal)(19) : see declaration of 'size_t'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\stdlib.h(420): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\stdlib.h(465): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\stdlib.h(508): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\stdlib.h(550): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\math.h(364): warning C4002: too many actual parameters for macro '__asm__'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\pgmspace.h(1186): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\pgmspace.h(1186): error C3861: '__builtin_strlen': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\pgmspace.h(1187): error C3861: '__builtin_strlen': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\arduino\avr\cores\arduino\arduino.h(118): error C2371: 'byte' : redefinition; different basic types
+                 g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(61) : see declaration of 'byte'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\arduino\avr\cores\arduino\hardwareserial.h(122): error C2535: 'size_t HardwareSerial::write(uint8_t)' : member function already defined or declared
+                 e:\program files (x86)\arduino\arduino 1.6.1\hardware\arduino\avr\cores\arduino\hardwareserial.h(119) : see declaration of 'HardwareSerial::write'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(684): error C4980: '__value' : use of this keyword requires /clr:oldSyntax command line option
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(684): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(689): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(694): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(699): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(711): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(716): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(721): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(726): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\util\delay_basic.h(88): error C2065: '__asm__' : undeclared identifier
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\util\delay_basic.h(110): error C2065: '__asm__' : undeclared identifier
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\util\delay.h(95): fatal error C1021: invalid preprocessor command 'warning'
+         Test_Example.cpp
+     1>c1xx : warning C4117: macro name '__cplusplus' is reserved, '#define' ignored
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(13): warning C4005: '__AVR_ATmega328p__' : macro redefinition
+                 command-line arguments :  see previous definition of '__AVR_ATmega328p__'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(14): warning C4005: '__AVR_ATmega328P__' : macro redefinition
+                 command-line arguments :  see previous definition of '__AVR_ATmega328P__'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(16): warning C4005: 'ARDUINO_MAIN' : macro redefinition
+                 command-line arguments :  see previous definition of 'ARDUINO_MAIN'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(17): warning C4005: '__AVR__' : macro redefinition
+                 command-line arguments :  see previous definition of '__AVR__'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(18): warning C4005: '__avr__' : macro redefinition
+                 command-line arguments :  see previous definition of '__avr__'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(20): warning C4117: macro name '__cplusplus' is reserved, '#define' ignored
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(22): warning C4005: 'ARDUINO_ARCH_AVR' : macro redefinition
+                 command-line arguments :  see previous definition of 'ARDUINO_ARCH_AVR'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(23): warning C4005: 'ARDUINO_AVR_UNO' : macro redefinition
+                 command-line arguments :  see previous definition of 'ARDUINO_AVR_UNO'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\lib\gcc\avr\4.8.1\include\stddef.h(212): error C2371: 'size_t' : redefinition; different basic types
+                 g:\source\github\ferm-control\arduino\simple_ferm_chamber\predefined c++ types (compiler internal)(19) : see declaration of 'size_t'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\stdlib.h(420): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\stdlib.h(465): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\stdlib.h(508): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\stdlib.h(550): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\math.h(364): warning C4002: too many actual parameters for macro '__asm__'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\pgmspace.h(1186): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\pgmspace.h(1186): error C3861: '__builtin_strlen': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\pgmspace.h(1187): error C3861: '__builtin_strlen': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\arduino\avr\cores\arduino\arduino.h(118): error C2371: 'byte' : redefinition; different basic types
+                 g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(61) : see declaration of 'byte'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\arduino\avr\cores\arduino\hardwareserial.h(122): error C2535: 'size_t HardwareSerial::write(uint8_t)' : member function already defined or declared
+                 e:\program files (x86)\arduino\arduino 1.6.1\hardware\arduino\avr\cores\arduino\hardwareserial.h(119) : see declaration of 'HardwareSerial::write'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(684): error C4980: '__value' : use of this keyword requires /clr:oldSyntax command line option
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(684): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(689): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(694): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(699): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(711): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(716): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(721): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(726): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\util\delay_basic.h(88): error C2065: '__asm__' : undeclared identifier
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\util\delay_basic.h(110): error C2065: '__asm__' : undeclared identifier
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\util\delay.h(95): fatal error C1021: invalid preprocessor command 'warning'
+         TemperatureManager.cpp
+     1>c1xx : warning C4117: macro name '__cplusplus' is reserved, '#define' ignored
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(13): warning C4005: '__AVR_ATmega328p__' : macro redefinition
+                 command-line arguments :  see previous definition of '__AVR_ATmega328p__'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(14): warning C4005: '__AVR_ATmega328P__' : macro redefinition
+                 command-line arguments :  see previous definition of '__AVR_ATmega328P__'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(16): warning C4005: 'ARDUINO_MAIN' : macro redefinition
+                 command-line arguments :  see previous definition of 'ARDUINO_MAIN'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(17): warning C4005: '__AVR__' : macro redefinition
+                 command-line arguments :  see previous definition of '__AVR__'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(18): warning C4005: '__avr__' : macro redefinition
+                 command-line arguments :  see previous definition of '__avr__'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(20): warning C4117: macro name '__cplusplus' is reserved, '#define' ignored
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(22): warning C4005: 'ARDUINO_ARCH_AVR' : macro redefinition
+                 command-line arguments :  see previous definition of 'ARDUINO_ARCH_AVR'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(23): warning C4005: 'ARDUINO_AVR_UNO' : macro redefinition
+                 command-line arguments :  see previous definition of 'ARDUINO_AVR_UNO'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\lib\gcc\avr\4.8.1\include\stddef.h(212): error C2371: 'size_t' : redefinition; different basic types
+                 g:\source\github\ferm-control\arduino\simple_ferm_chamber\predefined c++ types (compiler internal)(19) : see declaration of 'size_t'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\stdlib.h(420): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\stdlib.h(465): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\stdlib.h(508): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\stdlib.h(550): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\math.h(364): warning C4002: too many actual parameters for macro '__asm__'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\pgmspace.h(1186): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\pgmspace.h(1186): error C3861: '__builtin_strlen': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\pgmspace.h(1187): error C3861: '__builtin_strlen': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\arduino\avr\cores\arduino\arduino.h(118): error C2371: 'byte' : redefinition; different basic types
+                 g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(61) : see declaration of 'byte'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\arduino\avr\cores\arduino\hardwareserial.h(122): error C2535: 'size_t HardwareSerial::write(uint8_t)' : member function already defined or declared
+                 e:\program files (x86)\arduino\arduino 1.6.1\hardware\arduino\avr\cores\arduino\hardwareserial.h(119) : see declaration of 'HardwareSerial::write'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(684): error C4980: '__value' : use of this keyword requires /clr:oldSyntax command line option
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(684): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(689): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(694): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(699): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(711): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(716): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(721): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(726): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\util\delay_basic.h(88): error C2065: '__asm__' : undeclared identifier
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\util\delay_basic.h(110): error C2065: '__asm__' : undeclared identifier
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\util\delay.h(95): fatal error C1021: invalid preprocessor command 'warning'
+         Relay.cpp
+     1>c1xx : warning C4117: macro name '__cplusplus' is reserved, '#define' ignored
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(13): warning C4005: '__AVR_ATmega328p__' : macro redefinition
+                 command-line arguments :  see previous definition of '__AVR_ATmega328p__'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(14): warning C4005: '__AVR_ATmega328P__' : macro redefinition
+                 command-line arguments :  see previous definition of '__AVR_ATmega328P__'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(16): warning C4005: 'ARDUINO_MAIN' : macro redefinition
+                 command-line arguments :  see previous definition of 'ARDUINO_MAIN'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(17): warning C4005: '__AVR__' : macro redefinition
+                 command-line arguments :  see previous definition of '__AVR__'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(18): warning C4005: '__avr__' : macro redefinition
+                 command-line arguments :  see previous definition of '__avr__'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(20): warning C4117: macro name '__cplusplus' is reserved, '#define' ignored
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(22): warning C4005: 'ARDUINO_ARCH_AVR' : macro redefinition
+                 command-line arguments :  see previous definition of 'ARDUINO_ARCH_AVR'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(23): warning C4005: 'ARDUINO_AVR_UNO' : macro redefinition
+                 command-line arguments :  see previous definition of 'ARDUINO_AVR_UNO'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\lib\gcc\avr\4.8.1\include\stddef.h(212): error C2371: 'size_t' : redefinition; different basic types
+                 g:\source\github\ferm-control\arduino\simple_ferm_chamber\predefined c++ types (compiler internal)(19) : see declaration of 'size_t'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\stdlib.h(420): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\stdlib.h(465): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\stdlib.h(508): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\stdlib.h(550): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\math.h(364): warning C4002: too many actual parameters for macro '__asm__'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\pgmspace.h(1186): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\pgmspace.h(1186): error C3861: '__builtin_strlen': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\pgmspace.h(1187): error C3861: '__builtin_strlen': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\arduino\avr\cores\arduino\arduino.h(118): error C2371: 'byte' : redefinition; different basic types
+                 g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(61) : see declaration of 'byte'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\arduino\avr\cores\arduino\hardwareserial.h(122): error C2535: 'size_t HardwareSerial::write(uint8_t)' : member function already defined or declared
+                 e:\program files (x86)\arduino\arduino 1.6.1\hardware\arduino\avr\cores\arduino\hardwareserial.h(119) : see declaration of 'HardwareSerial::write'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(684): error C4980: '__value' : use of this keyword requires /clr:oldSyntax command line option
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(684): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(689): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(694): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(699): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(711): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(716): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(721): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(726): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\util\delay_basic.h(88): error C2065: '__asm__' : undeclared identifier
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\util\delay_basic.h(110): error C2065: '__asm__' : undeclared identifier
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\util\delay.h(95): fatal error C1021: invalid preprocessor command 'warning'
+         Logger.cpp
+     1>c1xx : warning C4117: macro name '__cplusplus' is reserved, '#define' ignored
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(13): warning C4005: '__AVR_ATmega328p__' : macro redefinition
+                 command-line arguments :  see previous definition of '__AVR_ATmega328p__'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(14): warning C4005: '__AVR_ATmega328P__' : macro redefinition
+                 command-line arguments :  see previous definition of '__AVR_ATmega328P__'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(16): warning C4005: 'ARDUINO_MAIN' : macro redefinition
+                 command-line arguments :  see previous definition of 'ARDUINO_MAIN'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(17): warning C4005: '__AVR__' : macro redefinition
+                 command-line arguments :  see previous definition of '__AVR__'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(18): warning C4005: '__avr__' : macro redefinition
+                 command-line arguments :  see previous definition of '__avr__'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(20): warning C4117: macro name '__cplusplus' is reserved, '#define' ignored
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(22): warning C4005: 'ARDUINO_ARCH_AVR' : macro redefinition
+                 command-line arguments :  see previous definition of 'ARDUINO_ARCH_AVR'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(23): warning C4005: 'ARDUINO_AVR_UNO' : macro redefinition
+                 command-line arguments :  see previous definition of 'ARDUINO_AVR_UNO'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\lib\gcc\avr\4.8.1\include\stddef.h(212): error C2371: 'size_t' : redefinition; different basic types
+                 g:\source\github\ferm-control\arduino\simple_ferm_chamber\predefined c++ types (compiler internal)(19) : see declaration of 'size_t'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\stdlib.h(420): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\stdlib.h(465): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\stdlib.h(508): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\stdlib.h(550): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\math.h(364): warning C4002: too many actual parameters for macro '__asm__'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\pgmspace.h(1186): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\pgmspace.h(1186): error C3861: '__builtin_strlen': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\pgmspace.h(1187): error C3861: '__builtin_strlen': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\arduino\avr\cores\arduino\arduino.h(118): error C2371: 'byte' : redefinition; different basic types
+                 g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(61) : see declaration of 'byte'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\arduino\avr\cores\arduino\hardwareserial.h(122): error C2535: 'size_t HardwareSerial::write(uint8_t)' : member function already defined or declared
+                 e:\program files (x86)\arduino\arduino 1.6.1\hardware\arduino\avr\cores\arduino\hardwareserial.h(119) : see declaration of 'HardwareSerial::write'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(684): error C4980: '__value' : use of this keyword requires /clr:oldSyntax command line option
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(684): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(689): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(694): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(699): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(711): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(716): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(721): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(726): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\util\delay_basic.h(88): error C2065: '__asm__' : undeclared identifier
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\util\delay_basic.h(110): error C2065: '__asm__' : undeclared identifier
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\util\delay.h(95): fatal error C1021: invalid preprocessor command 'warning'
+         ID.cpp
+     1>c1xx : warning C4117: macro name '__cplusplus' is reserved, '#define' ignored
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(13): warning C4005: '__AVR_ATmega328p__' : macro redefinition
+                 command-line arguments :  see previous definition of '__AVR_ATmega328p__'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(14): warning C4005: '__AVR_ATmega328P__' : macro redefinition
+                 command-line arguments :  see previous definition of '__AVR_ATmega328P__'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(16): warning C4005: 'ARDUINO_MAIN' : macro redefinition
+                 command-line arguments :  see previous definition of 'ARDUINO_MAIN'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(17): warning C4005: '__AVR__' : macro redefinition
+                 command-line arguments :  see previous definition of '__AVR__'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(18): warning C4005: '__avr__' : macro redefinition
+                 command-line arguments :  see previous definition of '__avr__'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(20): warning C4117: macro name '__cplusplus' is reserved, '#define' ignored
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(22): warning C4005: 'ARDUINO_ARCH_AVR' : macro redefinition
+                 command-line arguments :  see previous definition of 'ARDUINO_ARCH_AVR'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(23): warning C4005: 'ARDUINO_AVR_UNO' : macro redefinition
+                 command-line arguments :  see previous definition of 'ARDUINO_AVR_UNO'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\lib\gcc\avr\4.8.1\include\stddef.h(212): error C2371: 'size_t' : redefinition; different basic types
+                 g:\source\github\ferm-control\arduino\simple_ferm_chamber\predefined c++ types (compiler internal)(19) : see declaration of 'size_t'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\stdlib.h(420): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\stdlib.h(465): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\stdlib.h(508): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\stdlib.h(550): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\math.h(364): warning C4002: too many actual parameters for macro '__asm__'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\pgmspace.h(1186): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\pgmspace.h(1186): error C3861: '__builtin_strlen': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\pgmspace.h(1187): error C3861: '__builtin_strlen': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\arduino\avr\cores\arduino\arduino.h(118): error C2371: 'byte' : redefinition; different basic types
+                 g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(61) : see declaration of 'byte'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\arduino\avr\cores\arduino\hardwareserial.h(122): error C2535: 'size_t HardwareSerial::write(uint8_t)' : member function already defined or declared
+                 e:\program files (x86)\arduino\arduino 1.6.1\hardware\arduino\avr\cores\arduino\hardwareserial.h(119) : see declaration of 'HardwareSerial::write'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(684): error C4980: '__value' : use of this keyword requires /clr:oldSyntax command line option
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(684): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(689): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(694): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(699): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(711): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(716): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(721): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(726): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\util\delay_basic.h(88): error C2065: '__asm__' : undeclared identifier
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\util\delay_basic.h(110): error C2065: '__asm__' : undeclared identifier
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\util\delay.h(95): fatal error C1021: invalid preprocessor command 'warning'
+         EEPROMex.cpp
+     1>c1xx : warning C4117: macro name '__cplusplus' is reserved, '#define' ignored
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(13): warning C4005: '__AVR_ATmega328p__' : macro redefinition
+                 command-line arguments :  see previous definition of '__AVR_ATmega328p__'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(14): warning C4005: '__AVR_ATmega328P__' : macro redefinition
+                 command-line arguments :  see previous definition of '__AVR_ATmega328P__'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(16): warning C4005: 'ARDUINO_MAIN' : macro redefinition
+                 command-line arguments :  see previous definition of 'ARDUINO_MAIN'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(17): warning C4005: '__AVR__' : macro redefinition
+                 command-line arguments :  see previous definition of '__AVR__'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(18): warning C4005: '__avr__' : macro redefinition
+                 command-line arguments :  see previous definition of '__avr__'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(20): warning C4117: macro name '__cplusplus' is reserved, '#define' ignored
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(22): warning C4005: 'ARDUINO_ARCH_AVR' : macro redefinition
+                 command-line arguments :  see previous definition of 'ARDUINO_ARCH_AVR'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(23): warning C4005: 'ARDUINO_AVR_UNO' : macro redefinition
+                 command-line arguments :  see previous definition of 'ARDUINO_AVR_UNO'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\lib\gcc\avr\4.8.1\include\stddef.h(212): error C2371: 'size_t' : redefinition; different basic types
+                 g:\source\github\ferm-control\arduino\simple_ferm_chamber\predefined c++ types (compiler internal)(19) : see declaration of 'size_t'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\stdlib.h(420): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\stdlib.h(465): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\stdlib.h(508): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\stdlib.h(550): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\math.h(364): warning C4002: too many actual parameters for macro '__asm__'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\pgmspace.h(1186): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\pgmspace.h(1186): error C3861: '__builtin_strlen': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\pgmspace.h(1187): error C3861: '__builtin_strlen': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\arduino\avr\cores\arduino\arduino.h(118): error C2371: 'byte' : redefinition; different basic types
+                 g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(61) : see declaration of 'byte'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\arduino\avr\cores\arduino\hardwareserial.h(122): error C2535: 'size_t HardwareSerial::write(uint8_t)' : member function already defined or declared
+                 e:\program files (x86)\arduino\arduino 1.6.1\hardware\arduino\avr\cores\arduino\hardwareserial.h(119) : see declaration of 'HardwareSerial::write'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(684): error C4980: '__value' : use of this keyword requires /clr:oldSyntax command line option
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(684): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(689): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(694): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(699): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(711): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(716): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(721): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(726): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\util\delay_basic.h(88): error C2065: '__asm__' : undeclared identifier
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\util\delay_basic.h(110): error C2065: '__asm__' : undeclared identifier
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\util\delay.h(95): fatal error C1021: invalid preprocessor command 'warning'
+         Communicator.cpp
+     1>c1xx : warning C4117: macro name '__cplusplus' is reserved, '#define' ignored
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(13): warning C4005: '__AVR_ATmega328p__' : macro redefinition
+                 command-line arguments :  see previous definition of '__AVR_ATmega328p__'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(14): warning C4005: '__AVR_ATmega328P__' : macro redefinition
+                 command-line arguments :  see previous definition of '__AVR_ATmega328P__'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(16): warning C4005: 'ARDUINO_MAIN' : macro redefinition
+                 command-line arguments :  see previous definition of 'ARDUINO_MAIN'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(17): warning C4005: '__AVR__' : macro redefinition
+                 command-line arguments :  see previous definition of '__AVR__'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(18): warning C4005: '__avr__' : macro redefinition
+                 command-line arguments :  see previous definition of '__avr__'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(20): warning C4117: macro name '__cplusplus' is reserved, '#define' ignored
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(22): warning C4005: 'ARDUINO_ARCH_AVR' : macro redefinition
+                 command-line arguments :  see previous definition of 'ARDUINO_ARCH_AVR'
+     1>g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(23): warning C4005: 'ARDUINO_AVR_UNO' : macro redefinition
+                 command-line arguments :  see previous definition of 'ARDUINO_AVR_UNO'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\lib\gcc\avr\4.8.1\include\stddef.h(212): error C2371: 'size_t' : redefinition; different basic types
+                 g:\source\github\ferm-control\arduino\simple_ferm_chamber\predefined c++ types (compiler internal)(19) : see declaration of 'size_t'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\stdlib.h(420): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\stdlib.h(465): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\stdlib.h(508): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\stdlib.h(550): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\math.h(364): warning C4002: too many actual parameters for macro '__asm__'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\pgmspace.h(1186): error C3861: '__builtin_constant_p': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\pgmspace.h(1186): error C3861: '__builtin_strlen': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\pgmspace.h(1187): error C3861: '__builtin_strlen': identifier not found
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\arduino\avr\cores\arduino\arduino.h(118): error C2371: 'byte' : redefinition; different basic types
+                 g:\source\github\ferm-control\arduino\simple_ferm_chamber\visual micro\.simple_ferm_chamber.vsarduino.h(61) : see declaration of 'byte'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\arduino\avr\cores\arduino\hardwareserial.h(122): error C2535: 'size_t HardwareSerial::write(uint8_t)' : member function already defined or declared
+                 e:\program files (x86)\arduino\arduino 1.6.1\hardware\arduino\avr\cores\arduino\hardwareserial.h(119) : see declaration of 'HardwareSerial::write'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(684): error C4980: '__value' : use of this keyword requires /clr:oldSyntax command line option
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(684): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(689): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(694): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(699): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(711): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(716): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(721): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\avr\eeprom.h(726): error C2059: syntax error : '__value'
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\util\delay_basic.h(88): error C2065: '__asm__' : undeclared identifier
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\util\delay_basic.h(110): error C2065: '__asm__' : undeclared identifier
+     1>e:\program files (x86)\arduino\arduino 1.6.1\hardware\tools\avr\avr\include\util\delay.h(95): fatal error C1021: invalid preprocessor command 'warning'
+         Generating Code...
+     1>Done Building Project "G:\Source\GitHub\ferm-control\Arduino\Simple_Ferm_Chamber\Simple_Ferm_Chamber.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:00.81

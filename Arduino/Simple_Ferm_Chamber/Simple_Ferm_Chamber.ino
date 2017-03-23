@@ -202,6 +202,8 @@ cleanup:
          break;
      case(HBS):
          break;
+	 case(LTS):
+		 break;
      case(INVALID):
 		 Logger::Log(F("Can't operate on invalid command"), ERR);
          break;
@@ -249,23 +251,13 @@ cleanup:
 
    //Print out the temperature 
    //Primary
-   Logger::PrependLogStatement(DEB);
-   Logger::LogStatement(F("Primary Temperature: "), DEB);
-   Logger::LogStatement(g_InternalFermentorSensor->GetTemperature(), DEB);
-   Logger::EndLogStatement(DEB);
-   Logger::PrependLogStatement(DEB);
+   g_InternalFermentorSensor->Print();
 
    //Ambient External
-   Logger::LogStatement(F("Ambient External Temperature: "), DEB);
-   Logger::LogStatement(g_ExternalFermentorSensor->GetTemperature(), DEB);
-   Logger::EndLogStatement(DEB);
-   
+   g_ExternalFermentorSensor->Print();
+    
    //Ambient Internal
-   Logger::PrependLogStatement(DEB);
-   Logger::LogStatement(F("Ambient Internal Temperature: "), DEB);
-   Logger::LogStatement(g_AmbientInternalSensor->GetTemperature(), DEB);
-   Logger::EndLogStatement(DEB);
-
+   g_AmbientInternalSensor->Print();
    
 cleanup:
    return retVal;

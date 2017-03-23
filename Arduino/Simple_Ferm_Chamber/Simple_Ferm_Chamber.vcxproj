@@ -127,6 +127,7 @@
     <ClCompile Include="TemperatureSensor.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
     </ClCompile>
+    <ClCompile Include="Test_Example.cpp" />
     <ClCompile Include="Triggerable.cpp" />
     <ClCompile Include="Utility.cpp" />
   </ItemGroup>

@@ -9,9 +9,10 @@
 #define UNSIGNED_LONG_MAX_VALUE 4294967295 //(2^32-1)
 #define MAX_COMMAND_LENGTH 30
 #define DEFAULT_COMM_TIMEOUT 1000
+#define MAX_NUMBER_SENSORS 10
 
 enum TempInRange {TOO_HOT, TOO_COLD, JUST_RIGHT, NO_READING };
-enum OperatingCommand {UTT, UTB, RCT, RSI, RRS, RRI, URS, HBS, INVALID };
+enum OperatingCommand {UTT, UTB, RCT, RSI, RRS, RRI, URS, HBS, LTS, INVALID };
 enum ErrorLevels {COM, ERR, WAR, INF, DEB};
 //#define _DEBUG 1
 

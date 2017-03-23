@@ -17,6 +17,7 @@ class TemperatureManager
         Relay* m_Heating;
         Relay* m_Cooling;
         TemperatureSensor* m_PrimaryTemp;
+		TemperatureSensor m_SecondarySensors[];
 
 
 };

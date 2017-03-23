@@ -38,6 +38,7 @@ public:
     void SetTargetTemperature(float);
     void SetTemperatureBand(float);
 	void Print();
+	int foo();
     
 
     
