@@ -124,7 +124,7 @@ void TemperatureSensor::SetTemperatureBand(float TempBand)
      //The data is of the format LSB, MSB
      data[0] = Sensors.read();
      data[1] = Sensors.read();
-     retVal = ((data[1] << 8) | data[0]); //using two's compliment
+	 retVal = ((data[1] << SENSOR_ADDRESS_LENGTH) | data[0]); //using two's compliment
      retVal = retVal / 16.0;
      retVal = Utility::ToFahrenheit(retVal);
      
@@ -154,7 +154,7 @@ cleanup:
  bool TemperatureSensor::DoesSensorExist(OneWire Sensors)
  {
    bool retVal = false;
-   byte foundSensorAddress[8];
+   byte foundSensorAddress[SENSOR_ADDRESS_LENGTH];
 
    Logger::PrependLogStatement(DEB);
    Logger::LogStatement(F("Searching for "), DEB);   
@@ -186,7 +186,7 @@ cleanup:
       }
       
      //We found a valid device on the wire.  See if it's a match
-     for(int i = 0; i < 8; i++)
+	  for (int i = 0; i < SENSOR_ADDRESS_LENGTH; i++)
      {
        if(m_SensorAddress[i] != foundSensorAddress[i])
        {
@@ -221,7 +221,7 @@ cleanup:
 
 	Logger::PrependLogStatement(DEB);
 	Logger::LogStatement(F("Device "), DEB);
-    for(int i = 0; i < 8; i++){
+	for (int i = 0; i < SENSOR_ADDRESS_LENGTH; i++){
 		Logger::LogStatement(SensorAddress[i], DEB);
         Logger::LogStatement(F("-"), DEB);        
     }
@@ -231,5 +231,26 @@ cleanup:
   int TemperatureSensor::foo()
   {
 	  return 1;
+  }
+
+  ///<summary>Determine whether or not this Sensor is equivalent to another</summary>
+  ///<param name="SensorAddress">The sensor address to compare to</summary>
+  ///<return> True if they're the same, false otherwise </summary>
+  bool TemperatureSensor::IsEqual(byte* SensorAddress)
+  {
+	  bool retVal = true;
+
+	  //Go through each byte and see if we find a difference
+	  for (int i = 0; i < SENSOR_ADDRESS_LENGTH; i++)
+	  {
+		  if (SensorAddress[i] != m_SensorAddress[i])
+		  {
+			  //Don't match
+			  retVal == false;
+			  break;
+		  }
+	  }
+
+	  return retVal;
   }
 

@@ -23,7 +23,7 @@ private:
     ID *m_ID;
 
     void DebugPrintSensor(byte*);
-    TemperatureSensor();
+    TemperatureSensor();	
 
 public:
     
@@ -39,6 +39,7 @@ public:
     void SetTemperatureBand(float);
 	void Print();
 	int foo();
+	bool IsEqual(byte*);
     
 
     

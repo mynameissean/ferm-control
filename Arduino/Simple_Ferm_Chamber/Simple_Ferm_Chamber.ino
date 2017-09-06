@@ -66,19 +66,19 @@ void setup(){
    g_InternalFermentorSensor = new TemperatureSensor(g_InternalFermentorSensorAddress, 
                                            g_PrimaryTemperatureBand, 
                                            g_PrimaryTargetTemperature, 
-                                           new ID("Internal", strlen("Internal"), 1, 0));
+                                           new ID("Internal", strlen("Internal"), 0));
    g_ExternalFermentorSensor = new TemperatureSensor(g_ExternalFermentorAddress, 
                                                    g_PrimaryTemperatureBand, 
                                                    g_PrimaryTargetTemperature, 
-                                                   new ID("External_Fermentor", strlen("External_Fermentor"), 2, sizeof(float) * 2));
+                                                   new ID("External_Fermentor", strlen("External_Fermentor"), sizeof(float) * 2));
    g_AmbientInternalSensor = new TemperatureSensor(g_ambientInternalSensorAddress, 
                                                    g_PrimaryTemperatureBand, 
                                                    g_PrimaryTargetTemperature, 
-                                                   new ID("Ambient", strlen("Ambient"), 3, sizeof(float) * 4));
+                                                   new ID("Ambient", strlen("Ambient"), sizeof(float) * 4));
 
    //Setup our relays
-   g_Cooling = new Relay(CoolingRelayPin, CoolingDisplayPin, new ID("Cooling", strlen("Cooling"), 1), g_CompressorRunTime, g_CompressorOffTime); //4 minutes
-   g_Heating = new Relay(HeatingRelayPin, HeatingDisplayPin, new ID("Heating", strlen("Heating"), 2), 0, g_HeatingOffTime);
+   g_Cooling = new Relay(CoolingRelayPin, CoolingDisplayPin, new ID("Cooling", strlen("Cooling")), g_CompressorRunTime, g_CompressorOffTime); //4 minutes
+   g_Heating = new Relay(HeatingRelayPin, HeatingDisplayPin, new ID("Heating", strlen("Heating")), 0, g_HeatingOffTime);
 
    //Setup our controller (if applicable)
    m_Communicator = new Communicator();

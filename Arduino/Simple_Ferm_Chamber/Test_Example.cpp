@@ -1,5 +1,5 @@
-/*#include "..\..\Arduino\Unity\src\unity.h"
-#include "..\..\Arduino\Unity\extras\fixture\src\unity_fixture.h"
+/*#include "..\Unity\src\unity.h"
+#include "..\Arduino\Unity\extras\fixture\src\unity_fixture.h"
 #include "TemperatureSensor.h"
 #include "ID.h"
 
@@ -15,7 +15,7 @@ TEST_TEAR_DOWN(TemperatureSensor)
 
 TEST(TemperatureSensor, DoNothing)
 {
-	byte* address = new byte[8];
+	byte* address = new byte[SENSOR_ADDRESS_LENGTH];
 	ID* id = new ID("NULL", 5, 0);
 	TemperatureSensor* sensor = new TemperatureSensor(address, 1.5, 60, id);
 	TEST_ASSERT_EQUAL(1, sensor->foo());
