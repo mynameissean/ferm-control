@@ -12,7 +12,7 @@ import usb # 1.0 not 0.4
 
 sys.path.append("..")
 
-from digispark.usbdevice import ArduinoUsbDevice
+from arduino.usbdevice import ArduinoUsbDevice
 
 
 
