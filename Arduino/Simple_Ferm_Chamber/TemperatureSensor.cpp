@@ -158,7 +158,7 @@ cleanup:
 
    Logger::PrependLogStatement(DEB);
    Logger::LogStatement(F("Searching for "), DEB);   
-   Logger::LogStatement(m_SensorAddress, DEB);
+   TemperatureSensor::DebugPrintSensor(m_SensorAddress);
    Logger::EndLogStatement(DEB);
 
    while(true == Sensors.search(foundSensorAddress))
@@ -169,7 +169,7 @@ cleanup:
      //Print out the data
 	 Logger::PrependLogStatement(DEB);
      Logger::LogStatement(F("Found sensor "), DEB);   
-	 Logger::LogStatement(foundSensorAddress, DEB);
+	 TemperatureSensor::DebugPrintSensor(foundSensorAddress);
 	 Logger::EndLogStatement(DEB);        
 
 

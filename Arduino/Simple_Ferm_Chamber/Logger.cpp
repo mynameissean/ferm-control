@@ -56,8 +56,8 @@ void Logger::LogStatement(byte Statement, ErrorLevels Level)
 {
 	if(Level <= Logger::DebugLevel)
 	{
-		char p = (char)Statement;
-		Serial.print(p);
+		//char p = (char)Statement;
+		Serial.print(Statement);
 	}
 }
 

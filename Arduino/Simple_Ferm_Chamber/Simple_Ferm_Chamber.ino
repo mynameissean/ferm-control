@@ -14,8 +14,8 @@
  * external software program.  It only sends output out to the 
  * wire for monitoring purposes.
  */
-#undef _DEBUG
-//#define _DEBUG
+//#undef _DEBUG
+#define _DEBUG
 int TempReadPin = 3;
 int CoolingRelayPin = 4;
 int CoolingDisplayPin = 5;
@@ -24,12 +24,14 @@ int HeatingRelayPin = 7;
 int StatusLED = 13;
 #define DEBOUNCE_VALUE 5
 #define CYCLE_TIME 5000
-#define DEFAULT_DEBUG_LEVEL ERR
+#define DEFAULT_DEBUG_LEVEL DEB
 
 //Global objects
 OneWire g_TempSensors(TempReadPin);
-byte g_InternalFermentorSensorAddress[8] = {40,118,221,231,3,0,0,173};
+byte g_InternalFermentorSensorAddress[8] = {40,255,82,106,164,22,4,154};
 byte g_ExternalFermentorAddress[8] = {40,126,182,231,3,0,0,109};
+//byte g_InternalFermentorSensorAddress[8] = {40,19,229,231,3,0,0,63};
+//byte g_ExternalFermentorAddress[8] = {40,118,221,231,3,0,0,173};
 byte g_ambientExternalSensorAddress[8] = {40,118,221,231,3,0,0,173};
 byte g_ambientInternalSensorAddress[8] = {40,126,182,231,3,0,0,109};
 TemperatureSensor* g_InternalFermentorSensor;
@@ -43,7 +45,7 @@ Communicator* m_Communicator = NULL;
 
 //Setup values
 float g_PrimaryTemperatureBand = 1.3;
-float g_PrimaryTargetTemperature = 50;
+float g_PrimaryTargetTemperature = 80;
 unsigned long g_CompressorRunTime = 30000; //30 Seconds
 unsigned long g_CompressorOffTime = 240000; //4 Minutes
 unsigned long g_HeatingOffTime = 300000;    //5 Minutes
@@ -96,15 +98,17 @@ float ReadFloatFromMemory()
  void loop()
  {  
   //Step 1: See if we have any commands from our overlord
-  ReceiveOperatingInstructions();
+  //ReceiveOperatingInstructions();
 
   //Step 2: Gather our temperature readings     
   bool gathered = GatherTemperatureData();
   if(false == gathered)
   {
+      Logger::Log(F("Can't gather any temperature data"), WAR);
       //Can't perform any actions without valid temperature settings.  Turn everything off once we've hit the debounce limit      
       if(true == DebounceTemperatureReading(NO_READING))
       {
+          Logger::Log(F("Can't gather any temperature data, halting execution"), ERR);
           //Shut it all down         
           g_Heating->TurnOff();
           g_Cooling->TurnOff();          
@@ -278,7 +282,7 @@ cleanup:
  {
    //We care most about the primary temperature.  This is the temperature we want to control
    TempInRange adjustment = g_InternalFermentorSensor->ShouldBeginTemperatureAdjustment();
-   
+   Logger::Log(F("Attempting to Adjust"), DEB);
    if(TOO_HOT == adjustment)
    {
 	   Logger::Log(F("Too hot"), DEB);
