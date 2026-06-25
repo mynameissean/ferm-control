@@ -40,7 +40,7 @@ Relay* g_Cooling;
 Relay* g_Heating;
 TempInRange g_LastReading = JUST_RIGHT;
 int g_DebounceCounter = 0;
-
+ 
 
 //Setup values
 float g_PrimaryTemperatureBand = 1.3;
@@ -89,8 +89,7 @@ void setup(){
  
  void loop()
  {  
-  //Step 1: See if we have any commands from our overlord
-  //ReceiveOperatingInstructions();
+
 
   //Step 2: Gather our temperature readings     
   bool gathered = GatherTemperatureData();
