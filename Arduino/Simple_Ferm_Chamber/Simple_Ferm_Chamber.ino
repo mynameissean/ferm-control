@@ -4,9 +4,8 @@
 #include "TemperatureSensor.h"
 #include "Definitions.h"
 #include <OneWire.h>
-#include "Communicator.h"
-#include "EEPROMex.h"
 #include "Logger.h"
+
 
 /*
  * This is a stripped down version of the fermentation controller
@@ -41,7 +40,7 @@ Relay* g_Cooling;
 Relay* g_Heating;
 TempInRange g_LastReading = JUST_RIGHT;
 int g_DebounceCounter = 0;
-Communicator* m_Communicator = NULL;
+
 
 //Setup values
 float g_PrimaryTemperatureBand = 1.3;
@@ -55,10 +54,9 @@ void setup(){
    
    //Set our logging level
    Logger::SetLoggingLevel(DEFAULT_DEBUG_LEVEL);
-
-   pinMode(StatusLED, OUTPUT); 
    pinMode(CoolingDisplayPin, OUTPUT);
    pinMode(HeatingDisplayPin, OUTPUT);
+   pinMode(StatusLED, OUTPUT); 
    pinMode(CoolingRelayPin, OUTPUT);
    pinMode(HeatingRelayPin, OUTPUT);
 
@@ -78,22 +76,16 @@ void setup(){
                                                    g_PrimaryTargetTemperature, 
                                                    new ID("Ambient", strlen("Ambient"), 3, sizeof(float) * 4));
 
+
    //Setup our relays
    g_Cooling = new Relay(CoolingRelayPin, CoolingDisplayPin, new ID("Cooling", strlen("Cooling"), 1), g_CompressorRunTime, g_CompressorOffTime); //4 minutes
    g_Heating = new Relay(HeatingRelayPin, HeatingDisplayPin, new ID("Heating", strlen("Heating"), 2), 0, g_HeatingOffTime);
-
-   //Setup our controller (if applicable)
-   m_Communicator = new Communicator();
 
    //Signal that we're powered on and ready
    Utility::Cycle(g_Cooling->GetDisplayPin(), 1000, 1000);
    Utility::Cycle(g_Heating->GetDisplayPin(), 1000, 1000);
  }
 
-float ReadFloatFromMemory()
-{
-
-}
  
  void loop()
  {  
@@ -144,77 +136,6 @@ cleanup:
 	 g_Heating->Print();
  }
 
- 
- ///<summary>Open up communication with our controller and see if there are any new commands to receive</summary> 
- void ReceiveOperatingInstructions()
- {
-     int ivalue = 0;
-     float fvalue = 0.0;
-     OperatingCommand systemCommand = INVALID;
-     String* command = m_Communicator->Read();
-     if(NULL == command || 0 == command->length())
-     {
-         //Nothing to parse
-         goto cleanup;
-     }
-
-     //We have a command
-     systemCommand = m_Communicator->ParseCommand(command, &ivalue, &fvalue);
-     switch(systemCommand)
-     {
-     case(UTT):
-         //Update temperature target (UTT), followed by a XXX.X length float
-         if(0 != fvalue)
-         {
-             g_InternalFermentorSensor->SetTargetTemperature(fvalue);
-             //Save stored temperature
-             Utility::UpdateEEPROMFloat(g_InternalFermentorSensor->GetID()->GetEEPROMAddress(), fvalue);
-         }
-         else
-         {
-			 Logger::Log(F("Unable to update temperature as it's set to 0"), ERR);
-         }
-         break;
-     case(UTB):
-         if(fvalue < .1)
-         {
-             g_InternalFermentorSensor->SetTemperatureBand(fvalue);
-             //Save stored band
-             Utility::UpdateEEPROMFloat(g_InternalFermentorSensor->GetID()->GetEEPROMAddress() * sizeof(float), fvalue);
-         }
-         else
-         {
-             Logger::Log(F("Unable to update temperature band as it's set to less than .1"), ERR);
-         }
-         break;
-     case(RCT):
-         if(ivalue != 0)
-         {
-
-         }
-         else {
-			 Logger::Log(F("Cannot report temperature for invalid index"), ERR);
-         }
-         break;
-     case(RRS):
-         break;
-     case(URS):
-         break;
-     case(RSI):
-         break;
-     case(RRI):
-         break;
-     case(HBS):
-         break;
-     case(INVALID):
-		 Logger::Log(F("Can't operate on invalid command"), ERR);
-         break;
-     
-
-     }
-cleanup:
-     return;
- }
 
  /**
   * Gather the temperature data from the thermistors in the system
